@@ -1,0 +1,15 @@
+#available-tutor-label {
+  margin-right: 20px;
+  position: relative;
+  top: 15px;
+}
+
+#login-or-signUp-button {
+  margin-top: 8px;
+  margin-left: 20px;
+}
+
+#forgot-password-link {
+  font-size: 12px;
+  margin-top: 2px;
+}

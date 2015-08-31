@@ -1,0 +1,1 @@
+<?php define(kCurrentFile, basename($_SERVER['PHP_SELF'])); ?>
