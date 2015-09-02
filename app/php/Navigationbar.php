@@ -35,12 +35,21 @@
         <span id="available-tutor-label" class="label label-danger">Available Tutor: N/A</span>
       </li>
       <li>
-        <li <?php if (kCurrentFile == 'Profile.php'): ?> class="active" <?php endif; ?>>
-        <?php if (kCurrentFile == 'index.php'): ?>
-          <a id="profile-link" href="./app/php/Profile.php">Profile</a>
-        <?php else: ?>
-          <a id="profile-link" href="./Profile.php">Profile</a>
-        <?php endif; ?>
+      <div id="authenticated-user-menu-button" class="dropdown" style="padding-top: 8px;">
+          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+            <li>
+              <?php if (kCurrentFile == 'index.php'): ?>
+                <a href="./app/php/Profile.php">Profile</a>
+              <?php else: ?>
+                <a href="./Profile.php">Profile</a>
+              <?php endif; ?>
+            <li><a href="#">Check in</a></li>
+            <li><a id="logout-link" href="#">Logout</a></li>
+          </ul>
+        </div>
       </li>
       <li>
         <button id="login-or-signUp-button" type="button" class="btn btn-primary">Login or Sign Up</button>
@@ -52,13 +61,11 @@
 <script type="text/javascript">
 $(function() {
   $('#login-or-signUp-button').click(function() {
-    if (Parse.User.current()) {
-      logOut();
-    } else {
-      $('#login-or-signUp-modal').modal('show');
-    }
+    $('#login-or-signUp-modal').modal('show');
+  });
 
-    updateAuthenticationState();
+  $('#logout-link').click(function() {
+    logOut();
   });
 });
 </script>

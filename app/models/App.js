@@ -29,11 +29,12 @@ function debugLog(string) {
 
 function updateAuthenticationState() {
   if (Parse.User.current()) {
-    $('#profile-link').show();
-    $('#login-or-signUp-button').text('Logout');
+    $('#authenticated-user-menu-button').show();
+    $('#login-or-signUp-button').hide();
   }
   else {
-    $('#profile-link').hide();
+    $('#authenticated-user-menu-button').hide();
+    $('#login-or-signUp-button').show();
     $('#login-or-signUp-button').text('Login or Sign Up');
   }
 }
@@ -52,6 +53,8 @@ function logIn(email, password) {
 
     user.logIn(email, password).then(function(user) {
       debugLog("[App] logIn success!");
+
+      updateAuthenticationState();
 
       resolve();
 
@@ -72,7 +75,10 @@ function logOut() {
   Parse.User.logOut().then(function() {
     debugLog("[App] logOut success!");
 
-    $('#login-or-signUp-button').text("Login or Sign Up");
+    updateAuthenticationState();
+
+    debugLog("[App] logOut - If user is at profile page navigate to home page.");
+
   }, function(error) {
     handleError(error);
   });

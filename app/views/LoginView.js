@@ -36,7 +36,6 @@ var LoginView = Parse.View.extend({
       var self = this;
 
       logIn(email, password).then(function() {
-        updateAuthenticationState();
         $('#login-or-signUp-modal').modal('hide');
       }, function(error) {
         if (error)

@@ -1,0 +1,33 @@
+#content-container {
+  padding-top: 44px;
+}
+
+#menu-content-container {
+  width: 300px;
+}
+
+#profile-content-container {
+  position: relative;
+  left: 30px;
+}
+
+#profile-body {
+  padding-left: 12px;
+}
+
+#account-type-label {
+  font-weight: normal;
+  color: gray;
+}
+
+#profile-description-well {
+  width: 98%;
+}
+
+#edit-description-button {
+  margin: 20px 0 10px 0;
+}
+
+#save-description-button {
+  margin: 20px 0 10px 0;
+}
