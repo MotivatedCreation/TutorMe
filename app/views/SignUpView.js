@@ -55,7 +55,6 @@ var SignUpView = Parse.View.extend({
       var self = this;
 
       signUp(accountType, firstName, lastName, email, password).then(function() {
-        $('#login-or-signUp-button').text("Logout");
         $('#login-or-signUp-modal').modal('hide');
       }, function(error) {
         if (error) {

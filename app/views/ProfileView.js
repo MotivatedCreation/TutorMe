@@ -34,9 +34,11 @@ var ProfileView = Parse.View.extend({
 
     $('#edit-description-button').hide();
     $('#save-description-button').show();
-    $('#profile-description-well').focus();
     $('#profile-description-well').attr('readonly', false);
     $('#profile-description-well').css('background-color', 'white');
+    $('#profile-description-well').focus();
+
+    return false;
   },
 
   saveDescription: function() {
@@ -46,6 +48,14 @@ var ProfileView = Parse.View.extend({
     $('#save-description-button').hide();
     $('#profile-description-well').attr('readonly', true);
     $('#profile-description-well').css('background-color', 'default');
+
+    var currentUser = Parse.User.current();
+    var description = $('#profile-description-well').val();
+
+    if (currentUser.get('description') != description)
+      saveDescription(description);
+
+    return false;
   }
 });
 

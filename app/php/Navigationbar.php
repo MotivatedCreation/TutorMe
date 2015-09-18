@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+<nav id="navigationbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container-fluid">
     <div class="navbar-header">
       <?php if (kCurrentFile == 'index.php'): ?>
@@ -46,7 +46,7 @@
               <?php else: ?>
                 <a href="./Profile.php">Profile</a>
               <?php endif; ?>
-            <li><a href="#">Check in</a></li>
+            <li><a id="check-in-link" href="#">Check in</a></li>
             <li><a id="logout-link" href="#">Logout</a></li>
           </ul>
         </div>
@@ -58,14 +58,8 @@
   </div>
 </nav>
 
-<script type="text/javascript">
-$(function() {
-  $('#login-or-signUp-button').click(function() {
-    $('#login-or-signUp-modal').modal('show');
-  });
-
-  $('#logout-link').click(function() {
-    logOut();
-  });
-});
-</script>
+<?php if (kCurrentFile == 'index.php'): ?>
+  <script type="text/javascript" src="./app/views/NavigationbarView.js"></script>
+<?php else: ?>
+  <script type="text/javascript" src="../views/NavigationbarView.js"></script>
+<?php endif; ?>
