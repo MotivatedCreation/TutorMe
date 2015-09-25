@@ -55,14 +55,19 @@ function updateAuthenticationState() {
     $('#authenticated-user-menu-button').show();
     $('#login-or-signUp-button').hide();
 
-    if (currentUser.get('accountType') != 0)
+    if (currentUser.get('accountType') != 0) {
       $('#check-in-link').hide();
-    else
+      $('#assignments-list-item').show();
+    }
+    else {
       $('#check-in-link').show();
+      $('#assignments-list-item').hide();
+    }
   }
   else {
     debugLog("[App] updateAuthenticationState - Logged out");
 
+    $('#assignments-list-item').hide();
     $('#authenticated-user-menu-button').hide();
     $('#login-or-signUp-button').show();
     $('#login-or-signUp-button').text('Login or Sign Up');

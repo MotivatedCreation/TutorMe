@@ -22,11 +22,18 @@
           <a href="./Schedule.php">Schedule</a>
         <?php endif; ?>
       </li>
-        <li <?php if (kCurrentFile == 'Tutors.php'): ?> class="active" <?php endif; ?>>
+      <li <?php if (kCurrentFile == 'Tutors.php'): ?> class="active" <?php endif; ?>>
         <?php if (kCurrentFile == 'index.php'): ?>
           <a href="./app/php/Tutors.php">Tutors</a>
         <?php else: ?>
           <a href="./Tutors.php">Tutors</a>
+        <?php endif; ?>
+      </li>
+      <li id="assignments-list-item"<?php if (kCurrentFile == 'Assignments.php'): ?> class="active" <?php endif; ?>>
+        <?php if (kCurrentFile == 'index.php'): ?>
+          <a href="./app/php/Assignments.php">Assignments</a>
+        <?php else: ?>
+          <a href="./Assignments.php">Assignments</a>
         <?php endif; ?>
       </li>
     </ul>
