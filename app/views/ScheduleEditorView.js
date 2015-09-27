@@ -107,7 +107,6 @@ var ScheduleEditorView = Parse.View.extend({
     var days = table.rows[0].querySelectorAll('.day');
 
     var newSchedule = {
-      tutor: Parse.User.current(),
       sunday: new Array(table.rows.length),
       monday: new Array(table.rows.length),
       tuesday: new Array(table.rows.length),
@@ -134,6 +133,7 @@ var ScheduleEditorView = Parse.View.extend({
 
     var self = this;
 
+    schedule.set('tutor', Parse.User.current());
     schedule.set('sunday', newSchedule['sunday']);
     schedule.set('monday', newSchedule['monday']);
     schedule.set('tuesday', newSchedule['tuesday']);
