@@ -11,6 +11,8 @@ var NavigationbarView = Parse.View.extend({
 
   initialize: function() {
     updateAuthenticationState();
+
+    $('#check-out-link').hide();
   },
 
   handleError: function(error) {

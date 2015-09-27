@@ -6,7 +6,7 @@ $(function() {
 
   var currentUser = Parse.User.current();
 
-  if (currentUser.get('accountType') == 1)
+  if (currentUser && currentUser.get('accountType') == 1)
   {
     if (currentUser.get('isCheckedIn') == true)
       navigationBarView.toggleOffCheckInButton();
@@ -121,11 +121,16 @@ function checkIn() {
         success: function(success) {
           debugLog('[App] checkIn success!');
 
-          if (currentUser.get('accountType') == 1)
-          {
+          if (currentUser.get('accountType') == 1) {
             navigationBarView.toggleOffCheckInButton();
 
             findAvailableTutor();
+          }
+          else if (currentUser.get('accountType') == 0) {
+            var LogEntry = Parse.Object.extend('LogEntry');
+            var logEntry = new LogEntry();
+
+            logEntry.save();
           }
 
           resolve();
@@ -154,7 +159,7 @@ function checkOut() {
       // of type tutor
       if (currentUser.get('accountType') == 1)
         currentUser.set('isCheckedIn', false);
-        
+
       currentUser.save(null, {
         success: function(success) {
           debugLog('[App] checkOut success!');

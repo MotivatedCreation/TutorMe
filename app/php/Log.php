@@ -69,31 +69,22 @@
       <!-- Log Template -->
       <table id="log-table" class="table table-bordered table-hover">
         <tr>
+          <th>Time</th>
           <th>Student Name</th>
           <th>Class</th>
           <th>Teacher</th>
-          <th>Time</th>
-          <th>Actions</th>
+          <th>Tutor</th>
         </tr>
       </table>
       <!-- Log Template End -->
 
       <!-- Log Entry Template -->
       <script type="text/template" id="log-entry-template">
+        <td><%= createdAt %></td>
         <td></td>
         <td><%= classNumber %></td>
         <td></td>
-        <td><%= createdAt %></td>
-        <td class="text-center">
-          <div class="btn-group btn-group-xs" role="group">
-            <button type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </button>
-          </div>
-        </td>
+        <td></td>
       </script>
       <!-- Log Entry Template End-->
     </div>

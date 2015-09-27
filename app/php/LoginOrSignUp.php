@@ -42,15 +42,15 @@
               </div>
               <div class="form-group">
                 <label for="signUp-first-name-label" class="control-label">First Name:</label>
-                <input type="text" class="form-control" id="signUp-first-name-input" value="" placeholder="e.g. John">
+                <input type="text" class="form-control" id="signUp-first-name-input" value="" placeholder="e.g. Albert">
               </div>
               <div class="form-group">
                 <label for="signUp-last-name-label" class="control-label">Last Name:</label>
-                <input type="text" class="form-control" id="signUp-last-name-input" value="" placeholder="e.g. Doe">
+                <input type="text" class="form-control" id="signUp-last-name-input" value="" placeholder="e.g. Einstein">
               </div>
               <div class="form-group">
                 <label for="signUp-email-label" class="control-label">Email:</label>
-                <input type="text" class="form-control" id="signUp-email-input" value="" placeholder="e.g. example@example.com">
+                <input type="text" class="form-control" id="signUp-email-input" value="" placeholder="e.g. whatis@nemail.com">
               </div>
               <div class="form-group">
                 <label for="signUp-password-label" class="control-label">Password:</label>
@@ -62,7 +62,7 @@
             <form>
               <div class="form-group">
                 <label for="login-email-label" class="control-label">Email:</label>
-                <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. example@example.com">
+                <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. whatis@nemail.com">
               </div>
               <div class="form-group">
                 <label for="login-password-label" class="control-label">Password:</label>
