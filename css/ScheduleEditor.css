@@ -1,0 +1,17 @@
+#menu-content-container {
+  width: 300px;
+}
+
+#content-container {
+  padding-top: 44px;
+}
+
+#profile-menu-content-container {
+  width: 300px;
+}
+
+#schedule-table {
+  position: relative;
+  left: 20px;
+  width: calc(100% - 320px);
+}

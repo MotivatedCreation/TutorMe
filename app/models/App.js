@@ -294,30 +294,6 @@ function requestPasswordResetForEmail(email) {
   return promise;
 }
 
-function saveDescription(string) {
-  debugLog("[App] saveDescription");
-
-  var promise = new Promise(function(resolve, reject)
-  {
-    var currentUser = Parse.User.current();
-    currentUser.set('description', string);
-
-    currentUser.save(null, {
-      success: function(success) {
-        debugLog("[App] saveDescription success!");
-
-        resolve();
-      },
-      error: function(error) {
-        if (handleError(error) == ErrorAction['DisplayErrorAction'])
-          reject(error);
-        else
-          reject();
-      }
-    });
-  });
-}
-
 function handleError(error) {
   debugLog("[App] Error: " + error.message + " Code: " + error.code);
 

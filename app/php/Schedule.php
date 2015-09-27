@@ -28,6 +28,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
+  <script type="text/javascript" src="../views/ScheduleView.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
@@ -49,35 +50,38 @@
       <!-- Schedule Table -->
       <table id="schedule-table" class="table table-bordered table-hover">
         <tr>
-          <th>Tutor Name</th>
           <th>Time</th>
-          <th>Monday</th>
-          <th>Tuesday</th>
-          <th>Wednesday</th>
-          <th>Thursday</th>
-          <th>Friday</th>
+          <th class="day" style="text-align:center;">Sunday</th>
+          <th class="day" style="text-align:center;">Monday</th>
+          <th class="day" style="text-align:center;">Tuesday</th>
+          <th class="day" style="text-align:center;">Wednesday</th>
+          <th class="day" style="text-align:center;">Thursday</th>
+          <th class="day" style="text-align:center;">Friday</th>
+          <th class="day" style="text-align:center;">Saturday</th>
         </tr>
       </table>
       <!-- Schedule Table End -->
 
       <!-- Schedule Entry Template -->
       <script type="text/template" id="schedule-entry-template">
-        <td><%= vipId || "N/A" %></td>
-        <td><%= email || "N/A" %></td>
-        <td><%= firstName || "N/A" %></td>
-        <td><%= lastName || "N/A" %></td>
-        <td class="text-center">
-          <div class="btn-group btn-group-xs" role="group">
-            <button type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-            </button>
-            <button type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-            </button>
-          </div>
-        </td>
+          <td><label class="time-label" value=""></label></td>
+          <td style="text-align:center;"></td>
+          <td style="text-align:center;"></td>
+          <td style="text-align:center;"></input></td>
+          <td style="text-align:center;"></input></td>
+          <td style="text-align:center;"></input></td>
+          <td style="text-align:center;"></input></td>
+          <td style="text-align:center;"></input></td>
       </script>
       <!-- Schedule Entry Template End -->
+
+      <script type="text/template" id="error-alert-template">
+        <div id="error-alert" class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="error-alert-label" class="text-center"></label>
+       </div>
+      </script>
+
     </div>
     <!-- Content Container End -->
   </div>
