@@ -7,7 +7,7 @@
         <a class="navbar-brand" href="../../index.php">
       <?php endif; ?>
 
-        <span style="margin-right:10px;" class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        <span style="margin-right:10px;" class="glyphicon glyphicon-education" aria-hidden="true"></span>
         TutorMe
       </a>
 
@@ -20,7 +20,7 @@
           <a href="./Log.php">
         <?php endif; ?>
 
-          <div style="margin-right:10px;" class="glyphicon glyphicon-align-center"></div>
+          <div style="margin-right:10px;" class="glyphicon glyphicon-align-left"></div>
           Log
         </a>
       </li>
@@ -53,7 +53,7 @@
           <a href="./Assignments.php">
         <?php endif; ?>
 
-          <div style="margin-right:10px;" class="glyphicon glyphicon-tasks"></div>
+          <div style="margin-right:10px;" class="glyphicon glyphicon-file"></div>
           Assignments
         </a>
       </li>
