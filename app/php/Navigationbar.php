@@ -54,6 +54,7 @@
                 <a href="./Account.php">Account</a>
               <?php endif; ?>
             <li><a id="check-in-link" href="#">Check in</a></li>
+            <li><a id="check-out-link" href="#">Check out</a></li>
             <li><a id="logout-link" href="#">Logout</a></li>
           </ul>
         </div>

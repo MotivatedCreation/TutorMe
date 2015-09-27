@@ -1,7 +1,28 @@
 $(function() {
   Parse.initialize("xslcAHbM9lTaaUy6ZkO6c4lZkd0b1LvxA3vKSJ9B", "A9FjzLhTmZ97sziCmBUdImSyfbVwVZqkeFM6BuoH");
   Parse.$ = jQuery;
+
+  navigationBarView = new NavigationbarView();
+
+  var currentUser = Parse.User.current();
+
+  if (currentUser.get('accountType') == 1)
+  {
+    if (currentUser.get('isCheckedIn') == true)
+      navigationBarView.toggleOffCheckInButton();
+    else
+      navigationBarView.toggleOnCheckInButton();
+  }
+
+  findAvailableTutor();
 });
+
+/** Variables **/
+
+var availableTutor;
+var navigationBarView;
+
+/** Variables End **/
 
 /** Global "Constants" **/
 
@@ -25,25 +46,6 @@ function debugLog(string) {
     console.log(string);
 }
 
-function updateTutorAvailability() {
-  debugLog('[App] updateTutorAvailability');
-
-  var availableTutor = availableTutors[0];
-
-  if (availableTutor.get('accountType') == 1
-      && availableTutor.get('checkedInAt')) {
-
-      $('#available-tutor-label').removeClass('label-danger');
-      $('#available-tutor-label').addClass('label-success');
-      $('#available-tutor-label').text('Available Tutor: ' + availableTutor.get('firstName') + " " + availableTutor.get('lastName'));
-  }
-  else {
-    $('#available-tutor-label').removeClass('label-success');
-    $('#available-tutor-label').addClass('label-danger');
-    $('#available-tutor-label').text('Available Tutor: N/A');
-  }
-}
-
 function updateAuthenticationState() {
   debugLog("[App] updateAuthenticationState");
 
@@ -56,11 +58,9 @@ function updateAuthenticationState() {
     $('#login-or-signUp-button').hide();
 
     if (currentUser.get('accountType') != 0) {
-      $('#check-in-link').hide();
       $('#assignments-list-item').show();
     }
     else {
-      $('#check-in-link').show();
       $('#assignments-list-item').hide();
     }
   }
@@ -75,18 +75,23 @@ function updateAuthenticationState() {
 }
 
 function findAvailableTutor() {
+  debugLog('[NavigationbarView] findAvailableTutor');
+
   var promise = new Promise(function(resolve, reject) {
     var query = new Parse.Query(Parse.User);
-    query.notEqualTo('checkedInAt', null);
+    query.equalTo('isCheckedIn', true);
     query.equalTo('accountType', 1);
-    query.descending('checkedInAt');
 
     query.find({
       success: function(availableTutors) {
-        debugLog('[App] updateTutorAvailability success!');
+        debugLog('[NavigationbarView] findAvailableTutor success!');
 
         if (availableTutors.length > 0)
-          updateTutorAvailability();
+          availableTutor = availableTutors[0];
+        else
+          availableTutor = null;
+
+        navigationBarView.updateAvailableTutorLabel();
       },
       error: function(error) {
         if (handleError(error) == ErrorAction['DisplayErrorAction'])
@@ -107,15 +112,21 @@ function checkIn() {
     debugLog('[App] checkIn');
 
     var promise = new Promise(function(resolve, reject) {
-      var logEntry = new Parse.extend('LogEntry');
+      // Only change isCheckedIn if the account type is
+      // of type tutor
+      if (currentUser.get('accountType') == 1)
+        currentUser.set('isCheckedIn', true);
 
-      currentUser.set('checkedInAt', new Date());
-      currentUser.set('checkedOutAt', null);
       currentUser.save(null, {
         success: function(success) {
           debugLog('[App] checkIn success!');
 
-          updateCheckInState();
+          if (currentUser.get('accountType') == 1)
+          {
+            navigationBarView.toggleOffCheckInButton();
+
+            findAvailableTutor();
+          }
 
           resolve();
         },
@@ -139,13 +150,20 @@ function checkOut() {
     debugLog('[App] checkOut');
 
     var promise = new Promise(function(resolve, reject) {
-      currentUser.set('checkedInAt', null);
-      currentUser.set('checkedOutAt', new Date());
+      // Only change isCheckedIn if the account type is
+      // of type tutor
+      if (currentUser.get('accountType') == 1)
+        currentUser.set('isCheckedIn', false);
+        
       currentUser.save(null, {
         success: function(success) {
           debugLog('[App] checkOut success!');
 
-          updateCheckInState();
+          if (currentUser.get('accountType') == 1)
+          {
+            navigationBarView.toggleOnCheckInButton();
+            findAvailableTutor();
+          }
 
           resolve();
         },
@@ -170,7 +188,9 @@ function logIn(email, password) {
     var options = {
       username: email,
       email: email,
-      password: password
+      password: password,
+      accountType: 0,
+      isCheckedIn: false
     };
     var user = new Parse.User(options);
 
