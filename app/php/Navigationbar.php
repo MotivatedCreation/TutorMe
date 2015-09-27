@@ -49,9 +49,9 @@
           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
             <li>
               <?php if (kCurrentFile == 'index.php'): ?>
-                <a href="./app/php/AccountMenu.php">Account</a>
+                <a href="./app/php/Profile.php">Account</a>
               <?php else: ?>
-                <a href="./AccountMenu.php">Account</a>
+                <a href="./Profile.php">Account</a>
               <?php endif; ?>
             <li><a id="check-in-link" href="#">Check in</a></li>
             <li><a id="check-out-link" href="#">Check out</a></li>
