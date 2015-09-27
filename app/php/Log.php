@@ -81,7 +81,7 @@
       <!-- Log Entry Template -->
       <script type="text/template" id="log-entry-template">
         <td><%= createdAt %></td>
-        <td></td>
+        <td><%= student['firstName'] %></td>
         <td><%= classNumber %></td>
         <td></td>
         <td></td>

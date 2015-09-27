@@ -129,6 +129,7 @@ function checkIn() {
           else if (currentUser.get('accountType') == 0) {
             var LogEntry = Parse.Object.extend('LogEntry');
             var logEntry = new LogEntry();
+            logEntry.set('student', Parse.User.current());
 
             logEntry.save();
           }

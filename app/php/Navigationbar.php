@@ -2,39 +2,60 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <?php if (kCurrentFile == 'index.php'): ?>
-        <a class="navbar-brand" href="index.php">TutorMe</a>
+        <a class="navbar-brand" href="index.php">
       <?php else: ?>
-        <a class="navbar-brand" href="../../index.php">TutorMe</a>
+        <a class="navbar-brand" href="../../index.php">
       <?php endif; ?>
+
+        <span style="margin-right:10px;" class="glyphicon glyphicon-home" aria-hidden="true"></span>
+        TutorMe
+      </a>
+
     </div>
     <ul class="nav navbar-nav">
         <li <?php if (kCurrentFile == 'Log.php'): ?> class="active" <?php endif; ?>>
         <?php if (kCurrentFile == 'index.php'): ?>
-          <a href="./app/php/Log.php">Log</a>
+          <a href="./app/php/Log.php">
         <?php else: ?>
-          <a href="./Log.php">Log</a>
+          <a href="./Log.php">
         <?php endif; ?>
+
+          <div style="margin-right:10px;" class="glyphicon glyphicon-align-center"></div>
+          Log
+        </a>
       </li>
         <li <?php if (kCurrentFile == 'Schedule.php'): ?> class="active" <?php endif; ?>>
         <?php if (kCurrentFile == 'index.php'): ?>
-          <a href="./app/php/Schedule.php">Schedule</a>
+          <a href="./app/php/Schedule.php">
         <?php else: ?>
-          <a href="./Schedule.php">Schedule</a>
+          <a href="./Schedule.php">
         <?php endif; ?>
+
+          <div style="margin-right:10px;" class="glyphicon glyphicon-calendar"></div>
+          Schedule
+        </a>
       </li>
       <li <?php if (kCurrentFile == 'Tutors.php'): ?> class="active" <?php endif; ?>>
         <?php if (kCurrentFile == 'index.php'): ?>
-          <a href="./app/php/Tutors.php">Tutors</a>
+          <a href="./app/php/Tutors.php">
         <?php else: ?>
-          <a href="./Tutors.php">Tutors</a>
+          <a href="./Tutors.php">
         <?php endif; ?>
+
+          <div style="margin-right:10px;" class="glyphicon glyphicon-user"></div>
+          Tutors
+        </a>
       </li>
       <li id="assignments-list-item"<?php if (kCurrentFile == 'Assignments.php'): ?> class="active" <?php endif; ?>>
         <?php if (kCurrentFile == 'index.php'): ?>
-          <a href="./app/php/Assignments.php">Assignments</a>
+          <a href="./app/php/Assignments.php">
         <?php else: ?>
-          <a href="./Assignments.php">Assignments</a>
+          <a href="./Assignments.php">
         <?php endif; ?>
+
+          <div style="margin-right:10px;" class="glyphicon glyphicon-tasks"></div>
+          Assignments
+        </a>
       </li>
     </ul>
     <ul class="nav navbar-nav pull-right">
@@ -44,18 +65,29 @@
       <li>
       <div id="authenticated-user-menu-button" class="dropdown" style="padding-top: 8px;">
           <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
             <li>
               <?php if (kCurrentFile == 'index.php'): ?>
-                <a href="./app/php/Profile.php">Account</a>
+                <a href="./app/php/Profile.php">
               <?php else: ?>
-                <a href="./Profile.php">Account</a>
+                <a href="./Profile.php">
               <?php endif; ?>
-            <li><a id="check-in-link" href="#">Check in</a></li>
-            <li><a id="check-out-link" href="#">Check out</a></li>
-            <li><a id="logout-link" href="#">Logout</a></li>
+
+                <div style="margin-right:10px;" class="glyphicon glyphicon-info-sign"></div>
+                Account
+              </a>
+            </li>
+            <li><a id="check-in-link" href="#">
+              <div style="margin-right:10px;" class="glyphicon glyphicon-check"></div>
+              Check in</a></li>
+            <li><a id="check-out-link" href="#">
+              <div style="margin-right:10px;" class="glyphicon glyphicon-unchecked"></div>
+              Check out</a></li>
+            <li><a id="logout-link" href="#">
+              <div style="margin-right:10px;" class="glyphicon glyphicon-log-out"></div>
+              Logout</a></li>
           </ul>
         </div>
       </li>

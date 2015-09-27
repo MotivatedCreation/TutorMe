@@ -11,13 +11,11 @@ $(function() {
   var currentUser = Parse.User.current();
 
   if (currentUser && currentUser.get('accountType') == 1) {
-    $('#profile-menu-appointments-button').show();
     $('#profile-menu-schedule-button').show();
     $('#profile-menu-timelog-button').show();
   }
   else {
     $('#profile-menu-schedule-button').hide();
-    $('#profile-menu-appointments-button').hide();
     $('#profile-menu-timelog-button').hide();
   }
 
