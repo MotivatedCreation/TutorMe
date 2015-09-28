@@ -1,0 +1,24 @@
+#content-container {
+  padding-top: 44px;
+}
+
+#tutor-content-container {
+  margin-bottom: 44px;
+}
+
+#media-content-container {
+  position: relative;
+  left: 15px;
+}
+
+#media-body {
+  padding-left: 12px;
+}
+
+#description-well {
+  resize: none;
+  height: 150px;
+  width: 98%;
+  max-width: 98%;
+  margin-top: 20px;
+}

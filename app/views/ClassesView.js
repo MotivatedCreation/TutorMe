@@ -159,11 +159,11 @@ var ClassesView = Parse.View.extend({
             success: function(success) {
               debugLog('[ClassesView] addClass success!');
 
-              location.reload();
+              row.remove();
 
               $(self.el).prepend($("#success-alert-template").html());
 
-              $('#success-alert-label').text("Success! Your schedule has been successfully saved.");
+              $('#success-alert-label').text("Success! " + className + " has been successfully removed.");
             },
             error: function(error) {
               if (error)

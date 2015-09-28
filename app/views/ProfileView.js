@@ -59,7 +59,7 @@ var ProfileView = Parse.View.extend({
     {
       var self = this;
 
-      currentUser.set('description', string);
+      currentUser.set('description', description);
 
       currentUser.save(null, {
         success: function(success) {
