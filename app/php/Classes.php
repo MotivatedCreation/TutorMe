@@ -22,13 +22,12 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
-  <link href="../../css/Profile.css" rel="stylesheet">
+  <link href="../../css/Classes.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
-  <script type="text/javascript" src="../views/ProfileView.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
@@ -37,6 +36,7 @@
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?>
+
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
@@ -47,13 +47,51 @@
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
+      <?php include('./AddClass.php'); ?>
       <?php include('./AccountMenu.php'); ?>
 
+      <!-- Classes Table -->
+      <table id="classes-table" class="table table-bordered table-hover">
+        <tr>
+          <th>
+            <label style="margin-top: 6px;">Classes</label>
+            <div class="btn-group pull-right" role="group">
+                <button id="add-class-button" type="button" class="btn btn-success"><div class="glyphicon glyphicon-plus"></button>
+            </div>
+          </th>
+        </tr>
+      </table>
+      <!-- Classes Table End -->
+
+      <!-- Class Entry Template -->
+      <script type="text/template" id="class-entry-template">
+          <td>
+            <%= name %>
+            <div class="btn-group pull-right" role="group">
+                <button id="remove-class-button" type="button" class="btn btn-danger"><div class="glyphicon glyphicon-minus"></button>
+            </div>
+          </td>
+      </script>
+      <!-- class Entry Template End -->
+
+      <script type="text/template" id="error-alert-template">
+        <div id="error-alert" class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="error-alert-label" class="text-center"></label>
+       </div>
+      </script>
+
+      <script type="text/template" id="success-alert-template">
+        <div id="success-alert" class="alert alert-success">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="success-alert-label"></label>
+       </div>
+      </script>
 
     </div>
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
+  <script type="text/javascript" src="../views/ClassesView.js"></script>
 </body>
-
 </html>

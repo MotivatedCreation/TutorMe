@@ -91,9 +91,6 @@
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
-  <script type="text/javascript" src="../models/LogEntry.js"></script>
-  <script type="text/javascript" src="../models/Log.js"></script>
-  <script type="text/javascript" src="../views/LogEntryView.js"></script>
   <script type="text/javascript" src="../views/LogView.js"></script>
 </body>
 

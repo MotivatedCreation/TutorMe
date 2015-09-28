@@ -38,7 +38,7 @@ var ScheduleView = Parse.View.extend({
   },
 
   fetchSchedules: function() {
-    $("#invalid-input-alert").remove();
+    $("#error-alert").remove();
 
     debugLog('[ScheduleView] fetchSchedules');
 
