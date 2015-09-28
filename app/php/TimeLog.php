@@ -22,7 +22,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
-  <link href="../../css/Profile.css" rel="stylesheet">
+  <link href="../../css/TimeLog.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -49,6 +49,9 @@
     <div id="content-container" class="container-fluid">
       <?php include('./AccountMenu.php'); ?>
 
+      <div class="container-fluid">
+        <object id="itams-webpage-container" type="text/html" data="https://itams.csd.sc.edu"></object>
+      </div>
 
     </div>
     <!-- Content Container End -->
