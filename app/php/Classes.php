@@ -56,7 +56,7 @@
           <th>
             <label style="margin-top: 6px;">Classes</label>
             <div class="btn-group pull-right" role="group">
-                <button id="add-class-button" type="button" class="btn btn-success"><div class="glyphicon glyphicon-plus"></button>
+                <button id="add-class-button" type="button" class="btn btn-default btn-sm"><div class="glyphicon glyphicon-plus"></button>
             </div>
           </th>
         </tr>
@@ -66,9 +66,9 @@
       <!-- Class Entry Template -->
       <script type="text/template" id="class-entry-template">
           <td>
-            <%= name %>
+            <label id="class-name-label" style="font-weight: normal;"><%= name %></label>
             <div class="btn-group pull-right" role="group">
-                <button id="remove-class-button" type="button" class="btn btn-danger"><div class="glyphicon glyphicon-minus"></button>
+                <button id="remove-class-button" type="button" class="btn btn-danger btn-xs"><div class="glyphicon glyphicon-minus"></button>
             </div>
           </td>
       </script>

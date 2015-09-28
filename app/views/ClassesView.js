@@ -131,11 +131,52 @@ var ClassesView = Parse.View.extend({
     });
   },
 
-  removeClass: function() {
+  removeClass: function(sender) {
     debugLog("[ClassesView] removeClass");
 
     $("#error-alert").remove();
     $("#success-alert").remove();
+
+    var row = sender.currentTarget.parentNode.parentNode;
+    var className = $(row).children('#class-name-label').text();
+
+    var self = this;
+
+    var Class = Parse.Object.extend('Class');
+
+    var query = new Parse.Query('Class');
+    query.equalTo('name', className);
+
+    query.first({
+      success: function(theClass) {
+        debugLog('[ClassesView] removeClass success!');
+
+        if (theClass) {
+          theClass.set('name', className);
+          theClass.remove('users', Parse.User.current());
+
+          theClass.save(null, {
+            success: function(success) {
+              debugLog('[ClassesView] addClass success!');
+
+              location.reload();
+
+              $(self.el).prepend($("#success-alert-template").html());
+
+              $('#success-alert-label').text("Success! Your schedule has been successfully saved.");
+            },
+            error: function(error) {
+              if (error)
+                self.handleError(error);
+            }
+          });
+        }
+      },
+      error: function(error) {
+        if (error)
+          self.handleError(error);
+      }
+    });
   },
 
   handleError: function(error) {
