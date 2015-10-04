@@ -52,8 +52,8 @@ var ClassesView = Parse.View.extend({
       success: function(classes) {
         debugLog('[ClassesView] fetchClasses success!');
 
-        $('.activity-indicator-container').hide();
-        $('#classes-table').show();
+        $('.activity-indicator-container').fadeOut(1000);
+        $('#classes-table').fadeIn(1000);
 
         self.loadClasses(classes);
       },

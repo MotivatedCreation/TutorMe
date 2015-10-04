@@ -63,7 +63,7 @@
   font-size: 50px;
   color: #0088CC;
   clip: rect(0, 0, 50px, 0);
-  -webkit-animation: alternateClip infinite 8s;
+  -webkit-animation: alternateClip infinite 3s;
   -moz-animation:alternateClip infinite 8s;
   -ms-animation:alternateClip infinite 8s;
   -o-animation:alternateClip infinite 8s;

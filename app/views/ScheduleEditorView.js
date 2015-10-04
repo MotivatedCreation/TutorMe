@@ -58,9 +58,9 @@ var ScheduleEditorView = Parse.View.extend({
         success: function(theSchedule) {
           debugLog('[ScheduleEditorView] fetchSchedule success!');
 
-          $('.activity-indicator-container').hide();
-          $('#schedule-table').show();
-          $('#save-schedule-button').show();
+          $('.activity-indicator-container').fadeOut(1000);
+          $('#schedule-table').fadeIn(1000);
+          $('#save-schedule-button').fadeIn(1000);
 
           schedule = theSchedule;
 

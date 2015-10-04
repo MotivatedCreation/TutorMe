@@ -55,8 +55,8 @@ var ScheduleView = Parse.View.extend({
         success: function(theSchedules) {
           debugLog('[ScheduleView] fetchSchedules success!');
 
-          $('.activity-indicator-container').hide();
-          $('#schedule-table').show();
+          $('.activity-indicator-container').fadeOut(1000);
+          $('#schedule-table').fadeIn(1000);
 
           schedules = theSchedules;
 
