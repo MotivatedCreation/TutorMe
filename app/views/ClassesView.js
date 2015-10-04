@@ -40,6 +40,9 @@ var ClassesView = Parse.View.extend({
 
     debugLog('[ClassesView] fetchClasses');
 
+    $('.activity-indicator-container').show();
+    $('#classes-table').hide();
+
     var self = this;
 
     var query = new Parse.Query('Class');
@@ -48,6 +51,9 @@ var ClassesView = Parse.View.extend({
     query.find({
       success: function(classes) {
         debugLog('[ClassesView] fetchClasses success!');
+
+        $('.activity-indicator-container').hide();
+        $('#classes-table').show();
 
         self.loadClasses(classes);
       },
