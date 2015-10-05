@@ -1,3 +1,7 @@
+<!-- Appointments.php
+  Page used for making appointments
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -1,3 +1,7 @@
+<!-- Assignments.php
+  Assignments page
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
