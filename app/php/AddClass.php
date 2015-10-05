@@ -1,3 +1,8 @@
+<!-- AddClass.php
+  Add a class Pop up dialog box from the classes section on the account page
+-->
+
+<!-- Modal boxes are pop up boxes -->
 <div class="modal fade" id="add-class-modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -8,8 +13,8 @@
         <div id="add-class-modal-content-container">
           <form>
             <div class="form-group">
-              <label for="class-name-label" class="control-label">Class Name:</label>
-              <input type="text" class="form-control" id="class-name-input" value="" placeholder="e.g. CSCI 540">
+              <label for="class-name-label" class="control-label">Class Name:</label> <!-- text on the modal panel -->
+              <input type="text" class="form-control" id="class-name-input" value="" placeholder="e.g. CSCI 540"> <!-- add class text box -->
             </div>
           </form>
         </div>
@@ -38,6 +43,7 @@
  </div>
 </script>
 
+<!-- I'm guessing this clears the text box once you have added a class -->
 <script type="text/javascript">
 $(function() {
   $('#add-class-modal').on('hidden.bs.modal', function () {

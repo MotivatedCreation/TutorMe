@@ -1,7 +1,7 @@
-body {
+body {            /* THIS ADDS THE PADDING UNDER THE NAV BAR */
   padding-top: 30px;
 }
-@media (max-width: 979px) {
+@media (max-width: 979px) { /*IDK WHAT THIS DOES */
   body {
     padding-top: 0px;
   }

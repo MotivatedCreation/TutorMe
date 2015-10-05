@@ -1,3 +1,7 @@
+<!-- Schedule.php
+  Page that show's the current week's schedule
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,11 +41,11 @@
 <body>
   <!-- Container -->
   <div class="container-fluid maxHeight">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or signup pop up -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?> <!-- Nav bar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->

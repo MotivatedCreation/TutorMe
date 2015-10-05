@@ -1,3 +1,7 @@
+<!-- ScheduleEditor.php
+  Edit Schedule idk how it works
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,11 +41,11 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or signup pop up NO POINT HIDDEN PAGE -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?> <!-- Navbar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
@@ -49,7 +53,7 @@
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
 
-      <?php include('./AccountMenu.php'); ?>
+      <?php include('./AccountMenu.php'); ?>  <!-- Include account menu side menu -->
 
       <!-- Schedule Table -->
       <table id="schedule-table" class="table table-bordered table-hover">

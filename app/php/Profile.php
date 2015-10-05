@@ -1,3 +1,7 @@
+<!-- Profile.php
+  The profile page of the account section
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,26 +40,28 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?>  <!-- NAVIGATION BAR -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
-      <?php include('./AccountMenu.php'); ?>
+      <?php include('./AccountMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
 
       <div id="content-container" class="container-fluid">
         <div id="profile-media-content-container" class="media">
+<!-- PROFILE PICTURE -->
           <div class="media-left">
             <a href="#">
               <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNGY4YmUxNDMyOCB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE0ZjhiZTE0MzI4Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMy45MjE4NzUiIHk9IjM2LjM2NDA2MjUiPjY0eDY0PC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="Profile Picture">
             </a>
           </div>
+<!--EDIT AND SAVE YOUR DESCRIPTION -->
           <div id="profile-body" class="media-body">
             <h4 class="media-heading"></h4>
             <label id="full-name-label"></label>
@@ -67,6 +73,7 @@
             <br />
             <textarea id="profile-description-well" class="well well-sm" readonly="true">Add a description...</textarea>
           </div>
+<!-- END -->
         </div>
       </div>
 
@@ -83,7 +90,7 @@
           <label id="success-alert-label"></label>
        </div>
       </script>
-      
+
     </div>
     <!-- Content Container End -->
   </div>

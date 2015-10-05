@@ -68,9 +68,10 @@
         <!-- Action Content Group -->
 <!-- THE SEARCH BAR -->
         <div id="action-content-group" class="input-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" style = "width: 400px;"  placeholder="Search">
           <div class="input-group-btn">
-            <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+            <!-- B set the search button margin right so it'll stick to the textbox -->
+            <button class="btn btn-default" type="submit" style="margin-right:1000px" ><i class="glyphicon glyphicon-search"></i></button>
           </div>
         </div>
 <!-- END -->
