@@ -1,3 +1,13 @@
+<!-- Log.php
+  Shows a log of What time student's were tutored and for what.
+  Probably shouldn't be visible unless logged in as tutor+
+  That would mean doesn't need the login/signup button unless navbar requires that
+
+  Search bar should have a search by type
+  Or maybe have the log organize by type
+  Probably needs a date
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,11 +45,11 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- includes login or signup Popup  DO I REALLY NEED?-->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?>  <!-- includes the navigation bar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container End -->
@@ -56,16 +66,19 @@
         <!-- Alert Content End -->
 
         <!-- Action Content Group -->
+<!-- THE SEARCH BAR -->
         <div id="action-content-group" class="input-group">
           <input type="text" class="form-control" placeholder="Search">
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
           </div>
         </div>
+<!-- END -->
         <!-- Action Content Group End -->
       </div>
       <!-- Action Container End -->
 
+<!-- THE ACTUAL LOG LIST -->
       <!-- Log Template -->
       <table id="log-table" class="table table-bordered table-hover">
         <tr>
@@ -78,6 +91,7 @@
       </table>
       <!-- Log Template End -->
 
+<!-- LOG ENTRY TEMPLATE -->
       <!-- Log Entry Template -->
       <script type="text/template" id="log-entry-template">
         <td><%= createdAt %></td>

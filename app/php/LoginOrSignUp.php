@@ -1,3 +1,7 @@
+<!-- LoginOrSignUp.php
+  The login or signup Popup
+-->
+
 <?php if (kCurrentFile == 'index.php'): ?>
   <script type="text/javascript" src="./app/views/LoginView.js"></script>
   <script type="text/javascript" src="./app/views/SignUpView.js"></script>
