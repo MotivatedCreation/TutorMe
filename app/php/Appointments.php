@@ -23,6 +23,7 @@
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
   <link href="../../css/Profile.css" rel="stylesheet">
+  <link href="../../css/Appointments.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -47,13 +48,52 @@
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
+	  <?php include('./AddAppointment.php'); ?>
       <?php include('./AccountMenu.php'); ?>
 
+	 <!-- Appointment Table -->
+      <table id="#appointment-table" class="table table-bordered table-hover">
+        <tr>
+          <th>
+            <label style="margin-top: 6px;">Appointments</label>
+            <div class="btn-group pull-right" role="group">
+                <button id="add-appointment-button" type="button" class="btn btn-default btn-sm"><div class="glyphicon glyphicon-plus"></button>
+            </div>
+          </th>
+        </tr>
+      </table>
+      <!-- Appointment Table End -->
+
+      <!-- Appointment Entry Template -->
+      <script type="text/template" id="appointment-entry-template">
+          <td>
+            <label id="appointment-name-label" style="font-weight: normal;"><%= name %></label>
+            <div class="btn-group pull-right" role="group">
+                <button id="remove-appointment-button" type="button" class="btn btn-danger btn-xs"><div class="glyphicon glyphicon-minus"></button>
+            </div>
+          </td>
+      </script>
+      <!-- Appointment Entry Template End -->
+
+      <script type="text/template" id="error-alert-template">
+        <div id="error-alert" class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="error-alert-label" class="text-center"></label>
+       </div>
+      </script>
+
+      <script type="text/template" id="success-alert-template">
+        <div id="success-alert" class="alert alert-success">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="success-alert-label"></label>
+       </div>
+      </script>
 
     </div>
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
-</body>
-
+	<script type="text/javascript" src="../views/AppointmentsView.js"></script>
+  </body>
 </html>
+
