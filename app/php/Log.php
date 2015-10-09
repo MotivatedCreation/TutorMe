@@ -67,7 +67,7 @@
 
         <!-- Action Content Group -->
 <!-- THE SEARCH BAR -->
-        <div id="action-content-group" class="input-group">
+        <div id="action-content-group" class="input-group" style = "width: 400px;>
           <input type="text" class="form-control" style = "width: 400px;"  placeholder="Search">
           <div class="input-group-btn">
             <!-- B set the search button margin right so it'll stick to the textbox -->
