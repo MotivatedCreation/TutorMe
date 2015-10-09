@@ -2,8 +2,27 @@ $(function() {
   Parse.initialize("xslcAHbM9lTaaUy6ZkO6c4lZkd0b1LvxA3vKSJ9B", "A9FjzLhTmZ97sziCmBUdImSyfbVwVZqkeFM6BuoH");
   Parse.$ = jQuery;
 
-  updateAuthenticationState();
+  navigationBarView = new NavigationbarView();
+
+  var currentUser = Parse.User.current();
+
+  if (currentUser && currentUser.get('accountType') == 1)
+  {
+    if (currentUser.get('isCheckedIn') == true)
+      navigationBarView.toggleOffCheckInButton();
+    else
+      navigationBarView.toggleOnCheckInButton();
+  }
+
+  findAvailableTutor();
 });
+
+/** Variables **/
+
+var availableTutor;
+var navigationBarView;
+
+/** Variables End **/
 
 /** Global "Constants" **/
 
@@ -28,14 +47,142 @@ function debugLog(string) {
 }
 
 function updateAuthenticationState() {
-  if (Parse.User.current()) {
+  debugLog("[App] updateAuthenticationState");
+
+  var currentUser = Parse.User.current();
+
+  if (currentUser && Parse.User.current()) {
+    debugLog("[App] updateAuthenticationState - Logged in");
+
     $('#authenticated-user-menu-button').show();
     $('#login-or-signUp-button').hide();
+
+    if (currentUser.get('accountType') != 0) {
+      $('#assignments-list-item').show();
+    }
+    else {
+      $('#assignments-list-item').hide();
+    }
   }
   else {
+    debugLog("[App] updateAuthenticationState - Logged out");
+
+    $('#assignments-list-item').hide();
     $('#authenticated-user-menu-button').hide();
     $('#login-or-signUp-button').show();
     $('#login-or-signUp-button').text('Login or Sign Up');
+  }
+}
+
+function findAvailableTutor() {
+  debugLog('[NavigationbarView] findAvailableTutor');
+
+  var promise = new Promise(function(resolve, reject) {
+    var query = new Parse.Query(Parse.User);
+    query.equalTo('isCheckedIn', true);
+    query.equalTo('accountType', 1);
+
+    query.find({
+      success: function(availableTutors) {
+        debugLog('[NavigationbarView] findAvailableTutor success!');
+
+        if (availableTutors.length > 0)
+          availableTutor = availableTutors[0];
+        else
+          availableTutor = null;
+
+        navigationBarView.updateAvailableTutorLabel();
+      },
+      error: function(error) {
+        if (handleError(error) == ErrorAction['DisplayErrorAction'])
+          reject(error);
+        else
+          reject();
+      }
+    });
+  });
+
+  return promise;
+}
+
+function checkIn() {
+  var currentUser = Parse.User.current();
+
+  if (currentUser) {
+    debugLog('[App] checkIn');
+
+    var promise = new Promise(function(resolve, reject) {
+      // Only change isCheckedIn if the account type is
+      // of type tutor
+      if (currentUser.get('accountType') == 1)
+        currentUser.set('isCheckedIn', true);
+
+      currentUser.save(null, {
+        success: function(success) {
+          debugLog('[App] checkIn success!');
+
+          if (currentUser.get('accountType') == 1) {
+            navigationBarView.toggleOffCheckInButton();
+
+            findAvailableTutor();
+          }
+          else if (currentUser.get('accountType') == 0) {
+            var LogEntry = Parse.Object.extend('LogEntry');
+            var logEntry = new LogEntry();
+            logEntry.set('student', Parse.User.current());
+
+            logEntry.save();
+          }
+
+          resolve();
+        },
+        error: function(error) {
+          if (handleError(error) == ErrorAction['DisplayErrorAction'])
+            reject(error);
+          else
+            reject();
+        }
+      });
+    });
+
+    return promise;
+  }
+}
+
+function checkOut() {
+  var currentUser = Parse.User.current();
+
+  if (currentUser) {
+    debugLog('[App] checkOut');
+
+    var promise = new Promise(function(resolve, reject) {
+      // Only change isCheckedIn if the account type is
+      // of type tutor
+      if (currentUser.get('accountType') == 1)
+        currentUser.set('isCheckedIn', false);
+
+      currentUser.save(null, {
+        success: function(success) {
+          debugLog('[App] checkOut success!');
+
+          if (currentUser.get('accountType') == 1)
+          {
+            navigationBarView.toggleOnCheckInButton();
+            findAvailableTutor();
+          }
+
+          resolve();
+        },
+        error: function(error) {
+          if (handleError(error) == ErrorAction['DisplayErrorAction'])
+            reject(error);
+          else
+            reject();
+        }
+      });
+    });
+
+    return promise;
   }
 }
 
@@ -47,7 +194,9 @@ function logIn(email, password) {
     var options = {
       username: email,
       email: email,
-      password: password
+      password: password,
+      accountType: 0,
+      isCheckedIn: false
     };
     var user = new Parse.User(options);
 
@@ -77,7 +226,7 @@ function logOut() {
 
     updateAuthenticationState();
 
-    debugLog("[App] logOut - If user is at profile page navigate to home page.");
+    window.location = "http://tutorme.local";
 
   }, function(error) {
     handleError(error);
@@ -105,6 +254,8 @@ function signUp(accountType, firstName, lastName, email, password) {
     user.signUp(null, {
       success: function(user) {
         debugLog("[App] signUp success!");
+
+        updateAuthenticationState();
 
         resolve();
       },

@@ -1,5 +1,5 @@
-<!-- Profile.php
-  The profile page of the account section
+<!-- ScheduleEditor.php
+  Edit Schedule idk how it works
 -->
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>TutorMe - Profile</title>
+  <title>TutorMe - Appointments</title>
 
   <!-- Bootstrap -->
   <link href="../../bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -26,13 +26,14 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
-  <link href="../../css/Profile.css" rel="stylesheet">
+  <link href="../../css/ScheduleEditor.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
-  <script type="text/javascript" src="../views/ProfileView.js"></script>
+  <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
+  <script type="text/javascript" src="../views/ScheduleEditorView.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
@@ -40,42 +41,49 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or signup pop up NO POINT HIDDEN PAGE -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>  <!-- NAVIGATION BAR -->
+      <?php include('./Navigationbar.php'); ?> <!-- Navbar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
-      <?php include('./AccountMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
 
-      <div id="content-container" class="container-fluid">
-        <div id="profile-media-content-container" class="media">
-<!-- PROFILE PICTURE -->
-          <div class="media-left">
-            <a href="#">
-              <img class="media-object" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PCEtLQpTb3VyY2UgVVJMOiBob2xkZXIuanMvNjR4NjQKQ3JlYXRlZCB3aXRoIEhvbGRlci5qcyAyLjYuMC4KTGVhcm4gbW9yZSBhdCBodHRwOi8vaG9sZGVyanMuY29tCihjKSAyMDEyLTIwMTUgSXZhbiBNYWxvcGluc2t5IC0gaHR0cDovL2ltc2t5LmNvCi0tPjxkZWZzPjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+PCFbQ0RBVEFbI2hvbGRlcl8xNGY4YmUxNDMyOCB0ZXh0IHsgZmlsbDojQUFBQUFBO2ZvbnQtd2VpZ2h0OmJvbGQ7Zm9udC1mYW1pbHk6QXJpYWwsIEhlbHZldGljYSwgT3BlbiBTYW5zLCBzYW5zLXNlcmlmLCBtb25vc3BhY2U7Zm9udC1zaXplOjEwcHQgfSBdXT48L3N0eWxlPjwvZGVmcz48ZyBpZD0iaG9sZGVyXzE0ZjhiZTE0MzI4Ij48cmVjdCB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMy45MjE4NzUiIHk9IjM2LjM2NDA2MjUiPjY0eDY0PC90ZXh0PjwvZz48L2c+PC9zdmc+" alt="Profile Picture">
-            </a>
-          </div>
-<!--EDIT AND SAVE YOUR DESCRIPTION -->
-          <div id="profile-body" class="media-body">
-            <h4 class="media-heading"></h4>
-            <label id="full-name-label"></label>
-            <br />
-            <label id="account-type-label"></label>
-            <br />
-            <button id="edit-description-button" class="btn btn-primary btn-sm">Edit</button>
-            <button id="save-description-button" class="btn btn-success btn-sm">Save</button>
-            <br />
-            <textarea id="profile-description-well" class="well well-sm" readonly="true">Add a description...</textarea>
-          </div>
-<!-- END -->
-        </div>
-      </div>
+      <?php include('./AccountMenu.php'); ?>  <!-- Include account menu side menu -->
+
+      <!-- Schedule Table -->
+      <table id="schedule-table" class="table table-bordered table-hover">
+        <tr>
+          <th>Time</th>
+          <th class="day" style="text-align:center;">Sunday</th>
+          <th class="day" style="text-align:center;">Monday</th>
+          <th class="day" style="text-align:center;">Tuesday</th>
+          <th class="day" style="text-align:center;">Wednesday</th>
+          <th class="day" style="text-align:center;">Thursday</th>
+          <th class="day" style="text-align:center;">Friday</th>
+          <th class="day" style="text-align:center;">Saturday</th>
+        </tr>
+      </table>
+      <!-- Schedule Table End -->
+
+      <!-- Schedule Entry Template -->
+      <script type="text/template" id="schedule-entry-template">
+          <td><label class="time-label" value=""></label></td>
+          <td style="text-align:center;"><input id="sunday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="monday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="tuesday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="wednesday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="thursday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="friday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+          <td style="text-align:center;"><input id="saturday-checkbox" class="time-checkbox" type="checkbox"></input></td>
+      </script>
+      <!-- Schedule Entry Template End -->
+
+      <button id="save-schedule-button" type="button" class="btn btn-success pull-right">Save</button>
 
       <script type="text/template" id="error-alert-template">
         <div id="error-alert" class="alert alert-danger">

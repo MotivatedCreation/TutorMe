@@ -1,6 +1,6 @@
 var ProfileView = Parse.View.extend({
 
-  el: ".container-fluid",
+  el: "#content-container",
 
   events: {
     'click #edit-description-button': 'editDescription',
@@ -34,18 +34,66 @@ var ProfileView = Parse.View.extend({
 
     $('#edit-description-button').hide();
     $('#save-description-button').show();
-    $('#profile-description-well').focus();
     $('#profile-description-well').attr('readonly', false);
     $('#profile-description-well').css('background-color', 'white');
+    $('#profile-description-well').focus();
+
+    return false;
   },
 
   saveDescription: function() {
+    $("#invalid-input-alert").remove();
+    $("#success-alert").remove();
+
     debugLog('[ProfileView] saveDescription');
 
     $('#edit-description-button').show();
     $('#save-description-button').hide();
     $('#profile-description-well').attr('readonly', true);
     $('#profile-description-well').css('background-color', 'default');
+
+    var currentUser = Parse.User.current();
+    var description = $('#profile-description-well').val();
+
+    if (currentUser.get('description') != description)
+    {
+      var self = this;
+
+      currentUser.set('description', description);
+
+      currentUser.save(null, {
+        success: function(success) {
+          debugLog("[ProfileView] saveDescription success!");
+
+          $(self.el).prepend($("#success-alert-template").html());
+
+          $('#success-alert-label').text("Success! Your description has been successfully saved.");
+        },
+        error: function(error) {
+          self.handleError(error);
+        }
+      });
+    }
+    else {
+      $(this.el).prepend($("#success-alert-template").html());
+
+      $('#success-alert-label').text("Success! Your description has been successfully saved.");
+    }
+
+    return false;
+  },
+
+  handleError: function(error) {
+    debugLog("[ProfileView] handleError");
+
+    switch(error.code) {
+      default: {
+        $(this.el).prepend($('#error-alert-template').html());
+
+        $('#error-alert-label').text('Uh Oh! An unknown error occurred.');
+      }
+      break;
+    }
   }
 });
 

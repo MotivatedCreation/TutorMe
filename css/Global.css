@@ -1,3 +1,12 @@
+body {            /* THIS ADDS THE PADDING UNDER THE NAV BAR */
+  padding-top: 30px;
+}
+@media (max-width: 979px) { /*IDK WHAT THIS DOES */
+  body {
+    padding-top: 0px;
+  }
+}
+
 #available-tutor-label {
   margin-right: 20px;
   position: relative;
@@ -12,4 +21,67 @@
 #forgot-password-link {
   font-size: 12px;
   margin-top: 2px;
+}
+
+@keyframes alternateClip {
+  0% { clip: rect(0, 0, 50px, 0); color: #DF2D2D;}
+  50% { clip: rect(0, 50px, 50px, 0); color: #F0E801;}
+  100% { clip: rect(0, 50px, 50px, 50px); color: #3ACB27;}
+}
+
+@-webkit-keyframes alternateClip {
+  0% { clip: rect(0, 0, 50px, 0); color: #DF2D2D;}
+  50% { clip: rect(0, 50px, 50px, 0); color: #F0E801;}
+  100% { clip: rect(0, 50px, 50px, 50px); color: #3ACB27;}
+}
+
+@-moz-keyframes alternateClip {
+  0% { clip: rect(0, 0, 50px, 0); color: #DF2D2D;}
+  50% { clip: rect(0, 50px, 50px, 0); color: #F0E801;}
+  100% { clip: rect(0, 50px, 50px, 50px); color: #3ACB27;}
+}
+
+@-ms-keyframes alternateClip {
+  0% { clip: rect(0, 0, 50px, 0); color: #DF2D2D;}
+  50% { clip: rect(0, 50px, 50px, 0); color: #F0E801;}
+  100% { clip: rect(0, 50px, 50px, 50px); color: #3ACB27;}
+}
+
+@-o-keyframes alternateClip {
+  0% { clip: rect(0, 0, 50px, 0); color: #DF2D2D;}
+  50% { clip: rect(0, 50px, 50px, 0); color: #F0E801;}
+  100% { clip: rect(0, 50px, 50px, 50px); color: #3ACB27;}
+}
+
+.activity-indicator-container {
+  position: absolute;
+  width: 150px;
+  height: 60px;
+  top: 250px;
+  left: calc(50% - 35px);
+}
+
+.activity-indicator-background {
+  margin-top: 3px;
+  position: absolute;
+  font-size: 50px;
+}
+
+.activity-indicator {
+  position: absolute;
+  font-size: 50px;
+  color: #0088CC;
+  clip: rect(0, 0, 50px, 0);
+  -webkit-animation: alternateClip infinite 3s;
+  -moz-animation:alternateClip infinite 8s;
+  -ms-animation:alternateClip infinite 8s;
+  -o-animation:alternateClip infinite 8s;
+  animation:alternateClip infinite 8s;
+}
+
+.activity-label {
+  position: relative;
+  top: 100%;
+  left: -35%;
+  text-align: center;
 }

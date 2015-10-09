@@ -1,3 +1,9 @@
+<!-- LoginOrSignUp.php
+  The login or signup Popup for logging in or signing up
+  Probably should only allow students to sign up, or have everyone sign up
+  and have One level up users allow to promote student level users
+-->
+
 <?php if (kCurrentFile == 'index.php'): ?>
   <script type="text/javascript" src="./app/views/LoginView.js"></script>
   <script type="text/javascript" src="./app/views/SignUpView.js"></script>
@@ -24,6 +30,8 @@
         <div class="row">
           <div id="signUp-modal-content-container" class="col-md-6">
             <form>
+
+               <!-- CHOOSING ACCOUNT TYPE
               <div class="form-group">
                 <label for="signUp-account-type-label" class="control-label">Account Type:</label>
                 <div class="dropdown">
@@ -40,17 +48,19 @@
                   </ul>
                 </div>
               </div>
+              END -->
+
               <div class="form-group">
                 <label for="signUp-first-name-label" class="control-label">First Name:</label>
-                <input type="text" class="form-control" id="signUp-first-name-input" value="" placeholder="e.g. John">
+                <input type="text" class="form-control" id="signUp-first-name-input" value="" placeholder="e.g. Albert">
               </div>
               <div class="form-group">
                 <label for="signUp-last-name-label" class="control-label">Last Name:</label>
-                <input type="text" class="form-control" id="signUp-last-name-input" value="" placeholder="e.g. Doe">
+                <input type="text" class="form-control" id="signUp-last-name-input" value="" placeholder="e.g. Einstein">
               </div>
               <div class="form-group">
                 <label for="signUp-email-label" class="control-label">Email:</label>
-                <input type="text" class="form-control" id="signUp-email-input" value="" placeholder="e.g. example@example.com">
+                <input type="text" class="form-control" id="signUp-email-input" value="" placeholder="e.g. whatis@nemail.com">
               </div>
               <div class="form-group">
                 <label for="signUp-password-label" class="control-label">Password:</label>
@@ -62,7 +72,7 @@
             <form>
               <div class="form-group">
                 <label for="login-email-label" class="control-label">Email:</label>
-                <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. example@example.com">
+                <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. whatis@nemail.com">
               </div>
               <div class="form-group">
                 <label for="login-password-label" class="control-label">Password:</label>
