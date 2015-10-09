@@ -40,7 +40,7 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
+  <!--  <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
