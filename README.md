@@ -1,10 +1,10 @@
 # TutorMe
 Software Engineering Group Project
 
-<strong>FOR A STUDENT LEVEL ACCOUNT:</strong> student@student.com</br>
-<strong>FOR A TUTOR LEVEL ACCOUNT:</strong>    tutor@tutor.com</br>
-<strong>FOR A TEACHER LEVEL ACCOUNT:</strong>  teacher@teacher.com</br>
-<strong>FOR A ADMIN LEVEL ACCOUNT:</strong>    admin@admin.com
+<strong>STUDENT ACCOUNT:</strong> student@student.com</br>
+<strong>TUTOR ACCOUNT:</strong>    tutor@tutor.com</br>
+<strong>TEACHER ACCOUNT:</strong>  teacher@teacher.com</br>
+<strong>ADMIN ACCOUNT:</strong>    admin@admin.com
 
 
 <strong>Bennett - 10/09/15</strong><br/>
