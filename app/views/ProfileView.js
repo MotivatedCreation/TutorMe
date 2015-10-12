@@ -25,7 +25,8 @@ var ProfileView = Parse.View.extend({
       string = 'Tutor';
     else if (accountType == 2)
       string = 'Teacher';
-
+    else if (accountType == 3)
+      string = 'Admin';
     return string;
   },
 

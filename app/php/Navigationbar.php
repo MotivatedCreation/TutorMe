@@ -1,5 +1,5 @@
 <!-- Navigationbar.php
-  The Navigation Bar at the top of each page. 
+  The Navigation Bar at the top of each page.
 -->
 
 <nav id="navigationbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -66,6 +66,18 @@
 
           <div style="margin-right:10px;" class="glyphicon glyphicon-file"></div>
           Assignments
+        </a>
+      </li>
+<!-- ADMIN HERE -->
+      <li id="admin-list-item"<?php if (kCurrentFile == 'Admin.php'): ?> class="active" <?php endif; ?>>
+        <?php if (kCurrentFile == 'index.php'): ?>
+          <a href="./app/php/Admin.php">
+        <?php else: ?>
+          <a href="./Admin.php">
+        <?php endif; ?>
+
+          <div style="margin-right:10px;" class="glyphicon glyphicon-lock"></div>
+          Admin
         </a>
       </li>
     </ul>

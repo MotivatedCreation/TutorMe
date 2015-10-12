@@ -31,7 +31,7 @@
           <div id="signUp-modal-content-container" class="col-md-6">
             <form>
 
-               <!-- CHOOSING ACCOUNT TYPE
+<!-- Choosing account type -->
               <div class="form-group">
                 <label for="signUp-account-type-label" class="control-label">Account Type:</label>
                 <div class="dropdown">
@@ -48,7 +48,7 @@
                   </ul>
                 </div>
               </div>
-              END -->
+
 
               <div class="form-group">
                 <label for="signUp-first-name-label" class="control-label">First Name:</label>
