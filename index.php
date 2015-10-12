@@ -31,11 +31,11 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="./app/models/App.js"></script>
 
-  <?php include('./app/php/Global.php'); ?>
   <link rel='shortcut icon' href='./app/favicon.ico' type='image/x-icon'/ >
 </head>
 
 <body>
+  <?php include('./app/php/Global.php'); ?>
   <!-- Container -->
   <div class="container-fluid">
     <?php include('./app/php/LoginOrSignUp.php'); ?>    <!-- The Login or Signup pop up -->

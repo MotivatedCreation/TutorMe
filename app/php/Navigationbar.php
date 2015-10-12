@@ -1,7 +1,6 @@
 <!-- Navigationbar.php
   The Navigation Bar at the top of each page.
 -->
-
 <nav id="navigationbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
 <!-- The Navigation Bar -->
   <div class="container-fluid">
