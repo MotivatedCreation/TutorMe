@@ -57,7 +57,7 @@ function updateAuthenticationState() {
     $('#authenticated-user-menu-button').show();
     $('#login-or-signUp-button').hide();
 
-    if (currentUser.get('accountType') != 0) {
+    if (currentUser.get('accountType') == 1) {
       $('#assignments-list-item').show();
     }
     else {

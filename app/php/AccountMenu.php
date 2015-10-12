@@ -16,6 +16,7 @@
   <button id="profile-menu-classes-button" type="button" class="list-group-item<?php if (kCurrentFile == 'Classes.php'): ?> active <?php endif; ?>">Classes</button>
   <button id="profile-menu-schedule-button" type="button" class="list-group-item<?php if (kCurrentFile == 'ScheduleEditor.php'): ?> active <?php endif; ?>">Schedule</button>
   <button id="profile-menu-timelog-button" type="button" class="list-group-item<?php if (kCurrentFile == 'TimeLog.php'): ?> active <?php endif; ?>">Time Log</button>
+    <button id="profile-menu-assignments-button" type="button" class="list-group-item">Assignments</button>
 </div>
 <!-- End -->
 
@@ -30,6 +31,13 @@ $(function() {
   else {
     $('#profile-menu-schedule-button').hide();    //else don't show those buttons
     $('#profile-menu-timelog-button').hide();
+  }
+
+  if (currentUser && currentUser.get('accountType') == 2) { //if their is a current user and the account is type 2
+    $('#profile-menu-assignments-button').show();      //Show the Assignments button
+  }
+  else {
+    $('#profile-menu-assignments-button').hide();    //else don't show that button
   }
                                                           //When you click on for buttons to pages
   $('#profile-menu-profile-button').click(function() {
