@@ -23,7 +23,8 @@
             </div>
 			
 			<div class="form-group">
-                <textarea id="comment-description-well" class="well well-sm" id="teacherassignments-description-input">Add a description of assignment...</textarea>
+				<label for="teacherassignments-title-label" class="control-label"></label>
+                <textarea id="teacherassignments-description-input" class="well well-sm" value="" placeholder="Add a comment here"></textarea>
             </div>  
 			</form>
         </div>
@@ -63,6 +64,6 @@ $(function() {
 function clearInputs() {
   $('#teacherassignments-url-input').val("");
   $('#teacherassignments-title-input').val("");
-  $('#teacherassignments-description-input').val("");
+  $('#teacherassignments-description-well').val("");
 }
 </script>

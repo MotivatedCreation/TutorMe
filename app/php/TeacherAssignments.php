@@ -75,11 +75,13 @@
 				<div class="thumbnail">
 					<img src="...">
 					<div class="caption">
-						<h3>id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></h3>
-						<label>id="teacherassignments-url-label" style="font-weight: normal;"><%= url %></label>
-						<p><textarea id="assignmentdescription-well" class="well well-sm" readonly="true"><%= assignmentdescription %></textarea></p>
+						<label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
+						<p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
 						
-						<p><button id="remove-teacherassignments-button" type="button" class="btn btn-danger btn-xs"><div class="glyphicon glyphicon-minus"></button></p>
+						<p>
+							<a href="teacherassignments-url-label" class="btn btn-default" role="button">Open</a>
+							<button id="remove-teacherassignments-button" type="button" class="btn btn-danger">Delete</button>
+						</p>
 					</div>
 				</div>
 			</div>

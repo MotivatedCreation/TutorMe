@@ -27,7 +27,7 @@ var TeacherAssignmentsView = Parse.View.extend({
     'click #add-teacherassignments-button' : 'showAddTeacherAssignmentsModal',
     'click #cancel-add-teacherassignments-modal-button' : 'hideAddTeacherAssignmentsModal',
     'click #add-teacherassignments-modal-button' : 'addTeacherAssignments',
-    'click #remove-teacherassignments-button' : 'removeTecherAssignments'
+    'click #remove-teacherassignments-button' : 'removeTeacherAssignments'
   },
 
   initialize: function() {
@@ -45,7 +45,7 @@ var TeacherAssignmentsView = Parse.View.extend({
 
     var self = this;
 
-    var query = new Parse.Query('TeacherAssignments');
+    var query = new Parse.Query('Assignment');
     query.equalTo('users', Parse.User.current());
 
     query.find({
@@ -96,9 +96,9 @@ var TeacherAssignmentsView = Parse.View.extend({
 
     var title = $('#teacherassignments-title-input').val();
 	var url = $('#teacherassignments-url-input').val();
-	var assignmentdescription = $('#teacherassignments-description-input').val();
+	var description = $('#teacherassignments-description-input').val();
 	
-    var TeacherAssignments = Parse.Object.extend('TeacherAssignments');
+    var TeacherAssignments = Parse.Object.extend('Assignment');
 
     var query = new Parse.Query('TeacherAssignments');
     query.equalTo('title', title);
@@ -107,14 +107,14 @@ var TeacherAssignmentsView = Parse.View.extend({
       success: function(theTeacherAssignments) {
         debugLog('[TeacherAssignmentsView] addTeacherAssignments success!');
 
-        if (!theTeacherAssigments) {
-          var TeacherAssignments = Parse.Object.extend('TeacherAssignments');
+        if (!theTeacherAssignments) {
+          var TeacherAssignments = Parse.Object.extend('Assignment');
           theTeacherAssignments = new TeacherAssignments();
         }
 
         theTeacherAssignments.set('title', $('#teacherassignments-title-input').val());
 		theTeacherAssignments.set('url', $('#teacherassignments-url-input').val());
-		theTeacherAssignments.set('title', $('#teacherassignments-title-input').val());
+		theTeacherAssignments.set('description', $('#teacherassignments-description-input').val());
         theTeacherAssignments.add('users', Parse.User.current());
 
         theTeacherAssignments.save(null, {
@@ -148,21 +148,21 @@ var TeacherAssignmentsView = Parse.View.extend({
     $("#success-alert").remove();
 
     var row = sender.currentTarget.parentNode.parentNode;
-    var teacherassignmentsName = $(row).children('#teacherassignments-title-label').text();
+    var teacherassignmentName = $(row).children('#teacherassignments-title-label').text();
 
     var self = this;
 
-    var TeacherAssignments = Parse.Object.extend('TeacherAssignments');
+    var TeacherAssignments = Parse.Object.extend('Assignment');
 
     var query = new Parse.Query('TeacherAssignments');
-    query.equalTo('title', title);
+    query.equalTo('title', teacherassignmentName);
 
     query.first({
       success: function(theTeacherAssignments) {
         debugLog('[TeacherAssignmentsView] removeTeacherAssignments success!');
 
         if (theTeacherAssignments) {
-          theTeacherAssignments.set('title', title);
+          theTeacherAssignments.set('title', teacherassignmentName);
           theTeacherAssignments.remove('users', Parse.User.current());
 
           theTeacherAssignments.save(null, {
