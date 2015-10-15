@@ -64,6 +64,6 @@ $(function() {
 function clearInputs() {
   $('#teacherassignments-url-input').val("");
   $('#teacherassignments-title-input').val("");
-  $('#teacherassignments-description-well').val("");
+  $('#teacherassignments-description-input').val("");
 }
 </script>
