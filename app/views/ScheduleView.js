@@ -42,6 +42,9 @@ var ScheduleView = Parse.View.extend({
 
     debugLog('[ScheduleView] fetchSchedules');
 
+    $('.activity-indicator-container').show();
+    $('#schedule-table').hide();
+
     var self = this;
 
     var promise = new Promise(function(resolve, reject) {
@@ -51,6 +54,9 @@ var ScheduleView = Parse.View.extend({
       query.find({
         success: function(theSchedules) {
           debugLog('[ScheduleView] fetchSchedules success!');
+
+          $('.activity-indicator-container').fadeOut(1000);
+          $('#schedule-table').fadeIn(1000);
 
           schedules = theSchedules;
 

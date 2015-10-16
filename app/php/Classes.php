@@ -1,3 +1,7 @@
+<!-- Classes.php
+  Classes Page. Lists Classes
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +32,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
+  <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
@@ -35,20 +40,20 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or Signup pop up -->
 
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?>    <!-- Navigation Bar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
-      <?php include('./AddClass.php'); ?>
-      <?php include('./AccountMenu.php'); ?>
+      <?php include('./AddClass.php'); ?> <!-- Add class popup when pushing add class button -->
+      <?php include('./AccountMenu.php'); ?>  <!-- The account menu side menu -->
 
       <!-- Classes Table -->
       <table id="classes-table" class="table table-bordered table-hover">

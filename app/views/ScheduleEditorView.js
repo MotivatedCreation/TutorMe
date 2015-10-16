@@ -44,6 +44,10 @@ var ScheduleEditorView = Parse.View.extend({
 
     debugLog('[ScheduleEditorView] fetchSchedule');
 
+    $('.activity-indicator-container').show();
+    $('#schedule-table').hide();
+    $('#save-schedule-button').hide();
+
     var self = this;
 
     var promise = new Promise(function(resolve, reject) {
@@ -53,6 +57,10 @@ var ScheduleEditorView = Parse.View.extend({
       query.first({
         success: function(theSchedule) {
           debugLog('[ScheduleEditorView] fetchSchedule success!');
+
+          $('.activity-indicator-container').fadeOut(1000);
+          $('#schedule-table').fadeIn(1000);
+          $('#save-schedule-button').fadeIn(1000);
 
           schedule = theSchedule;
 

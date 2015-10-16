@@ -1,3 +1,7 @@
+<!-- Schedule.php
+  Page that show's the current week's schedule
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +32,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
+  <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
   <script type="text/javascript" src="../views/ScheduleView.js"></script>
 
   <?php include('./Global.php'); ?>
@@ -35,12 +40,12 @@
 
 <body>
   <!-- Container -->
-  <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+  <div class="container-fluid maxHeight">
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or signup pop up -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?> <!-- Nav bar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->

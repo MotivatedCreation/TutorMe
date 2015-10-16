@@ -1,3 +1,7 @@
+<!-- ScheduleEditor.php
+  Edit Schedule idk how it works
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +32,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
+  <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
   <script type="text/javascript" src="../views/ScheduleEditorView.js"></script>
 
   <?php include('./Global.php'); ?>
@@ -36,11 +41,11 @@
 <body>
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or signup pop up NO POINT HIDDEN PAGE -->
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?> <!-- Navbar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
@@ -48,7 +53,7 @@
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
 
-      <?php include('./AccountMenu.php'); ?>
+      <?php include('./AccountMenu.php'); ?>  <!-- Include account menu side menu -->
 
       <!-- Schedule Table -->
       <table id="schedule-table" class="table table-bordered table-hover">

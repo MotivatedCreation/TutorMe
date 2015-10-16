@@ -57,17 +57,23 @@ function updateAuthenticationState() {
     $('#authenticated-user-menu-button').show();
     $('#login-or-signUp-button').hide();
 
-    if (currentUser.get('accountType') != 0) {
+    if (currentUser.get('accountType') == 1) {
       $('#assignments-list-item').show();
     }
     else {
       $('#assignments-list-item').hide();
     }
+/*Admin BENNETT*/
+    if(currentUser.get('accountType') == 3) {
+      $('#admin-list-item').show();
+    }
+    else $('#admin-list-item').hide();
   }
   else {
     debugLog("[App] updateAuthenticationState - Logged out");
 
     $('#assignments-list-item').hide();
+    $('#admin-list-item').hide();
     $('#authenticated-user-menu-button').hide();
     $('#login-or-signUp-button').show();
     $('#login-or-signUp-button').text('Login or Sign Up');
