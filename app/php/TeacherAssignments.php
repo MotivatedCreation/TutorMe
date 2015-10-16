@@ -1,5 +1,5 @@
-<!-- TeacherAssignments.php
-  
+<!-- Classes.php
+  Classes Page. Lists Classes
 -->
 
 <!DOCTYPE html>
@@ -79,7 +79,7 @@
 						<p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
 						
 						<p>
-							<a href="<%=url%>" class="btn btn-default" role="button">Open</a>
+							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
 							<button id="remove-teacherassignments-button" type="button" class="btn btn-danger">Delete</button>
 						</p>
 					</div>
