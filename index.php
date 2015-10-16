@@ -26,6 +26,7 @@
 
   <link href="./css/index.css" rel="stylesheet">
   <link href="./css/Global.css" rel="stylesheet">
+  <link href="./css/footer.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
@@ -46,8 +47,14 @@
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
+	
   </div>
   <!-- Container End -->
+  
+  <!-- footer -->
+  <?php include('./app/php/footer.php'); ?> 
+  <!-- footer end -->
+  
 </body>
 
 </html>
