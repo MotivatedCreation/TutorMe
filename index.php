@@ -48,6 +48,57 @@
     </div>
     <!-- Navigation Content Container -->
 	
+	<div class="row" id="featuresHeading">
+	<div class="col-12">
+		<h2></h2>
+		<p class="lead">                                                                                                                                                                                                                                               </p>
+	</div><!-- end col-12 -->
+</div><!-- end featuresHeading -->
+
+	<!-- Features Content Container -->
+	<div class="container-fluid">
+	<!-- Features -->
+	<div class="row" id="features">
+	<div class="col-sm-4 feature">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Computer Science Club</h3>
+			</div><!-- end panel-heading -->
+			<img src="images/Club.png" alt="HTML5" class="img-circle">
+			
+			<p>Computer Science Club has many events going on through the year. Check out the Club page to see what is going on!</p>
+			
+			<a href="http://www.UpstateCS.club" target="_blank" class="btn btn-warning btn-block">Go To Club Page</a>
+		</div><!-- end panel -->
+	</div><!-- end feature -->
+	
+	<div class="col-sm-4 feature">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Chat With a Tutor</h3>
+			</div><!-- end panel-heading -->
+			<img src="images/Chat.png" alt="CSS3" class="img-circle">
+			
+			<p>Need help but can't get to the lab? A tutor may be able to help you right away!<p>
+			
+			<a href="#" target="_blank" class="btn btn-danger btn-block">Tutor Chat</a>
+		</div><!-- end panel -->
+	</div><!-- end feature -->
+	
+	<div class="col-sm-4 feature">
+		<div class="panel">
+			<div class="panel-heading">
+				<h3 class="panel-title">Find the Tutor Lab</h3>
+			</div><!-- end panel-heading -->
+			<img src="images/Map.png" alt="Bootstrap 3" class="img-circle">
+			
+			<p>The Tutoring Lab is on USC Upstate Main campus. Hodge building, where the gym is, in room 236.</p>
+			
+			<a href= target="_blank" class="btn btn-info btn-block">Campus Map</a>
+		</div><!-- end panel -->
+	</div><!-- end Features -->
+</div><!-- end Features -->
+</div><!-- end Features Container -->
   </div>
   <!-- Container End -->
   
