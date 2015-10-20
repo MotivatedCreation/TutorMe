@@ -27,15 +27,15 @@
 #myCarousel .item { height: 400px; }
 
 #slide1 {
-	background: url('../../images/carousel_medium_01.jpg') top center no-repeat;
+	background: url('../images/carousel_medium_01.jpg') top center no-repeat;
 }
 
 #slide2 {
-	background: url('../../images/carousel_medium_02.jpg') top center no-repeat;
+	background: url('../images/carousel_medium_02.jpg') top center no-repeat;
 }
 
 #slide3 {
-	background: url('../../images/carousel_medium_03.jpg') top center no-repeat;
+	background: url('../images/carousel_medium_03.jpg') top center no-repeat;
 }
 @media (max-width: 768px) {
 	
