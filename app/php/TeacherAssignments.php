@@ -1,5 +1,4 @@
-<!-- Classes.php
-  Classes Page. Lists Classes
+<!-- TeacherAssignments.php
 -->
 
 <!DOCTYPE html>
@@ -73,7 +72,7 @@
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
 				<div class="thumbnail">
-					<img src="images/page.png">
+					<img src="../../images/page.png">
 					<div class="caption">
 						<label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
