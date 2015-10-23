@@ -1,0 +1,23 @@
+#content-container {
+  padding-top: 44px;
+}
+
+#email-label {
+  padding-left:10%;
+}
+
+#email-field {
+  /*padding-left:15%;*/
+  width: 300px;
+}
+
+#delete-label {
+  padding-top: 40px;
+  padding-left:10%;
+  padding-right: 6px;
+  background-color: #FF8282;
+}
+
+#delete-field {
+  width: 300px;
+}

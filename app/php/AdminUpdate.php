@@ -30,6 +30,7 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
 
   <link href="../../css/Admin.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
+  <link href="../../css/AdminUpdate.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
@@ -54,5 +55,25 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
+      <div id="content-container" class="container-fluid">
+      <?php include('./AdminUpdatePanel.php'); ?> 
+        <form>  <!-- WHERE YOU CHOOSE WHICH EMAIL TO UPDATE -->
+            <label id="email-label"> Enter Email Address of User to Update </label>
+            <input id="email-field" type="text"   placeholder="student@student.com">
+            <button id="email-search-button" class="btn btn-default" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
+        </form>
+<!--
+              <form> --> <!-- WHERE YOU CHOOSE WHICH EMAIL TO DELETE --> <!--
+                  <label id="delete-label"> Enter Email Address of User to Delete </label>
+                  <input id="delete-field" type="text"   placeholder="student@student.com">
+                  <button id="email-search-button" class="btn btn-default" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
+              </form>
+-->
+      </div>
+
+
+
+
+      </div>
     </div>
 </body>
