@@ -65,13 +65,6 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
 
             </div>
         </form>
-<!--
-              <form> --> <!-- WHERE YOU CHOOSE WHICH EMAIL TO DELETE --> <!--
-                  <label id="delete-label"> Enter Email Address of User to Delete </label>
-                  <input id="delete-field" type="text"   placeholder="student@student.com">
-                  <button id="email-search-button" class="btn btn-default" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
-              </form>
--->
       </div>
 
 
