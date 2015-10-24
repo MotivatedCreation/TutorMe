@@ -97,7 +97,7 @@ var TeacherAssignmentsView = Parse.View.extend({
     var title = $('#teacherassignments-title-input').val();
 	var url = $('#teacherassignments-url-input').val();
 	var description = $('#teacherassignments-description-input').val();
-	
+
     var TeacherAssignments = Parse.Object.extend('Assignment');
 
     var query = new Parse.Query('TeacherAssignments');
@@ -154,7 +154,7 @@ var TeacherAssignmentsView = Parse.View.extend({
 
     var TeacherAssignments = Parse.Object.extend('Assignment');
 
-    var query = new Parse.Query('TeacherAssignments');
+    var query = new Parse.Query('Assignment');        //Nicole you had this set to Teacher Assignment
     query.equalTo('title', teacherassignmentName);
 
     query.first({

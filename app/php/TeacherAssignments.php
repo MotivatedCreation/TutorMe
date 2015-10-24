@@ -72,11 +72,11 @@
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
 				<div class="thumbnail">
-					<img src="../../images/page.png">
+					 <img src="../../images/page.png">
 					<div class="caption">
 						<label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						
+
 						<p>
 							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
 							<button id="remove-teacherassignments-button" type="button" class="btn btn-danger">Delete</button>
