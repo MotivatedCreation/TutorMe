@@ -37,8 +37,9 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
   <script type="text/javascript" src="../models/App.js"></script>
 
   <script type="text/javascript" src="../views/Admin.js"></script>
-
+  <script type="text/javascript" src="../views/AdminUpdate.js"></script>
   <?php include('./Global.php'); ?>
+  <?php include('./AdminUpdatePanel.php'); ?>
 </head>
 
 <body onload="checkAdmin()">
@@ -55,12 +56,14 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
+
       <div id="content-container" class="container-fluid">
-      <?php include('./AdminUpdatePanel.php'); ?> 
-        <form>  <!-- WHERE YOU CHOOSE WHICH EMAIL TO UPDATE -->
+        <form id="emailField">  <!-- WHERE YOU CHOOSE WHICH EMAIL TO UPDATE -->
             <label id="email-label"> Enter Email Address of User to Update </label>
-            <input id="email-field" type="text"   placeholder="student@student.com">
-            <button id="email-search-button" class="btn btn-default" type="submit" ><i class="glyphicon glyphicon-search"></i></button>
+              <div><input id="email-field" type="text"   placeholder="student@student.com">
+              <button id="email-search-button" class="btn btn-default" data-toggle="modal" data-target="#updateUser" type="button"><i class="glyphicon glyphicon-search"></i></button>
+
+            </div>
         </form>
 <!--
               <form> --> <!-- WHERE YOU CHOOSE WHICH EMAIL TO DELETE --> <!--
