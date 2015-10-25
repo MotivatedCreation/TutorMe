@@ -50,6 +50,7 @@ var ScheduleView = Parse.View.extend({
     var promise = new Promise(function(resolve, reject) {
       var query = new Parse.Query('Schedule');
       query.include('tutor');
+      query.include('scheduleEntries');
 
       query.find({
         success: function(theSchedules) {
@@ -78,36 +79,32 @@ var ScheduleView = Parse.View.extend({
   loadSchedule: function() {
     debugLog('[ScheduleView] loadSchedule');
 
-    var table = $('#schedule-table')[0];
-    var dayColumnNames = table.rows[0].querySelectorAll('.day');
-
     for (var i = 0; i < schedules.length; i++)
     {
       var schedule = schedules[i];
-      var scheduleInfo = schedule['attributes'];
+      var scheduleEntries = schedule.get('scheduleEntries');
 
-      var hours = table.rows;
+      if (scheduleEntries) {
+        var tutor = schedule.get('tutor');
+        var tableChildIndexOffset = 2;
 
-      for (var j = 1; j < hours.length; j++)
-      {
-        var hour = hours[j];
-        var dayRow = hour.querySelectorAll('td');
+        scheduleEntries.forEach(function(entry, day) {
+          $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
 
-        for (var k = 0; k < dayColumnNames.length; k++)
-        {
-          var dayColumnName = dayColumnNames[k]['textContent'];
-          var dayData = dayRow[k + 1];
+            var day = this;
 
-          if (scheduleInfo[dayColumnName.toLowerCase()][j])
-          {
-            var tutor = scheduleInfo['tutor']['attributes'];
+            entry.get('hours').some(function(entryHour) {
+              if (entryHour == hour) {
+                if (day['textContent'])
+                  day['textContent'] += ", " + tutor.get('lastName');
+                else
+                  day['textContent'] = tutor.get('lastName');
 
-            if (dayData['textContent'])
-              dayData['textContent'] += ", " + tutor['lastName'];
-            else
-              dayData['textContent'] = tutor['lastName'];
-          }
-        }
+                return;
+              }
+            });
+          });
+        });
       }
     }
   },

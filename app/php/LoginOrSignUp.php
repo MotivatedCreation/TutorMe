@@ -39,7 +39,7 @@
                     <label id="account-type-dropdown-label" style="font-weight: normal;">Student</label>
                     <span class="caret"></span>
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
                     <li><a id="student-account-type" data-id="Student" href="#">Student</a></li>
                     <li role="separator" class="divider"></li>
                     <li><a id="tutor-account-type" data-id="Tutor" href="#">Tutor</a></li>

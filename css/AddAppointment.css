@@ -1,10 +1,19 @@
-label{
-	margin-left: 20px;
-	}
-#datepicker{
-	width:180px; 
-	margin: 0 20px 20px 20px;
-	}
-#datepicker > span:hover{
-		cursor: pointer;
-		}
+#datetimepicker-content-container {
+	padding-top: 10px;
+}
+
+#tutor-dropdown-content-container {
+	padding: 10px 0 20px 0;
+}
+
+#time-dropdown-content-container {
+	padding: 10px 0 20px 0;
+}
+
+#tutor-dropdown {
+	display: inline;
+}
+
+#appointment-time-dropdown {
+	display: inline;
+}

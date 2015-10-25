@@ -53,30 +53,28 @@ var ScheduleEditorView = Parse.View.extend({
     var promise = new Promise(function(resolve, reject) {
       var query = new Parse.Query('Schedule');
       query.equalTo('tutor', Parse.User.current());
+      query.include('scheduleEntries');
 
-      query.first({
-        success: function(theSchedule) {
-          debugLog('[ScheduleEditorView] fetchSchedule success!');
+      query.first().then(function(theSchedule) {
 
-          $('.activity-indicator-container').fadeOut(1000);
-          $('#schedule-table').fadeIn(1000);
-          $('#save-schedule-button').fadeIn(1000);
+        debugLog('[ScheduleEditorView] fetchSchedule success!');
 
-          schedule = theSchedule;
+        $('.activity-indicator-container').fadeOut(1000);
+        $('#schedule-table').fadeIn(1000);
+        $('#save-schedule-button').fadeIn(1000);
 
-          if (!schedule) {
-            var Schedule = Parse.Object.extend('Schedule');
-            schedule = new Schedule();
-          }
-          else {
-            self.loadSchedule();
-          }
-        },
+        schedule = theSchedule;
 
-        error: function(error) {
-          if (error)
-            self.handleError(error);
+        if (!schedule) {
+          var Schedule = Parse.Object.extend('Schedule');
+          schedule = new Schedule();
         }
+
+        self.loadSchedule();
+
+      }, function(error) {
+        if (error)
+          self.handleError(error);
       });
 
       return promise;
@@ -86,22 +84,23 @@ var ScheduleEditorView = Parse.View.extend({
   loadSchedule: function() {
     debugLog('[ScheduleEditorView] loadSchedule');
 
-    var table = $('#schedule-table')[0];
-    var days = table.rows[0].querySelectorAll('.day');
+    var scheduleEntries = schedule.get('scheduleEntries');
 
-    for (var i = 1; i < table.rows.length; i++)
-    {
-      var hour = table.rows[i];
-      var timeCheckboxes = hour.querySelectorAll('.time-checkbox');
+    if (scheduleEntries) {
+      var tableChildIndexOffset = 2;
 
-      for (var j = 0; j < timeCheckboxes.length; j++)
-      {
-        var day = days[j]['textContent'];
-        var checkbox = timeCheckboxes[j];
+      scheduleEntries.forEach(function(entry, day) {
+        $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+          var checkbox = $(this).children()[0];
 
-        if (schedule['attributes'][day.toLowerCase()][i])
-          checkbox.checked = true;
-      }
+          entry.get('hours').some(function(entryHour) {
+            if (entryHour == hour)
+              checkbox.checked = true;
+
+            return;
+          });
+        });
+      });
     }
   },
 
@@ -111,62 +110,61 @@ var ScheduleEditorView = Parse.View.extend({
 
     debugLog('[ScheduleEditorView] saveSchedule');
 
-    var table = $('#schedule-table')[0];
-    var days = table.rows[0].querySelectorAll('.day');
+    schedule.set('tutor', Parse.User.current());
 
-    var newSchedule = {
-      sunday: new Array(table.rows.length),
-      monday: new Array(table.rows.length),
-      tuesday: new Array(table.rows.length),
-      wednesday: new Array(table.rows.length),
-      thursday: new Array(table.rows.length),
-      friday: new Array(table.rows.length),
-      saturday: new Array(table.rows.length)
-    };
+    var ScheduleEntry = Parse.Object.extend('ScheduleEntry');
+    var scheduleEntries = schedule.get('scheduleEntries');
 
-    for (var i = 1; i < table.rows.length; i++)
+    if (!scheduleEntries)
     {
-      var hour = table.rows[i];
-      var timeCheckboxes = hour.querySelectorAll('.time-checkbox');
+      scheduleEntries = [];
 
-      for (var j = 0; j < timeCheckboxes.length; j++)
+      for (var day = 0; day < 7; day++)
       {
-        var day = days[j]['textContent'];
-        var checkbox = timeCheckboxes[j];
-
-        if (checkbox.checked)
-          newSchedule[day.toLowerCase()][i] = i;
+        var scheduleEntry = new ScheduleEntry();
+        scheduleEntry.set('day', day);
+        scheduleEntry.set('schedule', schedule);
+        scheduleEntries[day] = scheduleEntry;
       }
+    }
+
+    var tableChildIndexOffset = 2;
+
+    for (var day = tableChildIndexOffset; day <= 8; day++)
+    {
+      var scheduleEntry = scheduleEntries[(day - tableChildIndexOffset)];
+      scheduleEntry.set('hours', []);
+
+      $('#schedule-table td:nth-child(' + day + ')').map(function(hour) {
+
+        var checkbox = $(this).children()[0];
+
+        if (checkbox.checked) {
+          scheduleEntry.add('hours', hour);
+          scheduleEntries[(day - tableChildIndexOffset)] = scheduleEntry;
+        }
+      });
     }
 
     var self = this;
 
-    schedule.set('tutor', Parse.User.current());
-    schedule.set('sunday', newSchedule['sunday']);
-    schedule.set('monday', newSchedule['monday']);
-    schedule.set('tuesday', newSchedule['tuesday']);
-    schedule.set('wednesday', newSchedule['wednesday']);
-    schedule.set('thursday', newSchedule['thursday']);
-    schedule.set('friday', newSchedule['friday']);
-    schedule.set('saturday', newSchedule['saturday']);
+    schedule.set('scheduleEntries', scheduleEntries);
+    schedule.save().then(function(success)
+    {
+      debugLog('[ScheduleEditorView] saveSchedule success!');
 
-    schedule.save(null, {
-      success: function(success) {
-        debugLog('[ScheduleEditorView] saveSchedule success!');
+      $(self.el).prepend($("#success-alert-template").html());
 
-        $(self.el).prepend($("#success-alert-template").html());
-
-        $('#success-alert-label').text("Success! Your schedule has been successfully saved.");
-      },
-      error: function(error) {
-        if (error)
-          self.handleError(error);
-      }
+      $('#success-alert-label').text("Success! Your schedule has been successfully saved.");
+    }, function(error) {
+      if (error)
+        self.handleError(error);
     });
   },
 
   handleError: function(error) {
-    debugLog("[ScheduleEditorView] handleError");
+    debugLog("[ScheduleEditorView] handleError: ");
+    debugLog(error);
 
     switch(error.code) {
       default: {

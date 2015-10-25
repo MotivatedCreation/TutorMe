@@ -1,3 +1,23 @@
+var DropdownSelection = Parse.Object.extend({
+  className: "User"
+});
+
+var DropdownSelectionView = Parse.View.extend({
+
+  tagName: "li",
+  template: _.template($('#dropdown-selection-template').html()),
+
+  initialize: function() {
+    _.bindAll(this, 'render');
+    this.model.bind('change', this.render);
+  },
+
+  render: function() {
+    $(this.el).html(this.template(this.model.toJSON()));
+    return this;
+  }
+});
+
 var AppointmentEntry = Parse.Object.extend({
   className: "Appointment"
 });
@@ -21,7 +41,6 @@ var AppointmentEntryView = Parse.View.extend({
 var AppointmentsView = Parse.View.extend({
 
   el: "#content-container",
-  schedules: null,
 
   events: {
     'click #add-appointment-button' : 'showAddAppointmentModal',
@@ -31,7 +50,52 @@ var AppointmentsView = Parse.View.extend({
   },
 
   initialize: function() {
+    this.fetchTutors();
     this.fetchAppointments();
+
+    $('#add-appointment-button').hide();
+
+    var currentUser = Parse.User.current();
+
+    if (currentUser.get('accountType') == 0)
+      $('#add-appointment-button').show();
+  },
+
+  fetchTutors: function() {
+    $("#error-alert").remove();
+    $("#success-alert").remove();
+
+    debugLog('[AppointmentsView] fetchTutors');
+
+    var self = this;
+
+    var query = new Parse.Query(Parse.User);
+    query.equalTo('accountType', 1);
+
+    query.find({
+      success: function(tutors) {
+        debugLog('[AppointmentsView] fetchTutors success!');
+
+        self.loadTutorDropdrown(tutors);
+      },
+      error: function(error) {
+        if (error)
+          self.handleError(error);
+      }
+    });
+  },
+
+  loadTutorDropdrown: function(tutors) {
+    debugLog('[AppointmentsView] loadTutorDropdrown');
+
+    for (var i = 0; i < tutors.length; i++)
+    {
+      var view = new DropdownSelectionView({model: tutors[i]});
+      $("#tutor-dropdown-menu").append(view.render().el);
+
+      if (i > tutors.length - 1)
+        $("#tutor-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
+    }
   },
 
   fetchAppointments: function() {
