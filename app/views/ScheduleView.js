@@ -30,8 +30,8 @@ var ScheduleView = Parse.View.extend({
     var hour = 8;
 
     for (var i = 1; i <= timeLabels.length; i++) {
-      var fromHour = this.convertToTwelveHourTime(hour);
-      var toHour = this.convertToTwelveHourTime(++hour);
+      var fromHour = convertToTwelveHourTime(hour);
+      var toHour = convertToTwelveHourTime(++hour);
       var timeSpan = fromHour + " - " + toHour;
       timeLabels[i - 1]['textContent'] = timeSpan;
     }
@@ -51,6 +51,7 @@ var ScheduleView = Parse.View.extend({
       var query = new Parse.Query('Schedule');
       query.include('tutor');
       query.include('scheduleEntries');
+      query.include('scheduleEntries.timeEntries');
 
       query.find({
         success: function(theSchedules) {
@@ -82,28 +83,38 @@ var ScheduleView = Parse.View.extend({
     for (var i = 0; i < schedules.length; i++)
     {
       var schedule = schedules[i];
+
       var scheduleEntries = schedule.get('scheduleEntries');
 
       if (scheduleEntries) {
         var tutor = schedule.get('tutor');
         var tableChildIndexOffset = 2;
 
-        scheduleEntries.forEach(function(entry, day) {
-          $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+        scheduleEntries.forEach(function(scheduleEntry) {
 
-            var day = this;
+          var day = scheduleEntry.get('day');
+          var timeEntries = scheduleEntry.get('timeEntries');
 
-            entry.get('hours').some(function(entryHour) {
-              if (entryHour == hour) {
-                if (day['textContent'])
-                  day['textContent'] += ", " + tutor.get('lastName');
-                else
-                  day['textContent'] = tutor.get('lastName');
+          if (timeEntries) {
+            $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+              var day = this;
 
-                return;
-              }
+              timeEntries.some(function(timeEntry) {
+                var startTime = (timeEntry.get('startTime') - kOpenAt);
+                var endTime = (timeEntry.get('endTime') - kOpenAt);
+
+                if (hour == startTime && hour == (endTime - 1)) {
+
+                  if (day['textContent'])
+                    day['textContent'] += ", " + tutor.get('lastName');
+                  else
+                    day['textContent'] = tutor.get('lastName');
+
+                  return true;
+                }
+              });
             });
-          });
+          }
         });
       }
     }

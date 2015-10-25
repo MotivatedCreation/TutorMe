@@ -7,19 +7,6 @@ var ScheduleEditorView = Parse.View.extend({
     'click #save-schedule-button' : 'saveSchedule'
   },
 
-  convertToTwelveHourTime: function(hour) {
-    var time = "";
-
-    if (hour < 12)
-      time = hour + ":00 AM";
-    else if (hour > 12)
-      time = (hour - 12) + ":00 PM";
-    else if (hour == 12)
-      time = hour + ":00 PM";
-
-    return time;
-  },
-
   initialize: function() {
     this.fetchSchedule();
 
@@ -31,8 +18,8 @@ var ScheduleEditorView = Parse.View.extend({
     var hour = 8;
 
     for (var i = 1; i <= timeLabels.length; i++) {
-      var fromHour = this.convertToTwelveHourTime(hour);
-      var toHour = this.convertToTwelveHourTime(++hour);
+      var fromHour = convertToTwelveHourTime(hour);
+      var toHour = convertToTwelveHourTime(++hour);
       var timeSpan = fromHour + " - " + toHour;
       timeLabels[i - 1]['textContent'] = timeSpan;
     }
@@ -54,6 +41,7 @@ var ScheduleEditorView = Parse.View.extend({
       var query = new Parse.Query('Schedule');
       query.equalTo('tutor', Parse.User.current());
       query.include('scheduleEntries');
+      query.include('scheduleEntries.timeEntries');
 
       query.first().then(function(theSchedule) {
 
@@ -89,17 +77,26 @@ var ScheduleEditorView = Parse.View.extend({
     if (scheduleEntries) {
       var tableChildIndexOffset = 2;
 
-      scheduleEntries.forEach(function(entry, day) {
-        $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
-          var checkbox = $(this).children()[0];
+      scheduleEntries.forEach(function(scheduleEntry) {
 
-          entry.get('hours').some(function(entryHour) {
-            if (entryHour == hour)
-              checkbox.checked = true;
+        var day = scheduleEntry.get('day');
+        var timeEntries = scheduleEntry.get('timeEntries');
 
-            return;
+        if (timeEntries) {
+          $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+            var checkbox = $(this).children()[0];
+
+            timeEntries.some(function(timeEntry) {
+              var startTime = (timeEntry.get('startTime') - kOpenAt);
+              var endTime = (timeEntry.get('endTime') - kOpenAt);
+
+              if (hour == startTime && hour == (endTime - 1)) {
+                checkbox.checked = true;
+                return true;
+              }
+            });
           });
-        });
+        }
       });
     }
   },
@@ -113,6 +110,7 @@ var ScheduleEditorView = Parse.View.extend({
     schedule.set('tutor', Parse.User.current());
 
     var ScheduleEntry = Parse.Object.extend('ScheduleEntry');
+    var TimeEntry = Parse.Object.extend('TimeEntry');
     var scheduleEntries = schedule.get('scheduleEntries');
 
     if (!scheduleEntries)
@@ -133,22 +131,59 @@ var ScheduleEditorView = Parse.View.extend({
     for (var day = tableChildIndexOffset; day <= 8; day++)
     {
       var scheduleEntry = scheduleEntries[(day - tableChildIndexOffset)];
-      scheduleEntry.set('hours', []);
+      var timeEntries = [];
 
-      $('#schedule-table td:nth-child(' + day + ')').map(function(hour) {
+      var currentTimeEntries = scheduleEntry.get('timeEntries');
+      if (currentTimeEntries && currentTimeEntries.length > 0) {
+        Parse.Object.destroyAll(currentTimeEntries);
+      }
 
+      var startTime = null, previousStartTime = null, endTime = null;
+
+      var checkBoxes = $('#schedule-table td:nth-child(' + day + ')').map(function(hour) {
         var checkbox = $(this).children()[0];
 
         if (checkbox.checked) {
-          scheduleEntry.add('hours', hour);
-          scheduleEntries[(day - tableChildIndexOffset)] = scheduleEntry;
+
+          if (!startTime)
+            startTime = (kOpenAt + hour);
+
+          endTime = (kOpenAt + hour) + 1;
+        }
+
+        if (startTime && endTime && startTime != previousStartTime) {
+          var timeEntry = new TimeEntry();
+          timeEntry.set('startTime', startTime);
+          timeEntry.set('endTime', endTime);
+          timeEntry.set('scheduleEntry', scheduleEntry);
+          timeEntries[timeEntries.length] = timeEntry;
+
+          previousStartTime = startTime;
+          startTime = null;
+          endTime = null;
         }
       });
+
+      scheduleEntry.set('timeEntries', timeEntries);
     }
 
     var self = this;
 
-    schedule.set('scheduleEntries', scheduleEntries);
+    Parse.Object.saveAll(scheduleEntries).then(function(success) {
+      schedule.set('scheduleEntries', scheduleEntries);
+      return schedule.save();
+    }).then(function(success) {
+      debugLog('[ScheduleEditorView] saveSchedule success!');
+
+      $(self.el).prepend($("#success-alert-template").html());
+
+      $('#success-alert-label').text("Success! Your schedule has been successfully saved.");
+    }, function(error) {
+      if (error)
+        self.handleError(error);
+    });
+
+    /*schedule.set('scheduleEntries', scheduleEntries);
     schedule.save().then(function(success)
     {
       debugLog('[ScheduleEditorView] saveSchedule success!');
@@ -159,7 +194,7 @@ var ScheduleEditorView = Parse.View.extend({
     }, function(error) {
       if (error)
         self.handleError(error);
-    });
+    });*/
   },
 
   handleError: function(error) {

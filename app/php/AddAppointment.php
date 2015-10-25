@@ -37,12 +37,12 @@
             <div class="col-md-6">
               <div class="pull-left" id="time-dropdown-content-container">
                 <label class="control-label">Time:</label>
-                <div class="dropdown" id="appointment-time-dropdown">
+                <div class="dropdown" id="time-dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <label style="font-weight: normal;">Select a Time...</label>
+                    <label id="time-dropdown-label" style="font-weight: normal;">Select a Time...</label>
                     <span class="caret"></span>
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu">
+                  <ul class="dropdown-menu" id="time-dropdown-menu" aria-labelledby="dropdownMenu">
                   </ul>
                 </div>
               </div>
@@ -63,11 +63,20 @@
   </div>
 </div>
 
-<script type="text/template" id="dropdown-selection-template">
+<script type="text/template" id="tutor-dropdown-selection-template">
   <a id="<%= firstName %>-<%= lastName %>" data-id="<%= firstName %><%= lastName %>" href="#"><%= firstName %> <%= lastName %></a>
   <script type="text/javascript">
   $("#<%= firstName %>-<%= lastName %>").click(function(event) {
-    $('#tutor-dropdown-label').text(event.currentTarget.text);
+    $(event.currentTarget).trigger('tutor-dropdown-label:changed');
+  });
+  </script>
+</script>
+
+<script type="text/template" id="time-dropdown-selection-template">
+  <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= convertToTwelveHourTime(startTime) %> - <%= convertToTwelveHourTime(endTime) %></a>
+  <script type="text/javascript">
+  $("#<%= objectId %>").click(function(event) {
+    $(event.currentTarget).trigger('time-dropdown-label:changed');
   });
   </script>
 </script>
@@ -94,7 +103,7 @@ $(function () {
     format: 'MM/dd/YYYY',
     inline: true
   }).on('dp.change', function() {
-    appointmentsView.loadTutorDropdown();
+    appointmentsView.refreshAddAppointmentModal();
   });
 });
 </script>

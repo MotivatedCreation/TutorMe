@@ -1,11 +1,4 @@
-var DropdownSelection = Parse.Object.extend({
-  className: "User"
-});
-
-var DropdownSelectionView = Parse.View.extend({
-
-  tagName: "li",
-  template: _.template($('#dropdown-selection-template').html()),
+var View = Parse.View.extend({
 
   initialize: function() {
     _.bindAll(this, 'render');
@@ -18,24 +11,22 @@ var DropdownSelectionView = Parse.View.extend({
   }
 });
 
-var AppointmentEntry = Parse.Object.extend({
-  className: "Appointment"
+var TutorDropdownSelectionView = View.extend({
+
+  tagName: "li",
+  template: _.template($('#tutor-dropdown-selection-template').html()),
 });
 
-var AppointmentEntryView = Parse.View.extend({
+var TimeDropdownSelectionView = View.extend({
+
+  tagName: "li",
+  template: _.template($('#time-dropdown-selection-template').html()),
+});
+
+var AppointmentEntryView = View.extend({
 
   tagName: "tr",
   template: _.template($('#appointment-entry-template').html()),
-
-  initialize: function() {
-    _.bindAll(this, 'render');
-    this.model.bind('change', this.render);
-  },
-
-  render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
-    return this;
-  }
 });
 
 var AppointmentsView = Parse.View.extend({
@@ -47,7 +38,51 @@ var AppointmentsView = Parse.View.extend({
     'click #add-appointment-button' : 'showAddAppointmentModal',
     'click #cancel-add-appointment-modal-button' : 'hideAddAppointmentModal',
     'click #add-appointment-modal-button' : 'addAppointment',
-    'click #remove-appointment-button' : 'removeAppointment'
+    'click #remove-appointment-button' : 'removeAppointment',
+    'tutor-dropdown-label:changed' : 'tutorDropDownLabelChanged',
+    'time-dropdown-label:changed' : 'timeDropDownLabelChanged'
+  },
+
+  tutorDropDownLabelChanged: function(event) {
+    $('#tutor-dropdown-label').text(event.target.text);
+
+    if (this.schedules) {
+
+      var times = [];
+
+      for (var i = 0; i < this.schedules.length; i++)
+      {
+        var schedule = this.schedules[i];
+        var scheduleEntries = schedule.get('scheduleEntries');
+
+        if (scheduleEntries) {
+          var selectedTutorName = $('#tutor-dropdown-label').html();
+          var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
+
+          var tutor = schedule.get('tutor');
+          var tutorName = tutor.get('firstName') + " " + tutor.get('lastName');
+
+          scheduleEntries.forEach(function(scheduleEntry) {
+            var timeEntries = scheduleEntry.get('timeEntries');
+
+            if (scheduleEntry.get('day') == selectedDate.day()
+                && timeEntries && timeEntries.length > 0
+                && selectedTutorName && selectedTutorName == tutorName) {
+
+                timeEntries.forEach(function(timeEntry) {
+                  times[times.length] = timeEntry;
+                });
+            }
+          });
+        }
+      }
+
+      this.loadTimeDropdown(times);
+    }
+  },
+
+  timeDropDownLabelChanged: function(event) {
+    $('#time-dropdown-label').text(event.target.text);
   },
 
   initialize: function() {
@@ -73,13 +108,14 @@ var AppointmentsView = Parse.View.extend({
     var query = new Parse.Query('Schedule');
     query.include('tutor');
     query.include('scheduleEntries');
+    query.include('scheduleEntries.timeEntries');
 
     query.find({
       success: function(theSchedules) {
         debugLog('[AppointmentsView] fetchSchedules success!');
 
         self.schedules = theSchedules;
-        self.loadTutorDropdown();
+        self.refreshAddAppointmentModal();
       },
       error: function(error) {
         if (error)
@@ -112,13 +148,20 @@ var AppointmentsView = Parse.View.extend({
     });
   },
 
-  loadTutorDropdown: function() {
-    debugLog('[AppointmentsView] loadTutorDropdown');
+  refreshAddAppointmentModal: function() {
+    debugLog('[AppointmentsView] refreshAddAppointmentModal');
+
+    var self = this;
+
+    $('#tutor-dropdown-label').text('Select a Tutor...');
+    $('#time-dropdown-label').text('Select a Time...');
+
+    $('#tutor-dropdown-menu').empty();
+    $('#time-dropdown-menu').empty();
 
     if (this.schedules) {
-      $('#tutor-dropdown-menu').empty();
 
-      var self = this;
+      var tutors = [];
 
       for (var i = 0; i < this.schedules.length; i++)
       {
@@ -129,22 +172,57 @@ var AppointmentsView = Parse.View.extend({
           var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
 
           scheduleEntries.forEach(function(scheduleEntry) {
-            if (scheduleEntry.get('day') == selectedDate.day()
-                && scheduleEntry.get('hours').length > 0) {
-              var view = new DropdownSelectionView({model: schedule.get('tutor')});
-              $("#tutor-dropdown-menu").append(view.render().el);
+            var timeEntries = scheduleEntry.get('timeEntries');
 
-              if (i > self.schedules.length - 1)
-                $("#tutor-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
+            if (scheduleEntry.get('day') == selectedDate.day()
+                && timeEntries && timeEntries.length > 0) {
+              var tutor = schedule.get('tutor');
+              tutors[tutors.length] = tutor;
             }
           });
         }
       }
+
+      this.loadTutorDropdown(tutors);
     }
   },
 
-  loadTimeDropdown: function() {
+  loadTutorDropdown: function(tutors) {
     debugLog('[AppointmentsView] loadTutorDropdown');
+
+    $('#tutor-dropdown-label').text('Select a Tutor...');
+    $('#tutor-dropdown-menu').empty();
+
+    if (tutors) {
+      for (var i = 0; i < tutors.length; i++) {
+        var tutor = tutors[i];
+
+        var view = new TutorDropdownSelectionView({model: tutor});
+        $("#tutor-dropdown-menu").append(view.render().el);
+
+        if (i > tutors.length - 1)
+          $("#tutor-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
+      }
+    }
+  },
+
+  loadTimeDropdown: function(times) {
+    debugLog('[AppointmentsView] loadTimeDropdown');
+
+    $('#time-dropdown-label').text('Select a Time...');
+    $('#time-dropdown-menu').empty();
+
+    if (times) {
+      for (var i = 0; i < times.length; i++) {
+        var time = times[i];
+
+        var view = new TimeDropdownSelectionView({model: time});
+        $("#time-dropdown-menu").append(view.render().el);
+
+        if (i > times.length - 1)
+          $("#time-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
+      }
+    }
   },
 
   loadAppointments: function(appointments) {

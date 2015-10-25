@@ -27,6 +27,8 @@ var navigationBarView;
 /** Global "Constants" **/
 
 var kDebug = 1;
+var kOpenAt = 8;
+var kClosedAt = 19;
 
 /** Global "Constants" End **/
 
@@ -44,6 +46,19 @@ var ErrorAction = Object.freeze({
 function debugLog(string) {
   if (kDebug)
     console.log(string);
+}
+
+function convertToTwelveHourTime(hour) {
+  var time = "";
+
+  if (hour < 12)
+    time = hour + ":00 AM";
+  else if (hour > 12)
+    time = (hour - 12) + ":00 PM";
+  else if (hour == 12)
+    time = hour + ":00 PM";
+
+  return time;
 }
 
 function updateAuthenticationState() {
