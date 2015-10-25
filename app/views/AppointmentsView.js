@@ -41,6 +41,7 @@ var AppointmentEntryView = Parse.View.extend({
 var AppointmentsView = Parse.View.extend({
 
   el: "#content-container",
+  schedules: null,
 
   events: {
     'click #add-appointment-button' : 'showAddAppointmentModal',
@@ -50,7 +51,7 @@ var AppointmentsView = Parse.View.extend({
   },
 
   initialize: function() {
-    this.fetchTutors();
+    this.fetchSchedules();
     this.fetchAppointments();
 
     $('#add-appointment-button').hide();
@@ -61,41 +62,30 @@ var AppointmentsView = Parse.View.extend({
       $('#add-appointment-button').show();
   },
 
-  fetchTutors: function() {
+  fetchSchedules: function() {
     $("#error-alert").remove();
     $("#success-alert").remove();
 
-    debugLog('[AppointmentsView] fetchTutors');
+    debugLog('[AppointmentsView] fetchSchedules');
 
     var self = this;
 
-    var query = new Parse.Query(Parse.User);
-    query.equalTo('accountType', 1);
+    var query = new Parse.Query('Schedule');
+    query.include('tutor');
+    query.include('scheduleEntries');
 
     query.find({
-      success: function(tutors) {
-        debugLog('[AppointmentsView] fetchTutors success!');
+      success: function(theSchedules) {
+        debugLog('[AppointmentsView] fetchSchedules success!');
 
-        self.loadTutorDropdrown(tutors);
+        self.schedules = theSchedules;
+        self.loadTutorDropdown();
       },
       error: function(error) {
         if (error)
           self.handleError(error);
       }
     });
-  },
-
-  loadTutorDropdrown: function(tutors) {
-    debugLog('[AppointmentsView] loadTutorDropdrown');
-
-    for (var i = 0; i < tutors.length; i++)
-    {
-      var view = new DropdownSelectionView({model: tutors[i]});
-      $("#tutor-dropdown-menu").append(view.render().el);
-
-      if (i > tutors.length - 1)
-        $("#tutor-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
-    }
   },
 
   fetchAppointments: function() {
@@ -120,6 +110,41 @@ var AppointmentsView = Parse.View.extend({
           self.handleError(error);
       }
     });
+  },
+
+  loadTutorDropdown: function() {
+    debugLog('[AppointmentsView] loadTutorDropdown');
+
+    if (this.schedules) {
+      $('#tutor-dropdown-menu').empty();
+
+      var self = this;
+
+      for (var i = 0; i < this.schedules.length; i++)
+      {
+        var schedule = this.schedules[i];
+        var scheduleEntries = schedule.get('scheduleEntries');
+
+        if (scheduleEntries) {
+          var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
+
+          scheduleEntries.forEach(function(scheduleEntry) {
+            if (scheduleEntry.get('day') == selectedDate.day()
+                && scheduleEntry.get('hours').length > 0) {
+              var view = new DropdownSelectionView({model: schedule.get('tutor')});
+              $("#tutor-dropdown-menu").append(view.render().el);
+
+              if (i > self.schedules.length - 1)
+                $("#tutor-dropdown-menu").append("<li role=\"separator\" class=\"divider\"></li>");
+            }
+          });
+        }
+      }
+    }
+  },
+
+  loadTimeDropdown: function() {
+    debugLog('[AppointmentsView] loadTutorDropdown');
   },
 
   loadAppointments: function(appointments) {
@@ -255,8 +280,4 @@ var AppointmentsView = Parse.View.extend({
       break;
     }
   }
-});
-
-$(function() {
-  new AppointmentsView();
 });

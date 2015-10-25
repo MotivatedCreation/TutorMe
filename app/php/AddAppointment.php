@@ -3,7 +3,7 @@
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 id="add-appointment-modal-label">Appointment</h4>
+        <h4 id="add-appointment-modal-label">Schedule Appointment</h4>
       </div>
 
       <div class="container-fluid" id="appointment-container">
@@ -66,7 +66,7 @@
 <script type="text/template" id="dropdown-selection-template">
   <a id="<%= firstName %>-<%= lastName %>" data-id="<%= firstName %><%= lastName %>" href="#"><%= firstName %> <%= lastName %></a>
   <script type="text/javascript">
-  $('#<%= firstName %>-<%= lastName %>').click(function(event) {
+  $("#<%= firstName %>-<%= lastName %>").click(function(event) {
     $('#tutor-dropdown-label').text(event.currentTarget.text);
   });
   </script>
@@ -88,9 +88,13 @@
 
 <script type="text/javascript">
 $(function () {
+  var appointmentsView = new AppointmentsView();
+
   $('#datetimepicker').datetimepicker({
     format: 'MM/dd/YYYY',
     inline: true
+  }).on('dp.change', function() {
+    appointmentsView.loadTutorDropdown();
   });
 });
 </script>
