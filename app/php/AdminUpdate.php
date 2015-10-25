@@ -37,7 +37,7 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
   <script type="text/javascript" src="../models/App.js"></script>
 
   <script type="text/javascript" src="../views/Admin.js"></script>
-  <script type="text/javascript" src="../views/AdminUpdate.js"></script>
+  <script type="text/javascript" src="../views/adminUpdate.js"></script>
   <?php include('./Global.php'); ?>
   <?php include('./AdminUpdatePanel.php'); ?>
 </head>
@@ -54,15 +54,14 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
     </div>
     <!-- Navigation Content Container -->
     <!-- Content Container -->
-    <div id="content-container" class="container-fluid">
+    <dionclick="myFunction()" v id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
 
       <div id="content-container" class="container-fluid">
         <form id="emailField">  <!-- WHERE YOU CHOOSE WHICH EMAIL TO UPDATE -->
             <label id="email-label"> Enter Email Address of User to Update </label>
               <div><input id="email-field" type="text"   placeholder="student@student.com">
-              <button id="email-search-button" class="btn btn-default" data-toggle="modal" data-target="#updateUser" type="button"><i class="glyphicon glyphicon-search"></i></button>
-
+             <button id="email-search-button" class="btn btn-default" data-toggle="modal" data-target="#updateUser" onclick="findInfo()" type="button"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </form>
       </div>

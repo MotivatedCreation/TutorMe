@@ -48,7 +48,7 @@
     <!-- Password -->
               <div class="form-group">
                 <label for="update-password-label" class="control-label">Password:</label>
-                <input type="password" class="form-control" id="signUp-password-input" value="">
+                <input type="password" class="form-control" id="update-password-input" value="">
               </div>
             </form>
           </div>
