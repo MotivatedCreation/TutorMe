@@ -71,7 +71,7 @@
       <script type="text/template" id="teacherassignments-entry-template">
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
-				<div class="thumbnail">
+				<div id="test" class="thumbnail">
 					 <img src="../../images/page.png">
 					<div class="caption">
 						<label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
