@@ -49,6 +49,7 @@ A page for Admin commands
     </div>
     <!-- Navigation Content Container -->
     <!-- Content Container -->
+
     <div id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
     </div>

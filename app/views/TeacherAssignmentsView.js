@@ -97,7 +97,7 @@ var TeacherAssignmentsView = Parse.View.extend({
     var title = $('#teacherassignments-title-input').val();
 	var url = $('#teacherassignments-url-input').val();
 	var description = $('#teacherassignments-description-input').val();
-	
+
     var TeacherAssignments = Parse.Object.extend('Assignment');
 
     var query = new Parse.Query('TeacherAssignments');
@@ -154,7 +154,7 @@ var TeacherAssignmentsView = Parse.View.extend({
 
     var TeacherAssignments = Parse.Object.extend('Assignment');
 
-    var query = new Parse.Query('TeacherAssignments');
+    var query = new Parse.Query('Assignment');        //Nicole you had this set to Teacher Assignment
     query.equalTo('title', teacherassignmentName);
 
     query.first({
@@ -162,24 +162,25 @@ var TeacherAssignmentsView = Parse.View.extend({
         debugLog('[TeacherAssignmentsView] removeTeacherAssignments success!');
 
         if (theTeacherAssignments) {
-          theTeacherAssignments.set('title', teacherassignmentName);
-          theTeacherAssignments.remove('users', Parse.User.current());
+          theTeacherAssignments.destroy({});
+          //theTeacherAssignments.set('title', teacherassignmentName);
+          //theTeacherAssignments.remove('users', Parse.User.current());
 
-          theTeacherAssignments.save(null, {
-            success: function(success) {
-              debugLog('[TeacherAssignmentsView] addTeacherAssignments success!');
+          //theTeacherAssignments.save(null, {
+            //success: function(success) {
+            //  debugLog('[TeacherAssignmentsView] addTeacherAssignments success!');
 
-              row.remove();
+            //  row.remove();
+              location.reload();
+            //  $(self.el).prepend($("#success-alert-template").html());
 
-              $(self.el).prepend($("#success-alert-template").html());
-
-              $('#success-alert-label').text("Success! " + teacherassignmentsName + " has been successfully removed.");
-            },
-            error: function(error) {
-              if (error)
-                self.handleError(error);
-            }
-          });
+            //  $('#success-alert-label').text("Success! " + teacherassignmentsName + " has been successfully removed.");
+          //  },
+          //  error: function(error) {
+            //  if (error)
+            //    self.handleError(error);
+          //  }
+          //});
         }
       },
       error: function(error) {

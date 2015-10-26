@@ -98,7 +98,7 @@
   <!-- Container End -->
   
   <!-- footer -->
-  <?php include('./footer.php'); ?> 
+  <?php include('./Footer.php'); ?> 
   <!-- footer end -->
 </body>
 
