@@ -53,9 +53,4 @@ A page for Admin commands
     <div id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
     </div>
-
-
-
-
-
 </body>

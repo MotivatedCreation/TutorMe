@@ -54,7 +54,6 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
     </div>
     <!-- Navigation Content Container -->
     <!-- Content Container -->
-    <dionclick="myFunction()" v id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
 
       <div id="content-container" class="container-fluid">
