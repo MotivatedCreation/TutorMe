@@ -70,8 +70,8 @@ function updateUser(user) {
   debugLog("updateUser complete");
 }
 
-var a = Parse.Cloud.define("like", function(request, response) {
-  Parse.Cloud.useMasterKey();
+Parse.Cloud.define("like", function(request, response) {
+
   // Everything after this point will bypass ACLs and other security
   // even if I do things besides just updating a Post object.
 });
