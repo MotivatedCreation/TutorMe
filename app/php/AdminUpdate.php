@@ -61,7 +61,7 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
         <form id="emailField">  <!-- WHERE YOU CHOOSE WHICH EMAIL TO UPDATE -->
             <label id="email-label"> Enter Email Address of User to Update </label>
               <div><input id="email-field" type="text"   placeholder="student@student.com">
-             <button id="email-search-button" class="btn btn-default" data-toggle="modal" data-target="#updateUser" onclick="findInfo()" type="button"><i class="glyphicon glyphicon-search"></i></button>
+             <button id="email-search-button" class="btn btn-default" data-toggle="modal" data-target="#updateUser" onclick="findInfo()"  type="button"><i class="glyphicon glyphicon-search"></i></button>
             </div>
         </form>
       </div>

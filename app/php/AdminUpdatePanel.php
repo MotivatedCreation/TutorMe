@@ -42,8 +42,8 @@
               </div>
     <!-- Email -->
               <div class="form-group">
-                <label for="update-email-label" class="control-label">Email:</label>
-                <input type="text" class="form-control" id="update-email-input" value="">
+                <label for="update-email-label" class="control-label" >Email:</label>
+                <input type="text" class="form-control" id="update-email-input" value="" readonly>
               </div>
     <!-- Password -->
               <div class="form-group">
@@ -57,7 +57,7 @@
     <div class="modal-footer">
       <div class="row">
         <div class="col-md-6">
-          <button id="update-modal-button" type="button" class="btn btn-primary">Update Information</button>
+          <button id="update-modal-button" type="button" class="btn btn-primary" onclick="updateInfo()">Update Information</button>
         </div>
       </div>
     </div>
