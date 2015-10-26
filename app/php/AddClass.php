@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body">
         <div id="add-class-modal-content-container">
-          <form>
+          <form id="add-class-form">
             <div class="form-group">
               <label for="class-name-label" class="control-label">Class Name:</label> <!-- text on the modal panel -->
               <input type="text" class="form-control" id="class-name-input" value="" placeholder="e.g. CSCI 540"> <!-- add class text box -->

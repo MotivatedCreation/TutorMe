@@ -52,7 +52,7 @@
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
-	
+
 	<!-- Assignment Table -->
       <table id="assignments-table" class="table table-bordered table-hover">
         <tr>
@@ -72,10 +72,10 @@
 					<div class="caption">
 						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						
+
 						<p>
 							<a href="<%= url %>" target="blank" class="btn btn-default" role="button">Open</a>
-							
+
 						</p>
 					</div>
 				</div>

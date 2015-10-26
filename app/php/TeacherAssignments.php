@@ -60,52 +60,52 @@
           <th>
             <label style="margin-top: 6px;">Assignments</label>
             <div class="btn-group pull-right" role="group">
-                <button id="add-teacherassignments-button" type="button" class="btn btn-default btn-sm"><div class="glyphicon glyphicon-plus"></button>
+              <button id="add-teacherassignments-button" type="button" class="btn btn-default btn-sm"><div class="glyphicon glyphicon-plus"></button>
+              </div>
+            </th>
+          </tr>
+        </table>
+        <!-- TeacherAssignment Table End -->
+
+        <!-- TeacherAssignment Entry Template -->
+        <script type="text/template" id="teacherassignments-entry-template">
+          <div class="row">
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <img src="../../images/page.png">
+                <div class="caption">
+                  <label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
+                  <p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
+
+                  <p>
+                    <a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
+                    <button id="remove-teacherassignments-button" type="button" class="btn btn-danger">Delete</button>
+                  </p>
+                </div>
+              </div>
             </div>
-          </th>
-        </tr>
-      </table>
-      <!-- TeacherAssignment Table End -->
+          </div>
+        </script>
+        <!-- TeacherAssignment Entry Template End -->
 
-      <!-- TeacherAssignment Entry Template -->
-      <script type="text/template" id="teacherassignments-entry-template">
-		<div class="row">
-			<div class="col-sm-6 col-md-4">
-				<div class="thumbnail">
-					<img src="../../images/page.png">
-					<div class="caption">
-						<label id="teacherassignments-title-label" style="font-weight: normal;"><%= title %></label>
-						<p><textarea id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						
-						<p>
-							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
-							<button id="remove-teacherassignments-button" type="button" class="btn btn-danger">Delete</button>
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
-      </script>
-      <!-- TeacherAssignment Entry Template End -->
+        <script type="text/template" id="error-alert-template">
+          <div id="error-alert" class="alert alert-danger">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <label id="error-alert-label" class="text-center"></label>
+          </div>
+        </script>
 
-      <script type="text/template" id="error-alert-template">
-        <div id="error-alert" class="alert alert-danger">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <label id="error-alert-label" class="text-center"></label>
-       </div>
-      </script>
+        <script type="text/template" id="success-alert-template">
+          <div id="success-alert" class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <label id="success-alert-label"></label>
+          </div>
+        </script>
 
-      <script type="text/template" id="success-alert-template">
-        <div id="success-alert" class="alert alert-success">
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-          <label id="success-alert-label"></label>
-       </div>
-      </script>
-
+      </div>
+      <!-- Content Container End -->
     </div>
-    <!-- Content Container End -->
-  </div>
-  <!-- Container End -->
-  <script type="text/javascript" src="../views/TeacherAssignmentsView.js"></script>
-</body>
-</html>
+    <!-- Container End -->
+    <script type="text/javascript" src="../views/TeacherAssignmentsView.js"></script>
+  </body>
+  </html>
