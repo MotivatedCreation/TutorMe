@@ -34,6 +34,7 @@
 
   <link href="../../css/Log.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
+  <link href="../../css/footer.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
@@ -106,6 +107,11 @@
   </div>
   <!-- Container End -->
   <script type="text/javascript" src="../views/LogView.js"></script>
+  
+  <!-- footer -->
+  <?php include('./footer.php'); ?> 
+  <!-- footer end -->
+  
 </body>
 
 </html>
