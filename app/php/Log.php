@@ -107,11 +107,11 @@
   </div>
   <!-- Container End -->
   <script type="text/javascript" src="../views/LogView.js"></script>
-  
+
   <!-- footer -->
-  <?php include('./footer.php'); ?> 
+  <?php include('./footer.php'); ?>
   <!-- footer end -->
-  
+
 </body>
 
 </html>
