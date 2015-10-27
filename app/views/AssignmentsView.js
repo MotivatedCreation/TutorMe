@@ -1,11 +1,10 @@
-var TeacherAssignmentsEntry = Parse.Object.extend({
+var AssignmentsEntry = Parse.Object.extend({
   className: "Assignment"
 });
 
-var AssignmentsView = Parse.View.extend({
+var AssignmentsEntryView = Parse.View.extend({
 
-  el: ".container-fluid",
-
+  tagName: "tr",
   template: _.template($('#assignments-entry-template').html()),
 
   initialize: function() {
@@ -17,7 +16,6 @@ var AssignmentsView = Parse.View.extend({
     $(this.el).html(this.template(this.model.toJSON()));
     return this;
   }
-  
 });
 
 var AssignmentsView = Parse.View.extend({
@@ -41,7 +39,6 @@ var AssignmentsView = Parse.View.extend({
     var self = this;
 
     var query = new Parse.Query('Assignment');
-  
 
     query.find({
       success: function(assignments) {
@@ -67,4 +64,9 @@ var AssignmentsView = Parse.View.extend({
       var view = new AssignmentsEntryView({model: assignments[i]});
       $("#assignments-table").append(view.render().el);
     }
-  },
+  }
+});
+
+$(function() {
+  new AssignmentsView();
+});

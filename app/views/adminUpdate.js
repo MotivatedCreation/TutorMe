@@ -12,7 +12,7 @@ function findInfo() {
       return;
     }
     $('#updateUser').modal('show');                           //Otherwise open the updateUser modal
-    var User = Parse.Object.extend('User');                   //Using the Parse User Table
+    var User = Parse.Object.extend("User");                   //Using the Parse User Table
     var query = new Parse.Query(User);                        //Make a query on the User Table
     query.equalTo('email', email);                            //Returns an array of Users with email = to email
     query.first({                                             //grab the first one
@@ -32,12 +32,15 @@ function placeInfo(user) {
   var fName = user.get('firstName');                        //Get the values from user
   var lName = user.get('lastName');
   var email = user.get('email');
-  var password = user.get('password');
+  //var password = user.get('password');
+  //var aType = user.get('accountType');
+  //var aString = aTypetoAString(aType);
 
-  document.getElementById("update-first-name-input").value = fName;     //Put them in the updateUser modal
+  //document.getElementById("account-type-dropdown").innerHTML = aString;     //Put them in the updateUser modal
+  document.getElementById("update-first-name-input").value = fName;
   document.getElementById("update-last-name-input").value = lName;
   document.getElementById("update-email-input").value = email;
-  document.getElementById("update-password-input").value = password;
+  //document.getElementById("update-password-input").value = password;
 }
 
 //updateInfo() will save the user information that's bee placed in the modal
@@ -61,7 +64,14 @@ function updateInfo() {
     }
   });
 }
-
+//aTypeToAString returns a string based on the accountType of the user to be updated
+//Unused at the moment
+function aTypetoAString(num) {
+  if(num == 0) return "Student";
+  if(num == 1) return "Tutor";
+  if(num == 2) return "Teacher";
+  if(num == 3) return "Admin";
+}
 //aStringtoAType(string) returns an int based on a string.
 //Used for account types
 function aStringtoAType(string) {

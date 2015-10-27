@@ -33,7 +33,7 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
-  <script type="text/javascript" src="../views/AssignmentsView.js"></script>
+
 
   <?php include('./Global.php'); ?>
 </head>
@@ -52,7 +52,7 @@
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
-	
+
 	<!-- Assignment Table -->
       <table id="assignments-table" class="table table-bordered table-hover">
         <tr>
@@ -63,26 +63,23 @@
       </table>
       <!-- Assignment Table End -->
 
-      <!-- Assignment Entry Template -->
+      <!-- TeacherAssignment Entry Template -->
       <script type="text/template" id="assignments-entry-template">
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
 				<div class="thumbnail">
-					<img src="images/folder.png">
 					<div class="caption">
 						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						
 						<p>
-							<a href="<%= url %>" target="blank" class="btn btn-default" role="button">Open</a>
-							
+							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
 						</p>
 					</div>
 				</div>
 			</div>
 		</div>
       </script>
-      <!-- Assignment Entry Template End -->
+      <!-- TeacherAssignment Entry Template End -->
 
       <script type="text/template" id="error-alert-template">
         <div id="error-alert" class="alert alert-danger">
@@ -101,6 +98,7 @@
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
+<script type="text/javascript" src="../views/AssignmentsView.js"></script>
 </body>
 
 </html>
