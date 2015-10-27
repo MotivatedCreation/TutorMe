@@ -63,7 +63,7 @@
       </table>
       <!-- Assignment Table End -->
 
-      <!-- TeacherAssignment Entry Template -->
+      <!-- Assignment Entry Template -->
       <script type="text/template" id="assignments-entry-template">
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
@@ -86,7 +86,7 @@
 			</div>
 		</div>
       </script>
-      <!-- TeacherAssignment Entry Template End -->
+      <!-- Assignment Entry Template End -->
 
       <script type="text/template" id="error-alert-template">
         <div id="error-alert" class="alert alert-danger">
