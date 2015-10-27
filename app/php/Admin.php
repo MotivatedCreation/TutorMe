@@ -37,7 +37,7 @@ A page for Admin commands
   <?php include('./Global.php'); ?>
 </head>
 
-<body onload="checkAdmin()">
+<body onload="checkAdmin()">      <!-- Check if they are admin -->
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
