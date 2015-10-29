@@ -33,11 +33,12 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ProfileView.js"></script>
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
 
-<body>
+<body onload="checkStudent()">
   <!-- Container -->
   <div class="container-fluid">
   <!--  <?php include('../php/LoginOrSignUp.php'); ?> <!-- LOGIN SIGNUP POPUP -->
