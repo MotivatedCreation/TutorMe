@@ -85,8 +85,6 @@ function updateAuthenticationState() {
     else $('#admin-list-item').hide();
   }
   else {
-    debugLog("[App] updateAuthenticationState - Logged out");
-
     $('#assignments-list-item').hide();
     $('#admin-list-item').hide();
     $('#authenticated-user-menu-button').hide();
@@ -247,7 +245,7 @@ function logOut() {
 
     updateAuthenticationState();
 
-    window.location = "http://tutorme.local";
+    window.location = "../../index.php";
 
   }, function(error) {
     handleError(error);
