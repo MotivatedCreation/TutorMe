@@ -28,7 +28,8 @@
 
   <link href="../../css/Schedule.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
-
+  <link href="../../css/footer.css" rel="stylesheet">
+	
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
@@ -91,6 +92,11 @@
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
+  
+  <!-- footer -->
+  <?php include('./Footer.php'); ?> 
+  <!-- footer end -->
+  
 </body>
 
 </html>

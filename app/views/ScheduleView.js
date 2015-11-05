@@ -30,8 +30,8 @@ var ScheduleView = Parse.View.extend({
     var hour = 8;
 
     for (var i = 1; i <= timeLabels.length; i++) {
-      var fromHour = this.convertToTwelveHourTime(hour);
-      var toHour = this.convertToTwelveHourTime(++hour);
+      var fromHour = convertToTwelveHourTime(hour);
+      var toHour = convertToTwelveHourTime(++hour);
       var timeSpan = fromHour + " - " + toHour;
       timeLabels[i - 1]['textContent'] = timeSpan;
     }
@@ -50,6 +50,8 @@ var ScheduleView = Parse.View.extend({
     var promise = new Promise(function(resolve, reject) {
       var query = new Parse.Query('Schedule');
       query.include('tutor');
+      query.include('scheduleEntries');
+      query.include('scheduleEntries.timeEntries');
 
       query.find({
         success: function(theSchedules) {
@@ -78,36 +80,42 @@ var ScheduleView = Parse.View.extend({
   loadSchedule: function() {
     debugLog('[ScheduleView] loadSchedule');
 
-    var table = $('#schedule-table')[0];
-    var dayColumnNames = table.rows[0].querySelectorAll('.day');
-
     for (var i = 0; i < schedules.length; i++)
     {
       var schedule = schedules[i];
-      var scheduleInfo = schedule['attributes'];
 
-      var hours = table.rows;
+      var scheduleEntries = schedule.get('scheduleEntries');
 
-      for (var j = 1; j < hours.length; j++)
-      {
-        var hour = hours[j];
-        var dayRow = hour.querySelectorAll('td');
+      if (scheduleEntries) {
+        var tutor = schedule.get('tutor');
+        var tableChildIndexOffset = 2;
 
-        for (var k = 0; k < dayColumnNames.length; k++)
-        {
-          var dayColumnName = dayColumnNames[k]['textContent'];
-          var dayData = dayRow[k + 1];
+        scheduleEntries.forEach(function(scheduleEntry) {
 
-          if (scheduleInfo[dayColumnName.toLowerCase()][j])
-          {
-            var tutor = scheduleInfo['tutor']['attributes'];
+          var day = scheduleEntry.get('day');
+          var timeEntries = scheduleEntry.get('timeEntries');
 
-            if (dayData['textContent'])
-              dayData['textContent'] += ", " + tutor['lastName'];
-            else
-              dayData['textContent'] = tutor['lastName'];
+          if (timeEntries) {
+            $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+              var day = this;
+
+              timeEntries.some(function(timeEntry) {
+                var startTime = (timeEntry.get('startTime') - kOpenAt);
+                var endTime = (timeEntry.get('endTime') - kOpenAt);
+
+                if (hour == startTime && hour == (endTime - 1)) {
+
+                  if (day['textContent'])
+                    day['textContent'] += ", " + tutor.get('lastName');
+                  else
+                    day['textContent'] = tutor.get('lastName');
+
+                  return true;
+                }
+              });
+            });
           }
-        }
+        });
       }
     }
   },

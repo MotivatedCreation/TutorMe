@@ -1,7 +1,5 @@
-<!-- Admin.php
-A page for Admin commands
-
-No where near finished.  Thinking of doing a pop up like the log in but that's hard
+<!-- AdminUpdate.php
+  A page for updating a user's information
 -->
 
 <!DOCTYPE html>
@@ -30,14 +28,16 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
 
   <link href="../../css/Admin.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
+  <link href="../../css/AdminUpdate.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
 
-  <script type="text/javascript" src="../views/Admin.js"></script>
-
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
+  <script type="text/javascript" src="../views/adminUpdate.js"></script>
   <?php include('./Global.php'); ?>
+  <?php include('./AdminUpdatePanel.php'); ?>
 </head>
 
 <body onload="checkAdmin()">
@@ -54,5 +54,15 @@ No where near finished.  Thinking of doing a pop up like the log in but that's h
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
       <?php include('./AdminMenu.php'); ?> <!-- ACCOUNT MENU SIDE MENU -->
+      <div>
+        <label id="email-label"> Enter Email Address of User to Update </label>
+        <div>
+          <form id="selectField" action="javascript:textSub();">
+            <input id="email-field" type="text" placeholder="ex: student@student.com" >
+            <button id="email-search-button" class="btn btn-default" data-toggle="modal"  onclick="findInfo()"  type="button"><i class="glyphicon glyphicon-search"></i></button>
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </body>

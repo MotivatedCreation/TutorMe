@@ -202,3 +202,8 @@ var ClassesView = Parse.View.extend({
 $(function() {
   new ClassesView();
 });
+
+$("#add-class-form").submit(function() {
+  $("#add-class-modal-button").click();
+  return false;
+});
