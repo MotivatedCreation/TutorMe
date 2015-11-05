@@ -38,6 +38,7 @@ Page used for making appointments
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ProfileView.js"></script>
+  <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
@@ -59,11 +60,10 @@ Page used for making appointments
       <?php include('./AddAppointment.php'); ?>
       <?php include('./AccountMenu.php'); ?>
 
-      <!-- Appointment Table -->
-      <table id="appointment-table" class="table table-bordered table-hover">
+      <table id="appointment-table-header" class="table table-bordered">
         <tr>
           <th>
-            <label style="margin-top: 6px;">Appointments</label>
+            <label style="margin: 6px; font-size: 16px;">Appointments</label>
             <div class="btn-group pull-right" role="group">
               <button id="add-appointment-button" type="button" class="btn btn-default btn-sm">
                 <div class="glyphicon glyphicon-plus"></div>
@@ -72,17 +72,46 @@ Page used for making appointments
           </th>
         </tr>
       </table>
+
+      <!-- Appointment Table -->
+      <table id="appointment-table" class="table table-bordered table-hover">
+        <tr>
+          <th>
+            <label style="margin-top: 6px;">Student</label>
+          </th>
+          <th>
+            <label style="margin-top: 6px;">Tutor</label>
+          </th>
+          <th>
+            <label style="margin-top: 6px;">Date</label>
+          </th>
+          <th>
+            <label style="margin-top: 6px;">Actions</label>
+          </th>
+        </tr>
+      </table>
       <!-- Appointment Table End -->
 
       <!-- Appointment Entry Template -->
       <script type="text/template" id="appointment-entry-template">
         <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= name %></label>
-          <div class="btn-group pull-right" role="group">
-            <button id="remove-appointment-button" type="button" class="btn btn-danger btn-xs">
-              <div class="glyphicon glyphicon-minus"></div>
-            </button>
-          </div>
+          <label id="appointment-name-label" style="font-weight: normal;"><%= studentName %></label>
+        </td>
+        <td>
+          <label id="appointment-name-label" style="font-weight: normal;"><%= tutorName %></label>
+        </td>
+        <td>
+          <label id="appointment-name-label" style="font-weight: normal;"><%= dateRange %></label>
+        </td>
+        <td>
+          <button id="reschedule-appointment-button" type="button" class="btn btn-default btn-sm" value="<%= objectId %>">
+            <div class="glyphicon glyphicon-repeat" style="padding-right: 5px;"></div>
+            Reschedule
+          </button>
+          <button id="cancel-appointment-button" type="button" class="btn btn-default btn-sm" value="<%= objectId %>">
+            <div class="glyphicon glyphicon-remove" style="padding-right: 5px;"></div>
+            Cancel
+          </button>
         </td>
       </script>
       <!-- Appointment Entry Template End -->

@@ -6,19 +6,6 @@ var ScheduleView = Parse.View.extend({
   events: {
   },
 
-  convertToTwelveHourTime: function(hour) {
-    var time = "";
-
-    if (hour < 12)
-      time = hour + ":00 AM";
-    else if (hour > 12)
-      time = (hour - 12) + ":00 PM";
-    else if (hour == 12)
-      time = hour + ":00 PM";
-
-    return time;
-  },
-
   initialize: function() {
     this.fetchSchedules();
 
@@ -80,10 +67,7 @@ var ScheduleView = Parse.View.extend({
   loadSchedule: function() {
     debugLog('[ScheduleView] loadSchedule');
 
-    for (var i = 0; i < schedules.length; i++)
-    {
-      var schedule = schedules[i];
-
+    schedules.forEach(function(schedule) {
       var scheduleEntries = schedule.get('scheduleEntries');
 
       if (scheduleEntries) {
@@ -117,7 +101,7 @@ var ScheduleView = Parse.View.extend({
           }
         });
       }
-    }
+    });
   },
 
   handleError: function(error) {

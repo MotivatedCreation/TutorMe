@@ -24,7 +24,7 @@
               <div class="pull-right" id="tutor-dropdown-content-container">
                 <label class="control-label">Tutor:</label>
                 <div class="dropdown" id="tutor-dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <label id="tutor-dropdown-label" style="font-weight: normal;">Select a Tutor...</label>
                     <span class="caret"></span>
                   </button>
@@ -38,7 +38,7 @@
               <div class="pull-left" id="time-dropdown-content-container">
                 <label class="control-label">Time:</label>
                 <div class="dropdown" id="time-dropdown">
-                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                  <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     <label id="time-dropdown-label" style="font-weight: normal;">Select a Time...</label>
                     <span class="caret"></span>
                   </button>
@@ -54,8 +54,9 @@
 
       <div class="modal-footer">
         <div>
-          <button id="cancel-add-appointment-modal-button" type="button" class="btn btn-default">Cancel</button>
-          <button id="add-appointment-modal-button" type="button" class="btn btn-primary">Submit</button>
+          <button id="cancel-schedule-appointment-modal-button" type="button" class="btn btn-default">Cancel</button>
+          <button id="schedule-appointment-modal-button" type="button" class="btn btn-primary disabled">Schedule</button>
+          <button id="reschedule-appointment-modal-button" type="button" class="btn btn-primary disabled">Reschedule</button>
         </div>
       </div>
 
@@ -64,10 +65,10 @@
 </div>
 
 <script type="text/template" id="tutor-dropdown-selection-template">
-  <a id="<%= firstName %>-<%= lastName %>" data-id="<%= firstName %><%= lastName %>" href="#"><%= firstName %> <%= lastName %></a>
+  <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= firstName %> <%= lastName %></a>
   <script type="text/javascript">
-  $("#<%= firstName %>-<%= lastName %>").click(function(event) {
-    $(event.currentTarget).trigger('tutor-dropdown-label:changed');
+  $("#tutor-dropdown li a").click(function(event) {
+    $(this).trigger('tutor-dropdown:changed');
   });
   </script>
 </script>
@@ -75,8 +76,8 @@
 <script type="text/template" id="time-dropdown-selection-template">
   <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= convertToTwelveHourTime(startTime) %> - <%= convertToTwelveHourTime(endTime) %></a>
   <script type="text/javascript">
-  $("#<%= objectId %>").click(function(event) {
-    $(event.currentTarget).trigger('time-dropdown-label:changed');
+  $("#time-dropdown li a").click(function(event) {
+    $(this).trigger('time-dropdown-menu:changed');
   });
   </script>
 </script>
@@ -101,9 +102,10 @@ $(function () {
 
   $('#datetimepicker').datetimepicker({
     format: 'MM/dd/YYYY',
-    inline: true
+    inline: true,
+    minDate: new Date()
   }).on('dp.change', function() {
-    appointmentsView.refreshAddAppointmentModal();
+    appointmentsView.loadAvailableTutors();
   });
 });
 </script>
