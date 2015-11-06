@@ -2,10 +2,6 @@ var Appointment = Parse.Object.extend("Appointment", {
   tutorName: null,
   studentName: null,
   dateRange: null
-}, {
-  fromJSON: function(json) {
-    console.log(json);
-  }
 });
 
 var Appointments = Parse.Collection.extend({
