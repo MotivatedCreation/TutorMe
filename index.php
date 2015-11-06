@@ -167,7 +167,7 @@
                       <h4 class="modal-title" id="myModalLabel">Campus Map</h4>
                     </div>
                     <div class="modal-body">
-                      <img src="images/Upstatemap.jpg" alt="Upstate Map">
+                      <img src="images/UpstateMap.JPG" alt="Upstate Map">
 
                     </div>
                   </div>
