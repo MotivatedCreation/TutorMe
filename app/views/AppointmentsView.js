@@ -139,6 +139,8 @@ var AppointmentsView = Parse.View.extend({
     $('#datetimepicker').data("DateTimePicker").date(new Date());
 
     this.isReschedulingAppointment = false;
+    this.appointmentToReschedule = null;
+
     this.resetAddAppointmentModal();
   },
 
@@ -448,34 +450,67 @@ var AppointmentsView = Parse.View.extend({
 
     date.hour(timeEntry.get('startTime')).minute(0).second(0);
 
-    var Appointment = Parse.Object.extend('Appointment');
-    var appointment = new Appointment();
+    var appointment;
+
+    if (this.isReschedulingAppointment)
+    {
+      appointment = this.appointmentToReschedule;
+    }
+    else {
+      var Appointment = Parse.Object.extend('Appointment');
+      var appointment = new Appointment();
+    }
+
     appointment.set('date', date.toDate());
     appointment.set('tutor', tutor);
     appointment.set('timeEntry', timeEntry);
     appointment.set('student', Parse.User.current());
 
-    appointment.save().then(function(success) {
-      debugLog('[AppointmentsView] addAppointment success!');
+    var promise = new Promise(function(resolve, reject) {
+      appointment.save().then(function(success) {
+        debugLog('[AppointmentsView] addAppointment success!');
 
-      self.hideAddAppointmentModal();
+        var tutor = appointment.get('tutor');
+        var student = appointment.get('student');
+        var timeEntry = appointment.get('timeEntry');
 
-      var tutor = appointment.get('tutor');
-      var student = appointment.get('student');
-      var timeEntry = appointment.get('timeEntry');
+        appointment.set('tutorName', tutor.get('firstName') + ' ' + tutor.get('lastName'));
+        appointment.set('studentName', student.get('firstName') + ' ' + student.get('lastName'));
+        appointment.set('dateRange', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
 
-      appointment.set('tutorName', tutor.get('firstName') + ' ' + tutor.get('lastName'));
-      appointment.set('studentName', student.get('firstName') + ' ' + student.get('lastName'));
-      appointment.set('dateRange', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
-      self.appointments.add(appointment);
+        $(self.el).prepend($("#success-alert-template").html());
 
-      var view = new AppointmentEntryView({model: appointment});
-      $("#appointment-table").append(view.render().el);
+        if (!self.isReschedulingAppointment) {
+          $('#success-alert-label').text("Success! The appointment has been successfully scheduled.");
 
-    }, function(error) {
-      if (error)
-        self.handleError(error);
+          self.appointments.add(appointment);
+
+          var view = new AppointmentEntryView({model: appointment});
+          $("#appointment-table").append(view.render().el);
+        }
+        else {
+          $('#success-alert-label').text("Success! The appointment has been successfully rescheduled.");
+
+          var tutorNameLabel = $('#appointment-table').find('#tutorName' + appointment['id']);
+          tutorNameLabel.text(appointment.get('tutorName'));
+
+          var dateRangeLabel = $('#appointment-table').find('#dateRange' + appointment['id']);
+          dateRangeLabel.text(appointment.get('dateRange'));
+        }
+
+        self.hideAddAppointmentModal();
+
+        resolve();
+
+      }, function(error) {
+        if (error)
+          self.handleError(error);
+
+        reject();
+      });
     });
+
+    return promise;
   },
 
   cancelAppointment: function(event) {
@@ -513,8 +548,12 @@ var AppointmentsView = Parse.View.extend({
   },
 
   rescheduleAppointment: function(event) {
-    this.appointmentToReschedule = null;
-    this.hideAddAppointmentModal();
+    var self = this;
+
+    this.addAppointment().then(function(success) {
+      self.appointmentToReschedule = null;
+      self.isReschedulingAppointment = false;
+    });
   },
 
   handleError: function(error) {

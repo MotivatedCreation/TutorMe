@@ -94,14 +94,14 @@ Page used for making appointments
 
       <!-- Appointment Entry Template -->
       <script type="text/template" id="appointment-entry-template">
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= studentName %></label>
+        <td id="<%= objectId %>">
+          <label id="studentName<%= objectId %>" style="font-weight: normal;"><%= studentName %></label>
         </td>
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= tutorName %></label>
+        <td id="<%= objectId %>">
+          <label id="tutorName<%= objectId %>" style="font-weight: normal;"><%= tutorName %></label>
         </td>
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= dateRange %></label>
+        <td id="<%= objectId %>">
+          <label id="dateRange<%= objectId %>" style="font-weight: normal;"><%= dateRange %></label>
         </td>
         <td>
           <button id="reschedule-appointment-button" type="button" class="btn btn-default btn-sm" value="<%= objectId %>">
