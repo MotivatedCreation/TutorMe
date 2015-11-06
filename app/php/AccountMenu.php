@@ -44,7 +44,7 @@ $(function() {
  $('#profile-menu-teacherassignments-button').click(function() {
     window.location.href = "./TeacherAssignments.php";
   });
-  
+
   $('#profile-menu-profile-button').click(function() {
     window.location.href = "./Profile.php";
   });
