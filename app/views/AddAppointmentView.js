@@ -1,24 +1,3 @@
-var Appointment = Parse.Object.extend("Appointment", {
-  tutorName: null,
-  studentName: null,
-  dateRange: null
-}, {
-  fromJSON: function(json) {
-    console.log(json);
-  }
-});
-
-var Appointments = Parse.Collection.extend({
-  model: Appointment,
-  query: new Parse.Query('Appointment'),
-
-  initialize: function(attrs, options) {
-    this.query.include('student');
-    this.query.include('tutor');
-    this.query.include('timeEntry');
-  }
-});
-
 var View = Parse.View.extend({
 
   initialize: function() {
@@ -42,21 +21,15 @@ var TimeDropdownSelectionView = View.extend({
   template: _.template($('#time-dropdown-selection-template').html()),
 });
 
-var AppointmentEntryView = View.extend({
-  tagName: "tr",
-  template: _.template($('#appointment-entry-template').html()),
-});
+var AddAppointmentView = Parse.View.extend({
 
-var AppointmentsView = Parse.View.extend({
-
-  el: "#content-container",
+  el: "#add-appointment-modal",
   schedules: null,
   appointments: new Appointments(),
   isReschedulingAppointment: false,
   appointmentToReschedule: null,
 
   events: {
-    'click #add-appointment-button' : 'showAddAppointmentModal',
     'click #cancel-schedule-appointment-modal-button' : 'hideAddAppointmentModal',
     'click #schedule-appointment-modal-button' : 'addAppointment',
     'click #cancel-appointment-button' : 'cancelAppointment',
@@ -69,93 +42,16 @@ var AppointmentsView = Parse.View.extend({
   initialize: function() {
     var self = this;
 
-    $('.activity-indicator-container').show();
-    $('#appointment-table').hide();
-    $('#appointment-table-header').hide();
     $('#reschedule-appointment-modal-button').hide();
 
     this.fetchSchedules().then(function(success) {
       return self.fetchAppointments();
     }).then(function(success) {
-      $('.activity-indicator-container').fadeOut(1000);
-      $('#appointment-table').fadeIn(1000);
-      $('#appointment-table-header').fadeIn(1000);
 
     }, function(error) {
       if (error)
         handleError(error);
     });
-
-    $('#add-appointment-button').hide();
-
-    var currentUser = Parse.User.current();
-
-    if (currentUser.get('accountType') == 0)
-      $('#add-appointment-button').show();
-  },
-
-  showAddAppointmentModal: function() {
-    debugLog('[AppointmentsView] showAddAppointmentModal');
-
-    $('#add-appointment-modal').modal('show');
-
-    this.loadAvailableTutors();
-  },
-
-  showRescheduleAppointmentModal: function(event) {
-    debugLog('[AppointmentsView] showRescheduleAppointmentModal');
-
-    this.isReschedulingAppointment = true;
-
-    $('#reschedule-appointment-modal-button').show();
-    $('#schedule-appointment-modal-button').hide();
-
-    var appointmentId = $(event.currentTarget).val();
-    this.appointmentToReschedule = this.appointmentForAppointmentId(appointmentId);
-
-    $('#datetimepicker').data('DateTimePicker').date(this.appointmentToReschedule.get('date'));
-
-    var tutor = this.appointmentToReschedule.get('tutor');
-    $("#tutor-dropdown").find('.btn').html(this.appointmentToReschedule.get('tutorName') + ' <span class="caret"></span>');
-    $("#tutor-dropdown").find('.btn').val(tutor['id']);
-
-    var timeEntry = this.appointmentToReschedule.get('timeEntry');
-    $("#time-dropdown").find('.btn').html(convertToTwelveHourTime(timeEntry.get('startTime')) + ' - ' + convertToTwelveHourTime(timeEntry.get('endTime')) + ' <span class="caret"></span>');
-    $("#time-dropdown").find('.btn').val(timeEntry['id']);
-
-    $('#tutor-dropdown').find('.btn').removeClass('disabled');
-    $('#time-dropdown').find('.btn').removeClass('disabled');
-
-    this.showAddAppointmentModal();
-  },
-
-  hideAddAppointmentModal: function() {
-    debugLog('[AppointmentsView] hideAddAppointmentModal');
-
-    $('#add-appointment-modal').modal('hide');
-    $('#reschedule-appointment-modal-button').hide();
-    $('#schedule-appointment-modal-button').show();
-
-    $('#datetimepicker').data("DateTimePicker").date(new Date());
-
-    this.isReschedulingAppointment = false;
-    this.resetAddAppointmentModal();
-  },
-
-  resetAddAppointmentModal: function() {
-    $('#schedule-appointment-modal-button').addClass('disabled');
-    $('#reschedule-appointment-modal-button').addClass('disabled');
-
-    $('.dropdown.open .dropdown-toggle').dropdown('toggle');
-
-    $('#tutor-dropdown').find('.btn').html('Select a Tutor... <span class="caret"></span>');
-    $('#time-dropdown').find('.btn').html('Select a Time... <span class="caret"></span>');
-
-    $('#tutor-dropdown-menu').empty();
-    $('#time-dropdown-menu').empty();
-
-    $('#time-dropdown').find('.btn').addClass('disabled');
-    $('#tutor-dropdown').find('.btn').addClass('disabled');
   },
 
   tutorDropDownChanged: function(event) {
@@ -326,8 +222,6 @@ var AppointmentsView = Parse.View.extend({
   },
 
   loadAvailableTutors: function() {
-    debugLog('[AppointmentsView] loadAvailableTutors');
-
     this.resetAddAppointmentModal();
 
     var self = this;
@@ -350,7 +244,8 @@ var AppointmentsView = Parse.View.extend({
             var timeEntries = scheduleEntry.get('timeEntries');
 
             if (scheduleEntry.get('day') == selectedDate.day()
-                && timeEntries && timeEntries.length > 0)
+                && timeEntries && timeEntries.length > 0
+                && selectedDate.isAfter(currentDate))
             {
               tutors[tutors.length] = schedule.get('tutor');
             }
@@ -466,7 +361,7 @@ var AppointmentsView = Parse.View.extend({
 
       appointment.set('tutorName', tutor.get('firstName') + ' ' + tutor.get('lastName'));
       appointment.set('studentName', student.get('firstName') + ' ' + student.get('lastName'));
-      appointment.set('dateRange', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
+      appointment.set('date', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
       self.appointments.add(appointment);
 
       var view = new AppointmentEntryView({model: appointment});
