@@ -3,7 +3,8 @@ var SignUpView = Parse.View.extend({
     'click #signUp-modal-button' : 'signUp',
     'click #student-account-type': 'updateDropdownTitle',
     'click #tutor-account-type': 'updateDropdownTitle',
-    'click #teacher-account-type': 'updateDropdownTitle'
+    'click #teacher-account-type': 'updateDropdownTitle',
+    'click #admin-account-type' : 'updateDropdownTitle'
   },
 
   initialize: function() {
@@ -91,7 +92,9 @@ var SignUpView = Parse.View.extend({
     if (string == "Tutor")
       accountType = 1;
     else if (string == "Teacher")
-      accountType == 2;
+      accountType = 2;
+    else if (string == "Admin")
+      accountType = 3;
 
     return accountType;
   },

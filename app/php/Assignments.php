@@ -26,19 +26,19 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
-  <link href="../../css/Tutors.css" rel="stylesheet">
+  <link href="../../css/Assignments.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
-  <script type="text/javascript" src="../views/AssignmentsView.js"></script>
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
 
-<body>
+<body onload="checkTutor()">
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?>
@@ -52,10 +52,57 @@
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
+
+	<!-- Assignment Table -->
+      <table id="assignments-table" class="table table-bordered table-hover">
+        <tr>
+          <th>
+            <label style="margin-top: 6px;">Assignments</label>
+          </th>
+        </tr>
+      </table>
+      <!-- Assignment Table End -->
+
+      <!-- Assignment Entry Template -->
+      <script type="text/template" id="assignments-entry-template">
+		<div class="row">
+			<div class="col-sm-6 col-md-4">
+				<div class="thumbnail">
+				<img src="../../images/page.png">
+					<div class="caption">
+						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
+						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
+						<p>
+
+							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
+
+				
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+      </script>
+      <!-- Assignment Entry Template End -->
+
+      <script type="text/template" id="error-alert-template">
+        <div id="error-alert" class="alert alert-danger">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="error-alert-label" class="text-center"></label>
+       </div>
+      </script>
+
+      <script type="text/template" id="success-alert-template">
+        <div id="success-alert" class="alert alert-success">
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          <label id="success-alert-label"></label>
+       </div>
+      </script>
     </div>
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
+<script type="text/javascript" src="../views/AssignmentsView.js"></script>
 </body>
 
 </html>

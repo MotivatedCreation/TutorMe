@@ -1,0 +1,15 @@
+#footer-content-container {
+	min-height: 150px;
+	height: 150px;
+	margin: 0 auto -155px;
+	width: 100%;
+	background: rgba(240, 240, 240, 0.45);
+}
+
+footer {
+	height: 150px;
+	width: 100%;
+	padding: 20px;
+	color: gray;
+	font-size: 11px;
+}

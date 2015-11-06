@@ -34,6 +34,7 @@
 
   <link href="../../css/Log.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
+  <link href="../../css/footer.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
@@ -68,7 +69,7 @@
         <!-- Action Content Group -->
 <!-- THE SEARCH BAR -->
         <div id="action-content-group" class="input-group">
-          <input type="text" class="form-control" style = "width: 400px;"  placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search">
           <div class="input-group-btn">
             <button class="btn btn-default" type="submit" style="margin-right:1000px" ><i class="glyphicon glyphicon-search"></i></button>
           </div>
@@ -106,6 +107,11 @@
   </div>
   <!-- Container End -->
   <script type="text/javascript" src="../views/LogView.js"></script>
+
+  <!-- footer -->
+  <?php include('./Footer.php'); ?>
+  <!-- footer end -->
+
 </body>
 
 </html>

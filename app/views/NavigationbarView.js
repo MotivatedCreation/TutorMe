@@ -113,3 +113,11 @@ var NavigationbarView = Parse.View.extend({
     }
   }
 });
+
+//Hides the checkin button if the user is not a tutor
+function hideCheckIn() {
+  var currentUser = Parse.User.current();
+    if(currentUser.get('accountType') != 1) {
+      $('#check-in-link').hide();
+    }
+}

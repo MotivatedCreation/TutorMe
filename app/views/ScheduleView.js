@@ -6,19 +6,6 @@ var ScheduleView = Parse.View.extend({
   events: {
   },
 
-  convertToTwelveHourTime: function(hour) {
-    var time = "";
-
-    if (hour < 12)
-      time = hour + ":00 AM";
-    else if (hour > 12)
-      time = (hour - 12) + ":00 PM";
-    else if (hour == 12)
-      time = hour + ":00 PM";
-
-    return time;
-  },
-
   initialize: function() {
     this.fetchSchedules();
 
@@ -30,8 +17,8 @@ var ScheduleView = Parse.View.extend({
     var hour = 8;
 
     for (var i = 1; i <= timeLabels.length; i++) {
-      var fromHour = this.convertToTwelveHourTime(hour);
-      var toHour = this.convertToTwelveHourTime(++hour);
+      var fromHour = convertToTwelveHourTime(hour);
+      var toHour = convertToTwelveHourTime(++hour);
       var timeSpan = fromHour + " - " + toHour;
       timeLabels[i - 1]['textContent'] = timeSpan;
     }
@@ -50,6 +37,8 @@ var ScheduleView = Parse.View.extend({
     var promise = new Promise(function(resolve, reject) {
       var query = new Parse.Query('Schedule');
       query.include('tutor');
+      query.include('scheduleEntries');
+      query.include('scheduleEntries.timeEntries');
 
       query.find({
         success: function(theSchedules) {
@@ -78,38 +67,41 @@ var ScheduleView = Parse.View.extend({
   loadSchedule: function() {
     debugLog('[ScheduleView] loadSchedule');
 
-    var table = $('#schedule-table')[0];
-    var dayColumnNames = table.rows[0].querySelectorAll('.day');
+    schedules.forEach(function(schedule) {
+      var scheduleEntries = schedule.get('scheduleEntries');
 
-    for (var i = 0; i < schedules.length; i++)
-    {
-      var schedule = schedules[i];
-      var scheduleInfo = schedule['attributes'];
+      if (scheduleEntries) {
+        var tutor = schedule.get('tutor');
+        var tableChildIndexOffset = 2;
 
-      var hours = table.rows;
+        scheduleEntries.forEach(function(scheduleEntry) {
 
-      for (var j = 1; j < hours.length; j++)
-      {
-        var hour = hours[j];
-        var dayRow = hour.querySelectorAll('td');
+          var day = scheduleEntry.get('day');
+          var timeEntries = scheduleEntry.get('timeEntries');
 
-        for (var k = 0; k < dayColumnNames.length; k++)
-        {
-          var dayColumnName = dayColumnNames[k]['textContent'];
-          var dayData = dayRow[k + 1];
+          if (timeEntries) {
+            $('#schedule-table td:nth-child(' + (day + tableChildIndexOffset) + ')').map(function(hour) {
+              var day = this;
 
-          if (scheduleInfo[dayColumnName.toLowerCase()][j])
-          {
-            var tutor = scheduleInfo['tutor']['attributes'];
+              timeEntries.some(function(timeEntry) {
+                var startTime = (timeEntry.get('startTime') - kOpenAt);
+                var endTime = (timeEntry.get('endTime') - kOpenAt);
 
-            if (dayData['textContent'])
-              dayData['textContent'] += ", " + tutor['lastName'];
-            else
-              dayData['textContent'] = tutor['lastName'];
+                if (hour == startTime && hour == (endTime - 1)) {
+
+                  if (day['textContent'])
+                    day['textContent'] += ", " + tutor.get('lastName');
+                  else
+                    day['textContent'] = tutor.get('lastName');
+
+                  return true;
+                }
+              });
+            });
           }
-        }
+        });
       }
-    }
+    });
   },
 
   handleError: function(error) {
