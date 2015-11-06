@@ -245,7 +245,7 @@ function logOut() {
 
     updateAuthenticationState();
 
-    window.location = " index.php";
+    window.location = "index.php";
 
   }, function(error) {
     handleError(error);
