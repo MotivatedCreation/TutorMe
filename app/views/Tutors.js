@@ -1,5 +1,4 @@
-var Tutor = Parse.Object.extend({
-  className: "_User"
+var Tutor = Parse.Object.extend("_User", {
 });
 
 var TutorView = Parse.View.extend({
@@ -14,11 +13,14 @@ var TutorView = Parse.View.extend({
 
   render: function() {
     var tutorModel = this.model.toJSON();
-    var email = tutorModel.email;
-    debugLog(email);
-    tutorModel.url = getPicByEmail(email)
-    debugLog("URL: " + tutorModel.url);
-    debugLog(tutorModel);
+    if (tutorModel['picture']) {
+      var url = this.model.get('picture').url();
+      tutorModel['url'] = url;
+    }
+    else {
+      tutorModel['url'] = "../../images/noPic.jpg";
+    }
+
     $(this.el).html(this.template(tutorModel));
     return this;
   },

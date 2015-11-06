@@ -42,11 +42,11 @@
       <div id="tutor-content-container" class="container-fluid">
         <div id="media-content-container" class="media">
           <div class="media-left">
-              <img id="tutorPic" class="media-object" src=<%= url %>>
+              <img id="tutorPic" class="media-object" src="<%= url %>">
           </div>
           <div id="media-body" class="media-body">
             <h4 class="media-heading"></h4>
-            <label id="full-name-label"><%= firstName %> <%= lastName %> <%= url %></label>
+            <label id="full-name-label"><%= firstName %> <%= lastName %></label>
             <br />
             <textarea id="description-well" class="well well-sm" readonly="true"><%= description %></textarea>
           </div>
