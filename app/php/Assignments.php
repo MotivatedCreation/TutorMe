@@ -73,11 +73,10 @@
 						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
 						<p>
-<<<<<<< HEAD
+
 							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
-=======
-							<a href="<%= url %>" target="blank" class="btn btn-default" role="button">Open</a>
->>>>>>> master
+
+				
 						</p>
 					</div>
 				</div>
