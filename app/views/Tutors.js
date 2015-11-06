@@ -13,9 +13,15 @@ var TutorView = Parse.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+    var tutorModel = this.model.toJSON();
+    var email = tutorModel.email;
+    debugLog(email);
+    tutorModel.url = getPicByEmail(email)
+    debugLog("URL: " + tutorModel.url);
+    debugLog(tutorModel);
+    $(this.el).html(this.template(tutorModel));
     return this;
-  }
+  },
 });
 
 var Tutors = Parse.Collection.extend({
