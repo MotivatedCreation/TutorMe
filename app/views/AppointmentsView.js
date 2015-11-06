@@ -2,10 +2,6 @@ var Appointment = Parse.Object.extend("Appointment", {
   tutorName: null,
   studentName: null,
   dateRange: null
-}, {
-  fromJSON: function(json) {
-    console.log(json);
-  }
 });
 
 var Appointments = Parse.Collection.extend({
@@ -182,6 +178,7 @@ var AppointmentsView = Parse.View.extend({
         var scheduleEntries = schedule.get('scheduleEntries');
 
         if (scheduleEntries) {
+          var currentDate = moment(new Date());
           var selectedTutorName = event.target.text;
           var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
 
@@ -196,7 +193,8 @@ var AppointmentsView = Parse.View.extend({
                 && selectedTutorName && selectedTutorName == tutorName) {
 
                 timeEntries.forEach(function(timeEntry) {
-                  times[times.length] = timeEntry;
+                  if (timeEntry.get('startTime') > currentDate.hour())
+                    times[times.length] = timeEntry;
                 });
             }
           });
