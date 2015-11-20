@@ -39,11 +39,12 @@ Page used for making appointments
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ProfileView.js"></script>
   <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
 
-<body>
+<body onload="noTeacher()">
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?>

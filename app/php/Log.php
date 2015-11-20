@@ -30,6 +30,7 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="../../bootstrap-3.3.5/js/moment.js"></script>
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
   <link href="../../css/Log.css" rel="stylesheet">
@@ -69,9 +70,9 @@
         <!-- Action Content Group -->
 <!-- THE SEARCH BAR -->
         <div id="action-content-group" class="input-group">
-          <input type="text" class="form-control" placeholder="Search">
+          <input id="searchbar" type="text" class="form-control" placeholder="Search By Date">
           <div class="input-group-btn">
-            <button class="btn btn-default" type="submit" style="margin-right:1000px" ><i class="glyphicon glyphicon-search"></i></button>
+            <button id="search-button" class="btn btn-default" type="submit" style="margin-right:1000px" ><i class="glyphicon glyphicon-search"></i></button>
           </div>
         </div>
 <!-- END -->
@@ -95,11 +96,11 @@
 <!-- LOG ENTRY TEMPLATE -->
       <!-- Log Entry Template -->
       <script type="text/template" id="log-entry-template">
-        <td><%= createdAt %></td>
-        <td><%= student['firstName'] %></td>
-        <td><%= classNumber %></td>
-        <td></td>
-        <td></td>
+        <td><%= dateRange %></td>
+        <td><%= studentName %></td>
+        <td><%= className %></td>
+        <td><%= teacherName %></td>
+        <td><%= tutorName %></td>
       </script>
       <!-- Log Entry Template End-->
     </div>

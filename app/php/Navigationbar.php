@@ -110,7 +110,7 @@
             <li><a id="check-out-link" href="#">
               <div style="margin-right:10px;" class="glyphicon glyphicon-unchecked"></div>
               Check out</a></li>
-            <li><a id="logout-link" href="#">
+            <li><a id="logout-link" href="http://localhost/TutorMe/index.php">
               <div style="margin-right:10px;" class="glyphicon glyphicon-log-out"></div>
               Logout</a></li>
           </ul>

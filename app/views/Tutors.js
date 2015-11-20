@@ -20,6 +20,10 @@ var TutorView = Parse.View.extend({
     else {
       tutorModel['url'] = "../../images/noPic.jpg";
     }
+    if(!(tutorModel['description'])) {
+      tutorModel['description'] = "This loser hasn't made a description";
+    }
+
 
     $(this.el).html(this.template(tutorModel));
     return this;
