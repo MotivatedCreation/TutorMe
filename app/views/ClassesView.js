@@ -95,6 +95,10 @@ var ClassesView = Parse.View.extend({
     var self = this;
 
     var className = $('#class-name-input').val();
+    if (!(/\S/.test(className))) {
+      self.hideAddClassModal();
+      return false;
+    }
 
     var Class = Parse.Object.extend('Class');
 

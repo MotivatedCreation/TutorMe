@@ -67,7 +67,7 @@
             </form>
           </div>
           <div id="login-modal-content-container" class="col-md-6">
-            <form id = "formID">
+            <form id = "formID" onsubmit="loginClick();return false">
               <div class="form-group">
                 <label for="login-email-label" class="control-label">Email:</label>
                 <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. whatis@nemail.com">
@@ -76,6 +76,7 @@
                 <label for="login-password-label" class="control-label">Password:</label>
                 <a id="forgot-password-link" class="pull-right" href="#">Forgot Password?</a>
                 <input type="password" class="form-control" id="login-password-input" value="">
+                <input type="submit" id="hideSubmit" style="display:none;">
               </div>
             </form>
           </div>
