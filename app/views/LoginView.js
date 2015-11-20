@@ -94,8 +94,3 @@ var LoginView = Parse.View.extend({
 $(function() {
   var loginView = new LoginView({el: '.modal-content'});
 });
-
-
-function test() {
-  debugLog("TESTING");
-}
