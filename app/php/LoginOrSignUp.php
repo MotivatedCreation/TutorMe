@@ -1,7 +1,5 @@
 <!-- LoginOrSignUp.php
   The login or signup Popup for logging in or signing up
-  Probably should only allow students to sign up, or have everyone sign up
-  and have One level up users allow to promote student level users
 -->
 
 <?php if (kCurrentFile == 'index.php'): ?>
@@ -32,7 +30,7 @@
             <form>
 
 <!-- Choosing account type -->
-              <div class="form-group">
+<!--              <div class="form-group">
                 <label for="signUp-account-type-label" class="control-label">Account Type:</label>
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="account-type-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -47,7 +45,7 @@
                     <li><a id="teacher-account-type" data-id="Teacher" href="#">Teacher</a></li>
                   </ul>
                 </div>
-              </div>
+              </div>-->
 
 
               <div class="form-group">
@@ -69,7 +67,7 @@
             </form>
           </div>
           <div id="login-modal-content-container" class="col-md-6">
-            <form>
+            <form id = "formID" onsubmit="loginClick();return false">
               <div class="form-group">
                 <label for="login-email-label" class="control-label">Email:</label>
                 <input type="text" class="form-control" id="login-email-input" value="" placeholder="e.g. whatis@nemail.com">
@@ -78,6 +76,7 @@
                 <label for="login-password-label" class="control-label">Password:</label>
                 <a id="forgot-password-link" class="pull-right" href="#">Forgot Password?</a>
                 <input type="password" class="form-control" id="login-password-input" value="">
+                <input type="submit" id="hideSubmit" style="display:none;">
               </div>
             </form>
           </div>

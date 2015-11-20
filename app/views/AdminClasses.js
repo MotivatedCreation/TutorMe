@@ -46,7 +46,6 @@ var ClassesView = Parse.View.extend({
     var self = this;
 
     var query = new Parse.Query('Class');
-    query.equalTo('users', Parse.User.current());
 
     query.find({
       success: function(classes) {
@@ -95,10 +94,6 @@ var ClassesView = Parse.View.extend({
     var self = this;
 
     var className = $('#class-name-input').val();
-    if (!(/\S/.test(className))) {
-      self.hideAddClassModal();
-      return false;
-    }
 
     var Class = Parse.Object.extend('Class');
 
@@ -115,7 +110,7 @@ var ClassesView = Parse.View.extend({
         }
 
         theClass.set('name', $('#class-name-input').val());
-        theClass.add('users', Parse.User.current());
+
 
         theClass.save(null, {
           success: function(success) {
@@ -162,13 +157,11 @@ var ClassesView = Parse.View.extend({
         debugLog('[ClassesView] removeClass success!');
 
         if (theClass) {
-          theClass.set('name', className);
-          theClass.remove('users', Parse.User.current());
 
-          theClass.save(null, {
+          theClass.destroy(null, {
             success: function(success) {
-              debugLog('[ClassesView] addClass success!');
-
+              debugLog('[ClassesView] destroyed!');
+              
               row.remove();
 
               $(self.el).prepend($("#success-alert-template").html());
@@ -180,6 +173,7 @@ var ClassesView = Parse.View.extend({
                 self.handleError(error);
             }
           });
+        location.reload();
         }
       },
       error: function(error) {

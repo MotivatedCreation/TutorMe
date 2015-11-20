@@ -244,8 +244,7 @@ function logOut() {
     debugLog("[App] logOut success!");
 
     updateAuthenticationState();
-
-    window.location = "index.php";
+    window.location.href = "http://localhost/TutorMe/index.php";
 
   }, function(error) {
     handleError(error);

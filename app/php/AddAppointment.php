@@ -48,6 +48,37 @@
               </div>
             </div>
           </div>
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="pull-right" id="class-dropdown-content-container">
+                <label class="control-label">Class:</label>
+                <div class="dropdown" id="class-dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <label id="class-dropdown-label" style="font-weight: normal;">Select a Class...</label>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="class-dropdown-menu" aria-labelledby="dropdownMenu">
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="pull-left" id="teacher-dropdown-content-container">
+                <label class="control-label">Teacher:</label>
+                <div class="dropdown" id="teacher-dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <label id="teacher-dropdown-label" style="font-weight: normal;">Select a Teacher...</label>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" id="teacher-dropdown-menu" aria-labelledby="dropdownMenu">
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -77,7 +108,25 @@
   <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= convertToTwelveHourTime(startTime) %> - <%= convertToTwelveHourTime(endTime) %></a>
   <script type="text/javascript">
   $("#time-dropdown li a").click(function(event) {
-    $(this).trigger('time-dropdown-menu:changed');
+    $(this).trigger('time-dropdown:changed');
+  });
+  </script>
+</script>
+
+<script type="text/template" id="class-dropdown-selection-template">
+  <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= name %></a>
+  <script type="text/javascript">
+  $("#class-dropdown li a").click(function(event) {
+    $(this).trigger('class-dropdown:changed');
+  });
+  </script>
+</script>
+
+<script type="text/template" id="teacher-dropdown-selection-template">
+  <a id="<%= objectId %>" data-id="<%= objectId %>" href="#"><%= firstName %> <%= lastName %></a>
+  <script type="text/javascript">
+  $("#teacher-dropdown li a").click(function(event) {
+    $(this).trigger('teacher-dropdown:changed');
   });
   </script>
 </script>
