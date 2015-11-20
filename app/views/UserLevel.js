@@ -5,7 +5,7 @@
 
 //redirect() redirects to the index page
 function redirect() {
-  window.location.href = "../.././index.php";
+  window.location.href = "http://localhost/TutorMe/index.php";
 }
 
 //Checks if addmin
@@ -42,6 +42,18 @@ function checkTutor() {
   var currentUser = Parse.User.current();
   if(currentUser) {
     if(currentUser.get('accountType') < 1) {    //If user is account type tutor
+      redirect();
+    }
+  }
+  else {
+    redirect();
+  }
+}
+
+function noTeacher() {
+  var currentUser = Parse.User.current();
+  if(currentUser) {
+    if(currentUser.get('accountType') == 2) {    //If user is account type tutor
       redirect();
     }
   }

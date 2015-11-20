@@ -37,6 +37,7 @@ var LoginView = Parse.View.extend({
 
       logIn(email, password).then(function() {
         $('#login-or-signUp-modal').modal('hide');
+        window.location.href = "http://localhost/TutorMe/app/php/Profile.php";
       }, function(error) {
         if (error)
           self.handleError(error);
@@ -93,3 +94,8 @@ var LoginView = Parse.View.extend({
 $(function() {
   var loginView = new LoginView({el: '.modal-content'});
 });
+
+
+function test() {
+  debugLog("TESTING");
+}
