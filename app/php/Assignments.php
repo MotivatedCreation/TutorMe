@@ -33,12 +33,12 @@
   <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.5.0.min.js"></script>
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
-
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
 
-<body>
+<body onload="checkTutor()">
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?>
@@ -68,13 +68,15 @@
 		<div class="row">
 			<div class="col-sm-6 col-md-4">
 				<div class="thumbnail">
+				<img src="../../images/page.png">
 					<div class="caption">
 						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
 						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
 						<p>
+
 							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
-						<p>
-							<a href="<%= url %>" target="blank" class="btn btn-default" role="button">Open</a>
+
+				
 						</p>
 					</div>
 				</div>

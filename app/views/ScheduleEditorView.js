@@ -155,7 +155,6 @@ var ScheduleEditorView = Parse.View.extend({
           var timeEntry = new TimeEntry();
           timeEntry.set('startTime', startTime);
           timeEntry.set('endTime', endTime);
-          timeEntry.set('scheduleEntry', scheduleEntry);
           timeEntries[timeEntries.length] = timeEntry;
 
           previousStartTime = startTime;

@@ -34,3 +34,16 @@
 #save-description-button {
   margin: 20px 0 10px 0;
 }
+
+.media-left > input
+{
+    display: none;
+}
+
+img {
+    display: block;
+    max-width:64px;
+    max-height:64px;
+    width: auto;
+    height: auto;
+}

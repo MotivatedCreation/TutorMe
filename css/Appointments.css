@@ -15,3 +15,10 @@
   left: 20px;
   width: calc(100% - 320px);
 }
+
+#appointment-table-header {
+  position: relative;
+  left: 20px;
+  width: calc(100% - 320px);
+  margin: 1px;
+}
