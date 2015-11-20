@@ -39,11 +39,12 @@ Page used for making appointments
   <script type="text/javascript" src="../models/App.js"></script>
   <script type="text/javascript" src="../views/ProfileView.js"></script>
   <script type="text/javascript" src="../views/ActivityIndicatorView.js"></script>
+  <script type="text/javascript" src="../views/UserLevel.js"></script>
 
   <?php include('./Global.php'); ?>
 </head>
 
-<body>
+<body onload="noTeacher()">
   <!-- Container -->
   <div class="container-fluid">
     <?php include('../php/LoginOrSignUp.php'); ?>
@@ -94,14 +95,14 @@ Page used for making appointments
 
       <!-- Appointment Entry Template -->
       <script type="text/template" id="appointment-entry-template">
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= studentName %></label>
+        <td id="<%= objectId %>">
+          <label id="studentName<%= objectId %>" style="font-weight: normal;"><%= studentName %></label>
         </td>
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= tutorName %></label>
+        <td id="<%= objectId %>">
+          <label id="tutorName<%= objectId %>" style="font-weight: normal;"><%= tutorName %></label>
         </td>
-        <td>
-          <label id="appointment-name-label" style="font-weight: normal;"><%= dateRange %></label>
+        <td id="<%= objectId %>">
+          <label id="dateRange<%= objectId %>" style="font-weight: normal;"><%= dateRange %></label>
         </td>
         <td>
           <button id="reschedule-appointment-button" type="button" class="btn btn-default btn-sm" value="<%= objectId %>">

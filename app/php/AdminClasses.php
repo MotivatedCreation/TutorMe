@@ -1,5 +1,5 @@
-<!-- Assignments.php
-  Assignments page
+<!-- AdminClasses.php
+  For Deleting Classes
 -->
 
 <!DOCTYPE html>
@@ -9,7 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <title>TutorMe - Assignments</title>
+  <title>TutorMe - Classes</title>
 
   <!-- Bootstrap -->
   <link href="../../bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -26,7 +26,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="../../bootstrap-3.3.5/js/bootstrap.min.js"></script>
 
-  <link href="../../css/Assignments.css" rel="stylesheet">
+  <link href="../../css/Classes.css" rel="stylesheet">
   <link href="../../css/Global.css" rel="stylesheet">
 
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
@@ -38,52 +38,47 @@
   <?php include('./Global.php'); ?>
 </head>
 
-<body onload="checkTutor()">
+<body onload="checkAdmin()">
   <!-- Container -->
   <div class="container-fluid">
-    <?php include('../php/LoginOrSignUp.php'); ?>
+    <?php include('../php/LoginOrSignUp.php'); ?> <!-- Login or Signup pop up -->
+
     <!-- Navigation Content Container -->
     <div class="container-fluid">
       <!-- Navigationbar -->
-      <?php include('./Navigationbar.php'); ?>
+      <?php include('./Navigationbar.php'); ?>    <!-- Navigation Bar -->
       <!-- Navigationbar end -->
     </div>
     <!-- Navigation Content Container -->
 
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
+      <?php include('./AddClass.php'); ?> <!-- Add class popup when pushing add class button -->
+      <?php include('./AdminMenu.php'); ?>  <!-- The account menu side menu -->
 
-	<!-- Assignment Table -->
-      <table id="assignments-table" class="table table-bordered table-hover">
+      <!-- Classes Table -->
+      <table id="classes-table" class="table table-bordered table-hover">
         <tr>
           <th>
-            <label style="margin-top: 6px;">Assignments</label>
+            <label style="margin-top: 6px;">Classes</label>
+            <div class="btn-group pull-right" role="group">
+                <button id="add-class-button" type="button" class="btn btn-default btn-sm"><div class="glyphicon glyphicon-plus"></button>
+            </div>
           </th>
         </tr>
       </table>
-      <!-- Assignment Table End -->
+      <!-- Classes Table End -->
 
-      <!-- Assignment Entry Template -->
-      <script type="text/template" id="assignments-entry-template">
-		<div class="row">
-			<div class="col-sm-6 col-md-4">
-				<div class="thumbnail">
-				<img src="../../images/page.png">
-					<div class="caption">
-						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
-						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						<p>
-
-							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
-
-				
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+      <!-- Class Entry Template -->
+      <script type="text/template" id="class-entry-template">
+          <td>
+            <label id="class-name-label" style="font-weight: normal;"><%= name %></label>
+            <div class="btn-group pull-right" role="group">
+                <button id="remove-class-button" type="button" class="btn btn-danger btn-xs"><div class="glyphicon glyphicon-minus"></button>
+            </div>
+          </td>
       </script>
-      <!-- Assignment Entry Template End -->
+      <!-- class Entry Template End -->
 
       <script type="text/template" id="error-alert-template">
         <div id="error-alert" class="alert alert-danger">
@@ -98,11 +93,11 @@
           <label id="success-alert-label"></label>
        </div>
       </script>
+
     </div>
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
-<script type="text/javascript" src="../views/AssignmentsView.js"></script>
+  <script type="text/javascript" src="../views/AdminClasses.js"></script>
 </body>
-
 </html>

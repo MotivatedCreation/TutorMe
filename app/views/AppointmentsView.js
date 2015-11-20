@@ -1,13 +1,16 @@
-var Appointment = Parse.Object.extend("Appointment", {
-  tutorName: null,
-  studentName: null,
-  dateRange: null
-}, {
-  fromJSON: function(json) {
-    console.log(json);
+var Schedule = Parse.Object.extend("Schedue");
+var Schedules = Parse.Collection.extend({
+  model: Schedule,
+  query: new Parse.Query('Schedule'),
+
+  initialize: function(attrs, options) {
+    this.query.include('tutor');
+    this.query.include('scheduleEntries');
+    this.query.include('scheduleEntries.timeEntries');
   }
 });
 
+var Appointment = Parse.Object.extend("Appointment");
 var Appointments = Parse.Collection.extend({
   model: Appointment,
   query: new Parse.Query('Appointment'),
@@ -16,7 +19,25 @@ var Appointments = Parse.Collection.extend({
     this.query.include('student');
     this.query.include('tutor');
     this.query.include('timeEntry');
+    this.query.include('class');
+    this.query.include('teacher');
   }
+});
+
+var Class = Parse.Object.extend("Class");
+var Classes = Parse.Collection.extend({
+  model: Class,
+  query: new Parse.Query('Class')
+});
+
+var Teacher = Parse.Object.extend("User");
+var Teachers = Parse.Collection.extend({
+  model: Teacher,
+  query: new Parse.Query('User'),
+
+  initialize: function() {
+    this.query.equalTo('accountType', 2);
+  },
 });
 
 var View = Parse.View.extend({
@@ -42,15 +63,37 @@ var TimeDropdownSelectionView = View.extend({
   template: _.template($('#time-dropdown-selection-template').html()),
 });
 
+var ClassDropdownSelectionView = View.extend({
+  tagName: "li",
+  template: _.template($('#class-dropdown-selection-template').html()),
+});
+
+var TeacherDropdownSelectionView = View.extend({
+  tagName: "li",
+  template: _.template($('#teacher-dropdown-selection-template').html()),
+});
+
 var AppointmentEntryView = View.extend({
   tagName: "tr",
   template: _.template($('#appointment-entry-template').html()),
+
+  render: function() {
+    var json = this.model.toJSON();
+    json['tutorName'] = this.model.get('tutor').get('firstName') + ' ' + this.model.get('tutor').get('lastName');
+    json['studentName'] = this.model.get('student').get('firstName') + ' ' + this.model.get('student').get('lastName');
+    json['dateRange'] = moment(this.model.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(this.model.get('timeEntry').get('startTime')) + " - " + convertToTwelveHourTime(this.model.get('timeEntry').get('endTime'));
+
+    $(this.el).html(this.template(json));
+    return this;
+  }
 });
 
 var AppointmentsView = Parse.View.extend({
 
   el: "#content-container",
-  schedules: null,
+  schedules: new Schedules(),
+  classes: new Classes(),
+  teachers: new Teachers(),
   appointments: new Appointments(),
   isReschedulingAppointment: false,
   appointmentToReschedule: null,
@@ -63,7 +106,9 @@ var AppointmentsView = Parse.View.extend({
     'click #reschedule-appointment-button' : 'showRescheduleAppointmentModal',
     'click #reschedule-appointment-modal-button' : 'rescheduleAppointment',
     'tutor-dropdown:changed' : 'tutorDropDownChanged',
-    'time-dropdown-menu:changed' : 'timeDropDownLabelChanged'
+    'time-dropdown:changed' : 'timeDropDownLabelChanged',
+    'class-dropdown:changed' : 'classDropDownLabelChanged',
+    'teacher-dropdown:changed' : 'teacherDropDownLabelChanged'
   },
 
   initialize: function() {
@@ -75,6 +120,10 @@ var AppointmentsView = Parse.View.extend({
     $('#reschedule-appointment-modal-button').hide();
 
     this.fetchSchedules().then(function(success) {
+      return self.fetchClasses();
+    }).then(function(success) {
+      return self.fetchTeachers();
+    }).then(function(success) {
       return self.fetchAppointments();
     }).then(function(success) {
       $('.activity-indicator-container').fadeOut(1000);
@@ -100,6 +149,8 @@ var AppointmentsView = Parse.View.extend({
     $('#add-appointment-modal').modal('show');
 
     this.loadAvailableTutors();
+    this.loadClassesDropdown();
+    this.loadTeachersDropdown();
   },
 
   showRescheduleAppointmentModal: function(event) {
@@ -113,20 +164,32 @@ var AppointmentsView = Parse.View.extend({
     var appointmentId = $(event.currentTarget).val();
     this.appointmentToReschedule = this.appointmentForAppointmentId(appointmentId);
 
+    this.showAddAppointmentModal();
+
     $('#datetimepicker').data('DateTimePicker').date(this.appointmentToReschedule.get('date'));
 
     var tutor = this.appointmentToReschedule.get('tutor');
-    $("#tutor-dropdown").find('.btn').html(this.appointmentToReschedule.get('tutorName') + ' <span class="caret"></span>');
+    var tutorName = tutor.get('firstName') + ' ' + tutor.get('lastName');
+
+    $("#tutor-dropdown").find('.btn').html(tutorName + ' <span class="caret"></span>');
     $("#tutor-dropdown").find('.btn').val(tutor['id']);
 
     var timeEntry = this.appointmentToReschedule.get('timeEntry');
     $("#time-dropdown").find('.btn').html(convertToTwelveHourTime(timeEntry.get('startTime')) + ' - ' + convertToTwelveHourTime(timeEntry.get('endTime')) + ' <span class="caret"></span>');
     $("#time-dropdown").find('.btn').val(timeEntry['id']);
 
+    var aClass = this.appointmentToReschedule.get('class');
+    $("#class-dropdown").find('.btn').html(aClass.get('name') + ' <span class="caret"></span>');
+    $("#class-dropdown").find('.btn').val(aClass['id']);
+
+    var teacher = this.appointmentToReschedule.get('teacher');
+    var teacherName = teacher.get('firstName') + ' ' + teacher.get('lastName');
+
+    $("#teacher-dropdown").find('.btn').html(teacherName + ' <span class="caret"></span>');
+    $("#teacher-dropdown").find('.btn').val(teacher['id']);
+
     $('#tutor-dropdown').find('.btn').removeClass('disabled');
     $('#time-dropdown').find('.btn').removeClass('disabled');
-
-    this.showAddAppointmentModal();
   },
 
   hideAddAppointmentModal: function() {
@@ -139,6 +202,8 @@ var AppointmentsView = Parse.View.extend({
     $('#datetimepicker').data("DateTimePicker").date(new Date());
 
     this.isReschedulingAppointment = false;
+    this.appointmentToReschedule = null;
+
     this.resetAddAppointmentModal();
   },
 
@@ -159,6 +224,7 @@ var AppointmentsView = Parse.View.extend({
   },
 
   tutorDropDownChanged: function(event) {
+    debugLog('[AppointmentsView] tutorDropDownChanged');
 
     $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
     $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
@@ -168,44 +234,12 @@ var AppointmentsView = Parse.View.extend({
     else
       $('#schedule-appointment-modal-button').addClass('disabled');
 
-    if (this.schedules) {
-
-      var self = this;
-
-      var times = [];
-
-      for (var i = 0; i < this.schedules.length; i++)
-      {
-        var schedule = this.schedules[i];
-        var scheduleEntries = schedule.get('scheduleEntries');
-
-        if (scheduleEntries) {
-          var selectedTutorName = event.target.text;
-          var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
-
-          var tutor = schedule.get('tutor');
-          var tutorName = tutor.get('firstName') + " " + tutor.get('lastName');
-
-          scheduleEntries.forEach(function(scheduleEntry) {
-            var timeEntries = scheduleEntry.get('timeEntries');
-
-            if (scheduleEntry.get('day') == selectedDate.day()
-                && timeEntries && timeEntries.length > 0
-                && selectedTutorName && selectedTutorName == tutorName) {
-
-                timeEntries.forEach(function(timeEntry) {
-                  times[times.length] = timeEntry;
-                });
-            }
-          });
-        }
-      }
-
-      this.loadTimeDropdown(times);
-    }
+    this.loadTimesForTutorWithId($(event.target).data('id'));
   },
 
   timeDropDownLabelChanged: function(event) {
+    debugLog('[AppointmentsView] timeDropDownLabelChanged');
+
     $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
     $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
 
@@ -215,10 +249,26 @@ var AppointmentsView = Parse.View.extend({
       $('#schedule-appointment-modal-button').removeClass('disabled');
   },
 
+  classDropDownLabelChanged: function(event) {
+    debugLog('[AppointmentsView] classDropDownLabelChanged');
+
+    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
+    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
+  },
+
+  teacherDropDownLabelChanged: function(event) {
+    debugLog('[AppointmentsView] teacherDropDownLabelChanged');
+
+    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
+    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
+  },
+
   tutorForTutorId: function(theTutorId) {
+    debugLog('[AppointmentsView] tutorForTutorId');
+
     for (var i = 0; i < this.schedules.length; i++)
     {
-      var schedule = this.schedules[i];
+      var schedule = this.schedules.at(i);
 
       var tutor = schedule.get('tutor');
       var tutorId = tutor['id'];
@@ -229,6 +279,8 @@ var AppointmentsView = Parse.View.extend({
   },
 
   appointmentForAppointmentId: function(theAppointmentId) {
+    debugLog('[AppointmentsView] appointmentForAppointmentId');
+
     for (var i = 0; i < this.appointments.length; i++)
     {
       var appointment = this.appointments.at(i);
@@ -240,10 +292,12 @@ var AppointmentsView = Parse.View.extend({
   },
 
   timeEntryForTimeEntryId: function(timeEntryId) {
+    debugLog('[AppointmentsView] timeEntryForTimeEntryId');
+
     var timeEntry;
     for (var i = 0; i < this.schedules.length; i++)
     {
-      var schedule = this.schedules[i];
+      var schedule = this.schedules.at(i);
       var scheduleEntries = schedule.get('scheduleEntries');
 
       if (scheduleEntries) {
@@ -266,6 +320,32 @@ var AppointmentsView = Parse.View.extend({
     }
   },
 
+  classForClassId: function(theClassId) {
+    debugLog('[AppointmentsView] classForClassId');
+
+    for (var i = 0; i < this.classes.length; i++)
+    {
+      var aClass = this.classes.at(i);
+      var classId = aClass['id'];
+
+      if (classId == theClassId)
+        return aClass;
+    }
+  },
+
+  teacherForTeacherId: function(theTeacherId) {
+    debugLog('[AppointmentsView] teacherForTeacherId');
+
+    for (var i = 0; i < this.teachers.length; i++)
+    {
+      var teacher = this.teachers.at(i);
+      var teacherId = teacher['id'];
+
+      if (teacherId == theTeacherId)
+        return teacher;
+    }
+  },
+
   fetchSchedules: function() {
     $("#error-alert").remove();
     $("#success-alert").remove();
@@ -273,17 +353,55 @@ var AppointmentsView = Parse.View.extend({
     debugLog('[AppointmentsView] fetchSchedules');
 
     var self = this;
-
-    var query = new Parse.Query('Schedule');
-    query.include('tutor');
-    query.include('scheduleEntries');
-    query.include('scheduleEntries.timeEntries');
+    var query = this.schedules.query;
 
     var promise = new Promise(function(resolve, reject) {
-      query.find().then(function(theSchedules) {
+      self.schedules.fetch().then(function(theSchedules) {
         debugLog('[AppointmentsView] fetchSchedules success!');
 
-        self.schedules = theSchedules;
+        resolve();
+      }, function(error) {
+        reject(error);
+      });
+    });
+
+    return promise;
+  },
+
+  fetchClasses: function() {
+    $("#error-alert").remove();
+    $("#success-alert").remove();
+
+    debugLog('[AppointmentsView] fetchClasses');
+
+    var self = this;
+    var query = this.classes.query;
+
+    var promise = new Promise(function(resolve, reject) {
+      self.classes.fetch().then(function(theClasses) {
+        debugLog('[AppointmentsView] fetchClasses success!');
+
+        resolve();
+      }, function(error) {
+        reject(error);
+      });
+    });
+
+    return promise;
+  },
+
+  fetchTeachers: function() {
+    $("#error-alert").remove();
+    $("#success-alert").remove();
+
+    debugLog('[AppointmentsView] fetchTeachers');
+
+    var self = this;
+    var query = this.teachers.query;
+
+    var promise = new Promise(function(resolve, reject) {
+      self.teachers.fetch().then(function(theTeachers) {
+        debugLog('[AppointmentsView] fetchTeachers success!');
 
         resolve();
       }, function(error) {
@@ -331,35 +449,64 @@ var AppointmentsView = Parse.View.extend({
     this.resetAddAppointmentModal();
 
     var self = this;
+    var tutors = [];
 
-    if (this.schedules)
+    this.schedules.forEach(function(schedule)
     {
-      var tutors = [];
+      var scheduleEntries = schedule.get('scheduleEntries');
 
-      this.schedules.forEach(function(schedule)
+      var currentDate = moment(new Date());
+      var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
+
+      scheduleEntries.forEach(function(scheduleEntry)
       {
-        var scheduleEntries = schedule.get('scheduleEntries');
+        var timeEntries = scheduleEntry.get('timeEntries');
 
-        if (scheduleEntries)
+        if (scheduleEntry.get('day') == selectedDate.day()
+            && timeEntries && timeEntries.length > 0)
         {
-          var currentDate = moment(new Date());
-          var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
-
-          scheduleEntries.forEach(function(scheduleEntry)
-          {
-            var timeEntries = scheduleEntry.get('timeEntries');
-
-            if (scheduleEntry.get('day') == selectedDate.day()
-                && timeEntries && timeEntries.length > 0)
-            {
-              tutors[tutors.length] = schedule.get('tutor');
-            }
-          });
+          tutors[tutors.length] = schedule.get('tutor');
         }
       });
+    });
 
-      this.loadTutorDropdown(tutors);
-    }
+    this.loadTutorDropdown(tutors);
+  },
+
+  loadTimesForTutorWithId: function(selectedTutorId)
+  {
+    var self = this;
+    var times = [];
+
+    var schedule;
+
+    this.schedules.forEach(function(aSchedule) {
+      if (aSchedule.get('tutor')['id'] == selectedTutorId) {
+        schedule = aSchedule;
+        return;
+      }
+    });
+
+    schedule.get('scheduleEntries').forEach(function(scheduleEntry) {
+      var currentDate = moment(new Date());
+      var selectedDate = $('#datetimepicker').data("DateTimePicker").date();
+
+      var tutor = schedule.get('tutor');
+      var tutorId = tutor['id'];
+
+      var timeEntries = scheduleEntry.get('timeEntries');
+
+      if (scheduleEntry.get('day') == selectedDate.day()
+          && timeEntries && timeEntries.length > 0
+          && selectedTutorId == tutorId) {
+
+          timeEntries.forEach(function(timeEntry) {
+            times[times.length] = timeEntry;
+          });
+      }
+    });
+
+    this.loadTimeDropdown(times);
   },
 
   loadTutorDropdown: function(tutors) {
@@ -412,20 +559,38 @@ var AppointmentsView = Parse.View.extend({
     }
   },
 
+  loadClassesDropdown: function() {
+    debugLog('[AppointmentsView] loadClassesDropdown');
+
+    $('#class-dropdown').find('.btn').html('Select a Class... <span class="caret"></span>');
+
+    $('#class-dropdown-menu').empty();
+
+    this.classes.forEach(function(aClass) {
+      var view = new ClassDropdownSelectionView({model: aClass});
+      $("#class-dropdown-menu").append(view.render().el);
+    });
+  },
+
+  loadTeachersDropdown: function() {
+    debugLog('[AppointmentsView] loadTeachersDropdown');
+
+    $('#teacher-dropdown').find('.btn').html('Select a Teacher... <span class="caret"></span>');
+
+    $('#teacher-dropdown-menu').empty();
+
+    this.teachers.forEach(function(aTeacher) {
+      var view = new TeacherDropdownSelectionView({model: aTeacher});
+      $("#teacher-dropdown-menu").append(view.render().el);
+    });
+  },
+
   loadAppointments: function() {
     debugLog('[AppointmentsView] loadAppointments');
 
     for (var i = 0; i < this.appointments.length; i++)
     {
       var appointment = this.appointments.at(i);
-      var tutor = appointment.get('tutor');
-      var student = appointment.get('student');
-      var timeEntry = appointment.get('timeEntry');
-
-      appointment.set('tutorName', tutor.get('firstName') + ' ' + tutor.get('lastName'));
-      appointment.set('studentName', student.get('firstName') + ' ' + student.get('lastName'));
-      appointment.set('dateRange', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
-
       var view = new AppointmentEntryView({model: appointment});
       $("#appointment-table").append(view.render().el);
     }
@@ -442,40 +607,70 @@ var AppointmentsView = Parse.View.extend({
     var date = $('#datetimepicker').data("DateTimePicker").date();
     var tutorId = $("#tutor-dropdown").find('.btn').val();
     var timeEntryId = $("#time-dropdown").find('.btn').val();
+    var classId = $("#class-dropdown").find('.btn').val();
+    var teacherId = $("#teacher-dropdown").find('.btn').val();
 
     var tutor = this.tutorForTutorId(tutorId);
+    var aClass = this.classForClassId(classId);
+    var teacher = this.teacherForTeacherId(teacherId);
     var timeEntry = this.timeEntryForTimeEntryId(timeEntryId);
 
     date.hour(timeEntry.get('startTime')).minute(0).second(0);
 
-    var Appointment = Parse.Object.extend('Appointment');
-    var appointment = new Appointment();
+    var appointment;
+
+    if (this.isReschedulingAppointment)
+    {
+      appointment = this.appointmentToReschedule;
+    }
+    else {
+      var Appointment = Parse.Object.extend('Appointment');
+      var appointment = new Appointment();
+    }
+
     appointment.set('date', date.toDate());
     appointment.set('tutor', tutor);
     appointment.set('timeEntry', timeEntry);
+    appointment.set('class', aClass);
+    appointment.set('teacher', teacher);
     appointment.set('student', Parse.User.current());
 
-    appointment.save().then(function(success) {
-      debugLog('[AppointmentsView] addAppointment success!');
+    var promise = new Promise(function(resolve, reject) {
+      appointment.save().then(function(success) {
+        debugLog('[AppointmentsView] addAppointment success!');
+        $(self.el).prepend($("#success-alert-template").html());
 
-      self.hideAddAppointmentModal();
+        if (!self.isReschedulingAppointment) {
+          $('#success-alert-label').text("Success! The appointment has been successfully scheduled.");
 
-      var tutor = appointment.get('tutor');
-      var student = appointment.get('student');
-      var timeEntry = appointment.get('timeEntry');
+          self.appointments.add(appointment);
 
-      appointment.set('tutorName', tutor.get('firstName') + ' ' + tutor.get('lastName'));
-      appointment.set('studentName', student.get('firstName') + ' ' + student.get('lastName'));
-      appointment.set('dateRange', moment(appointment.get('date')).format('MMMM D, YYYY') + " @ " + convertToTwelveHourTime(timeEntry.get('startTime')) + " - " + convertToTwelveHourTime(timeEntry.get('endTime')));
-      self.appointments.add(appointment);
+          var view = new AppointmentEntryView({model: appointment});
+          $("#appointment-table").append(view.render().el);
+        }
+        else {
+          $('#success-alert-label').text("Success! The appointment has been successfully rescheduled.");
 
-      var view = new AppointmentEntryView({model: appointment});
-      $("#appointment-table").append(view.render().el);
+          var tutorNameLabel = $('#appointment-table').find('#tutorName' + appointment['id']);
+          tutorNameLabel.text(appointment.get('tutorName'));
 
-    }, function(error) {
-      if (error)
-        self.handleError(error);
+          var dateRangeLabel = $('#appointment-table').find('#dateRange' + appointment['id']);
+          dateRangeLabel.text(appointment.get('dateRange'));
+        }
+
+        self.hideAddAppointmentModal();
+
+        resolve();
+
+      }, function(error) {
+        if (error)
+          self.handleError(error);
+
+        reject();
+      });
     });
+
+    return promise;
   },
 
   cancelAppointment: function(event) {
@@ -513,8 +708,12 @@ var AppointmentsView = Parse.View.extend({
   },
 
   rescheduleAppointment: function(event) {
-    this.appointmentToReschedule = null;
-    this.hideAddAppointmentModal();
+    var self = this;
+
+    this.addAppointment().then(function(success) {
+      self.appointmentToReschedule = null;
+      self.isReschedulingAppointment = false;
+    });
   },
 
   handleError: function(error) {

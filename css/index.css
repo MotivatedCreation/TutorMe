@@ -53,6 +53,9 @@
 #slide3 {
 	background: url('../images/carousel_medium_03.jpg') top center no-repeat;
 }
+
+
+
 @media (max-width: 768px) {
 
 	#myCarousel .item { height: 310px; }
@@ -91,9 +94,13 @@
 	#slide2 {
 		background: url('../images/carousel_large_02.jpg') top center no-repeat;
 	}
-
+/* /*yar har har
 	#slide3 {
 		background: url('../images/carousel_large_03.jpg') top center no-repeat;
+	}
+*/
+	#slide3 {
+		background: url('../images/image1.JPG') top center no-repeat;
 	}
 
 }

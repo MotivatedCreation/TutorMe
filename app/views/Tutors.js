@@ -1,5 +1,4 @@
-var Tutor = Parse.Object.extend({
-  className: "_User"
+var Tutor = Parse.Object.extend("_User", {
 });
 
 var TutorView = Parse.View.extend({
@@ -13,9 +12,22 @@ var TutorView = Parse.View.extend({
   },
 
   render: function() {
-    $(this.el).html(this.template(this.model.toJSON()));
+    var tutorModel = this.model.toJSON();
+    if (tutorModel['picture']) {
+      var url = this.model.get('picture').url();
+      tutorModel['url'] = url;
+    }
+    else {
+      tutorModel['url'] = "../../images/noPic.jpg";
+    }
+    if(!(tutorModel['description'])) {
+      tutorModel['description'] = "This loser hasn't made a description";
+    }
+
+
+    $(this.el).html(this.template(tutorModel));
     return this;
-  }
+  },
 });
 
 var Tutors = Parse.Collection.extend({

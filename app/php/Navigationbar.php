@@ -89,7 +89,7 @@
 <!-- The account button ? Only shows when ? -->
       <li>
       <div id="authenticated-user-menu-button" class="dropdown" style="padding-top: 8px;">
-          <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          <button class="btn btn-default dropdown-toggle" type="button" onclick="hideCheckIn()" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
@@ -110,7 +110,7 @@
             <li><a id="check-out-link" href="#">
               <div style="margin-right:10px;" class="glyphicon glyphicon-unchecked"></div>
               Check out</a></li>
-            <li><a id="logout-link" href="#">
+            <li><a id="logout-link" href="http://localhost/TutorMe/index.php">
               <div style="margin-right:10px;" class="glyphicon glyphicon-log-out"></div>
               Logout</a></li>
           </ul>
