@@ -134,7 +134,7 @@
             </div>
 
             <div class="panel-footer">
-              <a href="#" class="btn btn-danger btn-block">Tutor Chat</a>
+              <a href="./app/php/Chat.php" class="btn btn-danger btn-block">Tutor Chat</a>
             </div>
 
           </div>
