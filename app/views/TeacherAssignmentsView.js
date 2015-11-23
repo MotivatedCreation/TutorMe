@@ -21,7 +21,7 @@ var TeacherAssignmentsEntryView = Parse.View.extend({
 var TeacherAssignmentsView = Parse.View.extend({
 
   el: "#content-container",
-  schedules: null,
+  assignments: null,
 
   events: {
     'click #add-teacherassignments-button' : 'showAddTeacherAssignmentsModal',
@@ -49,17 +49,18 @@ var TeacherAssignmentsView = Parse.View.extend({
     query.equalTo('users', Parse.User.current());
 
     query.find({
-      success: function(teacherassignments) {
+      success: function(teacherAssignments) {
         debugLog('[TeacherAssignmentsView] fetchTeacherAssignments success!');
 
         $('.activity-indicator-container').fadeOut(1000);
         $('#teacherassignments-table').fadeIn(1000);
 
-        self.loadTeacherAssignments(teacherassignments);
+        self.assignments = teacherAssignments;
+        self.loadTeacherAssignments(teacherAssignments);
       },
       error: function(error) {
         if (error)
-          self.handleError(error);
+        self.handleError(error);
       }
     });
   },
@@ -95,8 +96,8 @@ var TeacherAssignmentsView = Parse.View.extend({
     var self = this;
 
     var title = $('#teacherassignments-title-input').val();
-	var url = $('#teacherassignments-url-input').val();
-	var description = $('#teacherassignments-description-input').val();
+    var url = $('#teacherassignments-url-input').val();
+    var description = $('#teacherassignments-description-input').val();
 
     var TeacherAssignments = Parse.Object.extend('Assignment');
 
@@ -113,8 +114,8 @@ var TeacherAssignmentsView = Parse.View.extend({
         }
 
         theTeacherAssignments.set('title', $('#teacherassignments-title-input').val());
-		theTeacherAssignments.set('url', $('#teacherassignments-url-input').val());
-		theTeacherAssignments.set('description', $('#teacherassignments-description-input').val());
+        theTeacherAssignments.set('url', $('#teacherassignments-url-input').val());
+        theTeacherAssignments.set('description', $('#teacherassignments-description-input').val());
         theTeacherAssignments.add('users', Parse.User.current());
 
         theTeacherAssignments.save(null, {
@@ -130,63 +131,43 @@ var TeacherAssignmentsView = Parse.View.extend({
           },
           error: function(error) {
             if (error)
-              self.handleError(error);
+            self.handleError(error);
           }
         });
       },
       error: function(error) {
         if (error)
-          self.handleError(error);
+        self.handleError(error);
       }
     });
   },
 
-  removeTeacherAssignments: function(sender) {
+  removeTeacherAssignments: function(event) {
     debugLog("[TeacherAssignemtsView] removeTeacherAssignments");
 
     $("#error-alert").remove();
     $("#success-alert").remove();
 
-    var row = sender.currentTarget.parentNode.parentNode;
+    var row = event.currentTarget.parentNode.parentNode;
     var teacherassignmentName = $(row).children('#teacherassignments-title-label').text();
 
     var self = this;
 
-    var TeacherAssignments = Parse.Object.extend('Assignment');
+    var assignmentToRemove;
 
-    var query = new Parse.Query('Assignment');        //Nicole you had this set to Teacher Assignment
-    query.equalTo('title', teacherassignmentName);
-
-    query.first({
-      success: function(theTeacherAssignments) {
-        debugLog('[TeacherAssignmentsView] removeTeacherAssignments success!');
-
-        if (theTeacherAssignments) {
-          theTeacherAssignments.destroy({});
-          //theTeacherAssignments.set('title', teacherassignmentName);
-          //theTeacherAssignments.remove('users', Parse.User.current());
-
-          //theTeacherAssignments.save(null, {
-            //success: function(success) {
-            //  debugLog('[TeacherAssignmentsView] addTeacherAssignments success!');
-
-            //  row.remove();
-              location.reload();
-            //  $(self.el).prepend($("#success-alert-template").html());
-
-            //  $('#success-alert-label').text("Success! " + teacherassignmentsName + " has been successfully removed.");
-          //  },
-          //  error: function(error) {
-            //  if (error)
-            //    self.handleError(error);
-          //  }
-          //});
-        }
-      },
-      error: function(error) {
-        if (error)
-          self.handleError(error);
+    this.assignments.forEach(function(assignment) {
+      if (assignment['id'] == row.id) {
+        assignmentToRemove = assignment;
+        return;
       }
+    });
+
+    assignmentToRemove.destroy().then(function(success) {
+      debugLog('[TeacherAssignmentsView] removeTeacherAssignments success!');
+      location.reload();
+    }, function(error) {
+      if (error)
+        self.handleError(error);
     });
   },
 

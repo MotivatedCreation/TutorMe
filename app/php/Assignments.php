@@ -1,5 +1,5 @@
 <!-- Assignments.php
-  Assignments page
+Assignments page
 -->
 
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
     <!-- Content Container -->
     <div id="content-container" class="container-fluid">
 
-	<!-- Assignment Table -->
+      <!-- Assignment Table -->
       <table id="assignments-table" class="table table-bordered table-hover">
         <tr>
           <th>
@@ -65,23 +65,16 @@
 
       <!-- Assignment Entry Template -->
       <script type="text/template" id="assignments-entry-template">
-		<div class="row">
-			<div class="col-sm-6 col-md-4">
-				<div class="thumbnail">
-				<img src="../../images/page.png">
-					<div class="caption">
-						<label id="assignments-title-label" style="font-weight: normal;"><%= title %></label>
-						<p><textarea id="assignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea></p>
-						<p>
-
-							<a href="<%=url%>" target="blank" class="btn btn-default" role="button">Open</a>
-
-				
-						</p>
-					</div>
-				</div>
-			</div>
-		</div>
+        <td>
+          <img src="../../images/page.png" style="float:left;"/>
+          <div role="group">
+            <label id="teacherassignments-title-label" style="margin: 15px 0 15px 0; font-weight: normal;"><%= title %></label>
+            <textarea style="width: 88%;" id="teacherassignments-description-label" class="well well-sm" readonly="true"><%= description %></textarea>
+          </div>
+          <div class="pull-right">
+            <a href="<%= url %>" target="blank" class="btn btn-default" role="button">Open</a>
+          </div>
+        </td>
       </script>
       <!-- Assignment Entry Template End -->
 
@@ -89,20 +82,20 @@
         <div id="error-alert" class="alert alert-danger">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <label id="error-alert-label" class="text-center"></label>
-       </div>
+        </div>
       </script>
 
       <script type="text/template" id="success-alert-template">
         <div id="success-alert" class="alert alert-success">
           <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
           <label id="success-alert-label"></label>
-       </div>
+        </div>
       </script>
     </div>
     <!-- Content Container End -->
   </div>
   <!-- Container End -->
-<script type="text/javascript" src="../views/AssignmentsView.js"></script>
+  <script type="text/javascript" src="../views/AssignmentsView.js"></script>
 </body>
 
 </html>

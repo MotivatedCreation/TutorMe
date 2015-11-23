@@ -21,7 +21,7 @@
         <div id="appointment-content-container">
           <div class="row">
             <div class="col-md-6">
-              <div class="pull-right" id="tutor-dropdown-content-container">
+              <div class="pull-left" id="tutor-dropdown-content-container">
                 <label class="control-label">Tutor:</label>
                 <div class="dropdown" id="tutor-dropdown">
                   <button class="btn btn-default dropdown-toggle disabled" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -52,7 +52,7 @@
           <div class="row">
 
             <div class="col-md-6">
-              <div class="pull-right" id="class-dropdown-content-container">
+              <div class="pull-left" id="class-dropdown-content-container">
                 <label class="control-label">Class:</label>
                 <div class="dropdown" id="class-dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
