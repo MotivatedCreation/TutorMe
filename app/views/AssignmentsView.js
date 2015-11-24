@@ -21,7 +21,6 @@ var AssignmentsEntryView = Parse.View.extend({
 var AssignmentsView = Parse.View.extend({
 
   el: "#content-container",
-  schedules: null,
 
   initialize: function() {
     this.fetchAssignments();

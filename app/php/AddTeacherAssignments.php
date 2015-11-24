@@ -16,16 +16,16 @@
                 <label for="teacherassignments-url-label" class="control-label">URL:</label>
                 <input type="text" class="form-control" id="teacherassignments-url-input" value="">
             </div>
-			
+
 			<div class="form-group">
                 <label for="teacherassignments-title-label" class="control-label">Assignment Title:</label>
                 <input type="text" class="form-control" id="teacherassignments-title-input" value="" placeholder="e.g. 200 Assignment 2">
             </div>
-			
+
 			<div class="form-group">
 				<label for="teacherassignments-title-label" class="control-label"></label>
-                <textarea id="teacherassignments-description-input" class="well well-sm" value="" placeholder="Add a comment here"></textarea>
-            </div>  
+                <textarea id="teacherassignments-description-input" class="well well-sm" style="width: 100%" value="" placeholder="Add a comment here"></textarea>
+            </div>
 			</form>
         </div>
       </div>

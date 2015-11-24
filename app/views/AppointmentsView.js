@@ -91,11 +91,14 @@ var AppointmentEntryView = View.extend({
 var AppointmentsView = Parse.View.extend({
 
   el: "#content-container",
+
   schedules: new Schedules(),
   classes: new Classes(),
   teachers: new Teachers(),
   appointments: new Appointments(),
+
   isReschedulingAppointment: false,
+
   appointmentToReschedule: null,
 
   events: {
@@ -119,6 +122,8 @@ var AppointmentsView = Parse.View.extend({
     $('#appointment-table-header').hide();
     $('#reschedule-appointment-modal-button').hide();
 
+    // This needs to be optimized. There's no need to make 4 successive calls to the server.
+    // The database should be restructured so that you only need to make 1 call.
     this.fetchSchedules().then(function(success) {
       return self.fetchClasses();
     }).then(function(success) {
@@ -163,7 +168,6 @@ var AppointmentsView = Parse.View.extend({
 
     var appointmentId = $(event.currentTarget).val();
     this.appointmentToReschedule = this.appointmentForAppointmentId(appointmentId);
-
     this.showAddAppointmentModal();
 
     $('#datetimepicker').data('DateTimePicker').date(this.appointmentToReschedule.get('date'));
@@ -214,7 +218,10 @@ var AppointmentsView = Parse.View.extend({
     $('.dropdown.open .dropdown-toggle').dropdown('toggle');
 
     $('#tutor-dropdown').find('.btn').html('Select a Tutor... <span class="caret"></span>');
+    $('#time-dropdown').find('.btn').val(null);
+
     $('#time-dropdown').find('.btn').html('Select a Time... <span class="caret"></span>');
+    $('#time-dropdown').find('.btn').val(null);
 
     $('#tutor-dropdown-menu').empty();
     $('#time-dropdown-menu').empty();
@@ -223,44 +230,55 @@ var AppointmentsView = Parse.View.extend({
     $('#tutor-dropdown').find('.btn').addClass('disabled');
   },
 
+  updateDropdownBasedOnEvent: function(anEvent) {
+    debugLog('[AppointmentsView] updateDropdownBasedOnEvent');
+
+    /*
+      The event is being triggered for every item in the selected dropdown's
+      list. This needs to be fixed so that the event is only triggered once.
+    */
+
+    $(anEvent.target).parents(".dropdown").find('.btn').html(anEvent.target.text + ' <span class="caret"></span>');
+    $(anEvent.target).parents(".dropdown").find('.btn').val($(anEvent.target).data('id'));
+
+    var tutorDropdownValue = $('#tutor-dropdown').find('.btn').val();
+    var timeDropdownValue = $('#time-dropdown').find('.btn').val();
+    var classDropdownValue = $('#class-dropdown').find('.btn').val();
+    var teacherDropdownValue = $('#teacher-dropdown').find('.btn').val();
+
+    if (tutorDropdownValue && timeDropdownValue
+        && classDropdownValue && teacherDropdownValue)
+    {
+      if (this.isReschedulingAppointment)
+        $('#reschedule-appointment-modal-button').removeClass('disabled');
+      else
+        $('#schedule-appointment-modal-button').removeClass('disabled');
+    }
+  },
+
   tutorDropDownChanged: function(event) {
     debugLog('[AppointmentsView] tutorDropDownChanged');
 
-    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
-    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
-
-    if (this.isReschedulingAppointment)
-      $('#reschedule-appointment-modal-button').addClass('disabled');
-    else
-      $('#schedule-appointment-modal-button').addClass('disabled');
-
+    this.updateDropdownBasedOnEvent(event);
     this.loadTimesForTutorWithId($(event.target).data('id'));
   },
 
   timeDropDownLabelChanged: function(event) {
     debugLog('[AppointmentsView] timeDropDownLabelChanged');
 
-    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
-    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
-
-    if (this.isReschedulingAppointment)
-      $('#reschedule-appointment-modal-button').removeClass('disabled');
-    else
-      $('#schedule-appointment-modal-button').removeClass('disabled');
+    this.updateDropdownBasedOnEvent(event);
   },
 
   classDropDownLabelChanged: function(event) {
     debugLog('[AppointmentsView] classDropDownLabelChanged');
 
-    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
-    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
+    this.updateDropdownBasedOnEvent(event);
   },
 
   teacherDropDownLabelChanged: function(event) {
     debugLog('[AppointmentsView] teacherDropDownLabelChanged');
 
-    $(event.target).parents(".dropdown").find('.btn').html(event.target.text + ' <span class="caret"></span>');
-    $(event.target).parents(".dropdown").find('.btn').val($(event.target).data('id'));
+    this.updateDropdownBasedOnEvent(event);
   },
 
   tutorForTutorId: function(theTutorId) {
@@ -513,6 +531,7 @@ var AppointmentsView = Parse.View.extend({
     debugLog('[AppointmentsView] loadTutorDropdown');
 
     $('#tutor-dropdown').find('.btn').html('Select a Tutor... <span class="caret"></span>');
+    $('#tutor-dropdown').find('.btn').val(null);
 
     $('#tutor-dropdown-menu').empty();
 
@@ -538,6 +557,7 @@ var AppointmentsView = Parse.View.extend({
     debugLog('[AppointmentsView] loadTimeDropdown');
 
     $('#time-dropdown').find('.btn').html('Select a Time... <span class="caret"></span>');
+    $('#time-dropdown').find('.btn').val(null);
 
     $('#time-dropdown-menu').empty();
 
@@ -708,6 +728,8 @@ var AppointmentsView = Parse.View.extend({
   },
 
   rescheduleAppointment: function(event) {
+    debugLog("[AppointmentsView] rescheduleAppointment");
+
     var self = this;
 
     this.addAppointment().then(function(success) {

@@ -16,7 +16,7 @@
   <button id="profile-menu-classes-button" type="button" class="list-group-item<?php if (kCurrentFile == 'Classes.php'): ?> active <?php endif; ?>">Classes</button>
   <button id="profile-menu-schedule-button" type="button" class="list-group-item<?php if (kCurrentFile == 'ScheduleEditor.php'): ?> active <?php endif; ?>">Schedule</button>
   <button id="profile-menu-timelog-button" type="button" class="list-group-item<?php if (kCurrentFile == 'TimeLog.php'): ?> active <?php endif; ?>">Time Log</button>
-    <button id="profile-menu-teacherassignments-button" type="button" class="list-group-item">Assignments</button>
+    <button id="profile-menu-teacherassignments-button" type="button" class="list-group-item<?php if (kCurrentFile == 'TeacherAssignments.php'): ?> active <?php endif; ?>">Assignments</button>
 </div>
 <!-- End -->
 
