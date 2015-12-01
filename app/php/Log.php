@@ -70,7 +70,7 @@
         <!-- Action Content Group -->
 <!-- THE SEARCH BAR -->
         <div id="action-content-group" class="input-group">
-          <input id="searchbar" type="text" class="form-control" placeholder="Search By Date">
+          <input id="searchbar" type="text" class="form-control" placeholder="Search by Anything">
           <div class="input-group-btn">
             <button id="search-button" class="btn btn-default" type="submit" style="margin-right:1000px" ><i class="glyphicon glyphicon-search"></i></button>
           </div>
